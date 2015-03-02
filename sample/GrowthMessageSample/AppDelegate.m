@@ -1,0 +1,27 @@
+//
+//  AppDelegate.m
+//  GrowthMessageSample
+//
+//  Created by Naoyuki Kataoka on 2015/03/02.
+//  Copyright (c) 2015年 SIROK, Inc. All rights reserved.
+//
+
+#import "AppDelegate.h"
+
+@interface AppDelegate ()
+
+@end
+
+@implementation AppDelegate
+
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    [[GrowthMessage sharedInstance] initializeWithApplicationId:@"P5C3vzoLOEijnlVj" credentialId:@"btFlFAitBJ1CBdL3IR3ROnhLYbeqmLlY"];
+    [[[GrowthMessage sharedInstance] httpClient] setBaseUrl:[NSURL URLWithString:@"http://api.stg.message.growthbeat.com/"]];
+    
+    return YES;
+    
+}
+
+@end

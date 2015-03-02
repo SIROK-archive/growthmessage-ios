@@ -11,9 +11,11 @@
 
 @interface GrowthMessage : NSObject
 
-+ (instancetype) sharedInstance;
++ (instancetype)sharedInstance;
 
 - (void)initializeWithApplicationId:(NSString *)applicationId credentialId:(NSString *)credentialId;
+
+- (void)openMessageIfAvailable;
 
 - (GBLogger *)logger;
 - (GBHttpClient *)httpClient;

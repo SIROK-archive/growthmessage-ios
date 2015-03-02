@@ -24,6 +24,8 @@
 /* Begin PBXBuildFile section */
 		B2C1480D1AA456F300006EC3 /* GrowthMessage.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B2C1480C1AA456F300006EC3 /* GrowthMessage.h */; };
 		B2C1480F1AA456F300006EC3 /* GrowthMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = B2C1480E1AA456F300006EC3 /* GrowthMessage.m */; };
+		B2C1482F1AA45D3600006EC3 /* GrowthbeatCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2C1482E1AA45D3600006EC3 /* GrowthbeatCore.framework */; };
+		B2C148321AA45D8100006EC3 /* GMMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = B2C148311AA45D8100006EC3 /* GMMessage.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +55,9 @@
 		B2C148091AA456F300006EC3 /* libGrowthMessage.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libGrowthMessage.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2C1480C1AA456F300006EC3 /* GrowthMessage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GrowthMessage.h; sourceTree = "<group>"; };
 		B2C1480E1AA456F300006EC3 /* GrowthMessage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GrowthMessage.m; sourceTree = "<group>"; };
+		B2C1482E1AA45D3600006EC3 /* GrowthbeatCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GrowthbeatCore.framework; path = "../submodules/growthbeat-core-ios/GrowthbeatCore.framework"; sourceTree = "<group>"; };
+		B2C148301AA45D8100006EC3 /* GMMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMMessage.h; sourceTree = "<group>"; };
+		B2C148311AA45D8100006EC3 /* GMMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMMessage.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +65,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B2C1482F1AA45D3600006EC3 /* GrowthbeatCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,6 +76,7 @@
 			isa = PBXGroup;
 			children = (
 				B2C1480B1AA456F300006EC3 /* GrowthMessage */,
+				B2C1482D1AA45D1C00006EC3 /* Framework */,
 				B2C1480A1AA456F300006EC3 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -85,10 +92,36 @@
 		B2C1480B1AA456F300006EC3 /* GrowthMessage */ = {
 			isa = PBXGroup;
 			children = (
-				B2C1480C1AA456F300006EC3 /* GrowthMessage.h */,
-				B2C1480E1AA456F300006EC3 /* GrowthMessage.m */,
+				B2C1482B1AA45CFB00006EC3 /* Headers */,
+				B2C1482C1AA45D0600006EC3 /* Sources */,
 			);
 			path = GrowthMessage;
+			sourceTree = "<group>";
+		};
+		B2C1482B1AA45CFB00006EC3 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				B2C1480C1AA456F300006EC3 /* GrowthMessage.h */,
+				B2C148301AA45D8100006EC3 /* GMMessage.h */,
+			);
+			name = Headers;
+			sourceTree = "<group>";
+		};
+		B2C1482C1AA45D0600006EC3 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				B2C1480E1AA456F300006EC3 /* GrowthMessage.m */,
+				B2C148311AA45D8100006EC3 /* GMMessage.m */,
+			);
+			name = Sources;
+			sourceTree = "<group>";
+		};
+		B2C1482D1AA45D1C00006EC3 /* Framework */ = {
+			isa = PBXGroup;
+			children = (
+				B2C1482E1AA45D3600006EC3 /* GrowthbeatCore.framework */,
+			);
+			name = Framework;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -182,6 +215,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B2C1480F1AA456F300006EC3 /* GrowthMessage.m in Sources */,
+				B2C148321AA45D8100006EC3 /* GMMessage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -275,6 +309,15 @@
 		B2C1481E1AA456F300006EC3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../submodules/growthbeat-core-ios",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SRCROOT)/../submodules/growthbeat-core-ios/source/GrowthbeatCore",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = Headers;
@@ -285,6 +328,15 @@
 		B2C1481F1AA456F300006EC3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../submodules/growthbeat-core-ios",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SRCROOT)/../submodules/growthbeat-core-ios/source/GrowthbeatCore",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = Headers;

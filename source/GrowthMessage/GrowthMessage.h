@@ -7,7 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "GrowthbeatCore.h"
 
 @interface GrowthMessage : NSObject
+
++ (instancetype) sharedInstance;
+
+- (void)initializeWithApplicationId:(NSString *)applicationId credentialId:(NSString *)credentialId;
+
+- (GBLogger *)logger;
+- (GBHttpClient *)httpClient;
+- (GBPreference *)preference;
+
 
 @end

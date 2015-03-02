@@ -8,6 +8,16 @@
 
 #import "GBDomain.h"
 
-@interface GMMessage : GBDomain
+@interface GMMessage : GBDomain <NSCoding> {
+    
+    NSString *id;
+    NSDate *created;
+    
+}
+
+@property (nonatomic, strong) NSString *id;
+@property (nonatomic, strong) NSDate *created;
+
++ (instancetype)findWithClientId:(NSString *)clientId credentialId:(NSString *)credentialId;
 
 @end

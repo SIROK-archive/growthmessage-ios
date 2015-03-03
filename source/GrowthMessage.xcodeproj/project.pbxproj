@@ -28,6 +28,11 @@
 		B2C148321AA45D8100006EC3 /* GMMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = B2C148311AA45D8100006EC3 /* GMMessage.m */; };
 		EBB971121AA588D0008ABE6C /* GMButton.m in Sources */ = {isa = PBXBuildFile; fileRef = EBB971111AA588D0008ABE6C /* GMButton.m */; };
 		EBB971171AA5910C008ABE6C /* GMBasicMessageHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = EBB971161AA5910C008ABE6C /* GMBasicMessageHandler.m */; };
+		EBB971181AA593C3008ABE6C /* GMButton.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = EBB971101AA588D0008ABE6C /* GMButton.h */; };
+		EBB971191AA593C3008ABE6C /* GMMessage.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B2C148301AA45D8100006EC3 /* GMMessage.h */; };
+		EBB9711A1AA593C3008ABE6C /* GMMessageHandler.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = EBB971131AA58B9F008ABE6C /* GMMessageHandler.h */; };
+		EBB9711B1AA593C3008ABE6C /* GrowthMessageDelegate.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = EBB971141AA58D2C008ABE6C /* GrowthMessageDelegate.h */; };
+		EBB9711C1AA593C3008ABE6C /* GMBasicMessageHandler.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = EBB971151AA5910C008ABE6C /* GMBasicMessageHandler.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +52,11 @@
 			dstPath = Headers;
 			dstSubfolderSpec = 16;
 			files = (
+				EBB971181AA593C3008ABE6C /* GMButton.h in CopyFiles */,
+				EBB971191AA593C3008ABE6C /* GMMessage.h in CopyFiles */,
+				EBB9711A1AA593C3008ABE6C /* GMMessageHandler.h in CopyFiles */,
+				EBB9711B1AA593C3008ABE6C /* GrowthMessageDelegate.h in CopyFiles */,
+				EBB9711C1AA593C3008ABE6C /* GMBasicMessageHandler.h in CopyFiles */,
 				B2C1480D1AA456F300006EC3 /* GrowthMessage.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

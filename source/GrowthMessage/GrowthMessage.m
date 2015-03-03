@@ -8,6 +8,7 @@
 
 #import "GrowthMessage.h"
 #import "GMMessage.h"
+#import "GMMessageHandler.h"
 
 static GrowthMessage *sharedInstance = nil;
 static NSString *const kGBLoggerDefaultTag = @"GrowthMessage";
@@ -35,6 +36,9 @@ static NSString *const kGBPreferenceDefaultFileName = @"growthmessage-preference
 @end
 
 @implementation GrowthMessage
+
+@synthesize delegate;
+@synthesize messageHandlers;
 
 @synthesize logger;
 @synthesize httpClient;
@@ -75,17 +79,29 @@ static NSString *const kGBPreferenceDefaultFileName = @"growthmessage-preference
 }
 
 - (void)openMessageIfAvailable {
-    
+	__weak typeof(self) __weak_self = self;
+	
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         
         [logger info:@"Check message..."];
         
         GMMessage *message = [GMMessage findWithClientId:[[[GrowthbeatCore sharedInstance] waitClient] id] credentialId:credentialId];
         if(message) {
-            [logger info:@"Message is found. (id: %@)", message.id];
+            [logger info:@"Message is found. (id: %@)", message.token];
             
             // TODO Show message dialog
-            
+			if ((! __weak_self.delegate) || [__weak_self.delegate shoudShowMessage:message]) {
+				for (id<GMMessageHandler> handler in __weak_self.messageHandlers) {
+					if ([handler handleMessage:message]) {
+						//showed?
+						break;
+					} else {
+						//not handled by the handler, continue...
+					}
+				}
+			} else {
+				[logger info:@"Message is found. (id: %@)", message.token];
+			}
         } else {
             [logger info:@"Message is not found."];
         }

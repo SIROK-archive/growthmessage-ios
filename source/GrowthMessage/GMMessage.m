@@ -13,7 +13,10 @@
 
 @implementation GMMessage
 
-@synthesize id;
+@synthesize token;
+@synthesize title;
+@synthesize body;
+@synthesize buttons;
 @synthesize created;
 
 + (instancetype)findWithClientId:(NSString *)clientId credentialId:(NSString *)credentialId {
@@ -44,10 +47,19 @@
 
 - (instancetype) initWithCoder:(NSCoder *)aDecoder {
     self = [super init];
-    if (self) {
-        if ([aDecoder containsValueForKey:@"id"]) {
-            self.id = [aDecoder decodeObjectForKey:@"id"];
-        }
+	if (self) {
+		if ([aDecoder containsValueForKey:@"token"]) {
+			self.token = [aDecoder decodeObjectForKey:@"token"];
+		}
+		if ([aDecoder containsValueForKey:@"title"]) {
+			self.title = [aDecoder decodeObjectForKey:@"title"];
+		}
+		if ([aDecoder containsValueForKey:@"body"]) {
+			self.body = [aDecoder decodeObjectForKey:@"body"];
+		}
+		if ([aDecoder containsValueForKey:@"buttons"]) {
+			self.buttons = [aDecoder decodeObjectForKey:@"buttons"];
+		}
         if ([aDecoder containsValueForKey:@"created"]) {
             self.created = [aDecoder decodeObjectForKey:@"created"];
         }
@@ -56,7 +68,10 @@
 }
 
 - (void) encodeWithCoder:(NSCoder *)aCoder {
-    [aCoder encodeObject:id forKey:@"id"];
+	[aCoder encodeObject:token forKey:@"token"];
+	[aCoder encodeObject:title forKey:@"title"];
+	[aCoder encodeObject:body forKey:@"body"];
+	[aCoder encodeObject:buttons forKey:@"buttons"];
     [aCoder encodeObject:created forKey:@"created"];
 }
 

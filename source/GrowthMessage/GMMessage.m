@@ -14,6 +14,7 @@
 @implementation GMMessage
 
 @synthesize token;
+@synthesize type;
 @synthesize title;
 @synthesize body;
 @synthesize buttons;
@@ -51,6 +52,9 @@
 		if ([aDecoder containsValueForKey:@"token"]) {
 			self.token = [aDecoder decodeObjectForKey:@"token"];
 		}
+		if ([aDecoder containsValueForKey:@"type"]) {
+			self.type = [aDecoder decodeObjectForKey:@"type"];
+		}
 		if ([aDecoder containsValueForKey:@"title"]) {
 			self.title = [aDecoder decodeObjectForKey:@"title"];
 		}
@@ -69,6 +73,7 @@
 
 - (void) encodeWithCoder:(NSCoder *)aCoder {
 	[aCoder encodeObject:token forKey:@"token"];
+	[aCoder encodeObject:type forKey:@"type"];
 	[aCoder encodeObject:title forKey:@"title"];
 	[aCoder encodeObject:body forKey:@"body"];
 	[aCoder encodeObject:buttons forKey:@"buttons"];

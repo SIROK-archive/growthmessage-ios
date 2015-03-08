@@ -10,6 +10,8 @@
 #import <GrowthMessage/GrowthMessage.h>
 #import <GrowthMessage/GMBasicMessageHandler.h>
 #import <GrowthMessage/GMButton.h>
+#import <GrowthMessage/GMNopeIntentHandler.h>
+#import <GrowthMessage/GMOpenBrowserIntentHandler.h>
 
 @interface GrowthMessage (dev) {
 	
@@ -30,6 +32,11 @@
 	 [NSArray arrayWithObjects:
 	  [[GMBasicMessageHandler alloc] init]
 	  , nil]];
+	[[GrowthMessage sharedInstance] setIntentHandlers:
+	 [NSArray arrayWithObjects:
+	  [[GMNopeIntentHandler alloc] init],
+	  [[GMOpenBrowserIntentHandler alloc] init],
+	  nil]];
     [[GrowthMessage sharedInstance] openMessageIfAvailable];
 	
 	
@@ -43,6 +50,11 @@
 		{
 			GMButton *button = [[GMButton alloc] init];
 			[button setLabel:@"button label"];
+			
+			button.intent = [[GMIntent alloc] init];
+			button.intent.action = @"openBrowser";
+			button.intent.data = [NSDictionary dictionaryWithObject:@"http://sirok.co.jp" forKey:@"url"];
+			
 			[buttons addObject:button];
 		}
 		dummyMessage.buttons = buttons;
@@ -51,7 +63,7 @@
 	});
 }
 
-- (BOOL)shoudShowMessage:(GMMessage *)message {
+- (BOOL)shoudShowMessage:(GMMessage *)message manager:(GrowthMessage *)manager {
 	return YES;
 }
 

@@ -9,6 +9,7 @@
 #import "GrowthMessage.h"
 #import "GMMessage.h"
 #import "GMMessageHandler.h"
+#import "GMIntentHandler.h"
 
 static GrowthMessage *sharedInstance = nil;
 static NSString *const kGBLoggerDefaultTag = @"GrowthMessage";
@@ -41,6 +42,7 @@ static NSString *const kGBPreferenceDefaultFileName = @"growthmessage-preference
 
 @synthesize delegate;
 @synthesize messageHandlers;
+@synthesize intentHandlers;
 
 @synthesize logger;
 @synthesize httpClient;
@@ -99,9 +101,9 @@ static NSString *const kGBPreferenceDefaultFileName = @"growthmessage-preference
 
 - (void)openMessage:(GMMessage*)message {
 	__weak typeof(self) __weak_self = self;
-	if ((! __weak_self.delegate) || [__weak_self.delegate shoudShowMessage:message]) {
+	if ((! __weak_self.delegate) || [__weak_self.delegate shoudShowMessage:message manager:__weak_self]) {
 		for (id<GMMessageHandler> handler in __weak_self.messageHandlers) {
-			if ([handler handleMessage:message]) {
+			if ([handler handleMessage:message manager:__weak_self]) {
 				//showed?
 				break;
 			} else {
@@ -110,6 +112,23 @@ static NSString *const kGBPreferenceDefaultFileName = @"growthmessage-preference
 		}
 	} else {
 		[logger info:@"Message is found. (id: %@)", message.token];
+	}
+}
+
+- (void)didSelectButton:(GMButton *)button message:(GMMessage *)message {
+	//track event
+	
+	//handle intent
+	[self hanldeIntend:button.intent];
+}
+
+- (void)hanldeIntend:(GMIntent*)intent {
+	for (id<GMIntentHandler> handler in self.intentHandlers) {
+		if ([handler handleIntent:intent]) {
+			break;
+		} else {
+			//continue
+		}
 	}
 }
 

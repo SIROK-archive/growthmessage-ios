@@ -26,6 +26,13 @@
 		B2C1480F1AA456F300006EC3 /* GrowthMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = B2C1480E1AA456F300006EC3 /* GrowthMessage.m */; };
 		B2C1482F1AA45D3600006EC3 /* GrowthbeatCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2C1482E1AA45D3600006EC3 /* GrowthbeatCore.framework */; };
 		B2C148321AA45D8100006EC3 /* GMMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = B2C148311AA45D8100006EC3 /* GMMessage.m */; };
+		EB3E512C1AAC48B5001A7476 /* GMIntent.m in Sources */ = {isa = PBXBuildFile; fileRef = EB3E512B1AAC48B5001A7476 /* GMIntent.m */; };
+		EB3E512D1AAC48CA001A7476 /* GMIntent.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = EB3E512A1AAC48B5001A7476 /* GMIntent.h */; };
+		EB3E51311AAC4DDF001A7476 /* GMNopeIntentHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = EB3E51301AAC4DDF001A7476 /* GMNopeIntentHandler.m */; };
+		EB3E51341AAC4DF8001A7476 /* GMOpenBrowserIntentHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = EB3E51331AAC4DF8001A7476 /* GMOpenBrowserIntentHandler.m */; };
+		EB3E51351AAC4E03001A7476 /* GMIntentHandler.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = EB3E512E1AAC4D1E001A7476 /* GMIntentHandler.h */; };
+		EB3E51361AAC4E03001A7476 /* GMNopeIntentHandler.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = EB3E512F1AAC4DDF001A7476 /* GMNopeIntentHandler.h */; };
+		EB3E51371AAC4E03001A7476 /* GMOpenBrowserIntentHandler.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = EB3E51321AAC4DF8001A7476 /* GMOpenBrowserIntentHandler.h */; };
 		EBB971121AA588D0008ABE6C /* GMButton.m in Sources */ = {isa = PBXBuildFile; fileRef = EBB971111AA588D0008ABE6C /* GMButton.m */; };
 		EBB971171AA5910C008ABE6C /* GMBasicMessageHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = EBB971161AA5910C008ABE6C /* GMBasicMessageHandler.m */; };
 		EBB971181AA593C3008ABE6C /* GMButton.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = EBB971101AA588D0008ABE6C /* GMButton.h */; };
@@ -52,6 +59,10 @@
 			dstPath = Headers;
 			dstSubfolderSpec = 16;
 			files = (
+				EB3E51351AAC4E03001A7476 /* GMIntentHandler.h in CopyFiles */,
+				EB3E51361AAC4E03001A7476 /* GMNopeIntentHandler.h in CopyFiles */,
+				EB3E51371AAC4E03001A7476 /* GMOpenBrowserIntentHandler.h in CopyFiles */,
+				EB3E512D1AAC48CA001A7476 /* GMIntent.h in CopyFiles */,
 				EBB971181AA593C3008ABE6C /* GMButton.h in CopyFiles */,
 				EBB971191AA593C3008ABE6C /* GMMessage.h in CopyFiles */,
 				EBB9711A1AA593C3008ABE6C /* GMMessageHandler.h in CopyFiles */,
@@ -70,6 +81,13 @@
 		B2C1482E1AA45D3600006EC3 /* GrowthbeatCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GrowthbeatCore.framework; path = "../submodules/growthbeat-core-ios/GrowthbeatCore.framework"; sourceTree = "<group>"; };
 		B2C148301AA45D8100006EC3 /* GMMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMMessage.h; sourceTree = "<group>"; };
 		B2C148311AA45D8100006EC3 /* GMMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMMessage.m; sourceTree = "<group>"; };
+		EB3E512A1AAC48B5001A7476 /* GMIntent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMIntent.h; sourceTree = "<group>"; };
+		EB3E512B1AAC48B5001A7476 /* GMIntent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMIntent.m; sourceTree = "<group>"; };
+		EB3E512E1AAC4D1E001A7476 /* GMIntentHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GMIntentHandler.h; sourceTree = "<group>"; };
+		EB3E512F1AAC4DDF001A7476 /* GMNopeIntentHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMNopeIntentHandler.h; sourceTree = "<group>"; };
+		EB3E51301AAC4DDF001A7476 /* GMNopeIntentHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMNopeIntentHandler.m; sourceTree = "<group>"; };
+		EB3E51321AAC4DF8001A7476 /* GMOpenBrowserIntentHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMOpenBrowserIntentHandler.h; sourceTree = "<group>"; };
+		EB3E51331AAC4DF8001A7476 /* GMOpenBrowserIntentHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMOpenBrowserIntentHandler.m; sourceTree = "<group>"; };
 		EBB971101AA588D0008ABE6C /* GMButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMButton.h; sourceTree = "<group>"; };
 		EBB971111AA588D0008ABE6C /* GMButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMButton.m; sourceTree = "<group>"; };
 		EBB971131AA58B9F008ABE6C /* GMMessageHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GMMessageHandler.h; sourceTree = "<group>"; };
@@ -119,12 +137,16 @@
 		B2C1482B1AA45CFB00006EC3 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				EB3E512A1AAC48B5001A7476 /* GMIntent.h */,
 				EBB971101AA588D0008ABE6C /* GMButton.h */,
 				B2C1480C1AA456F300006EC3 /* GrowthMessage.h */,
 				B2C148301AA45D8100006EC3 /* GMMessage.h */,
 				EBB971131AA58B9F008ABE6C /* GMMessageHandler.h */,
 				EBB971141AA58D2C008ABE6C /* GrowthMessageDelegate.h */,
 				EBB971151AA5910C008ABE6C /* GMBasicMessageHandler.h */,
+				EB3E512E1AAC4D1E001A7476 /* GMIntentHandler.h */,
+				EB3E512F1AAC4DDF001A7476 /* GMNopeIntentHandler.h */,
+				EB3E51321AAC4DF8001A7476 /* GMOpenBrowserIntentHandler.h */,
 			);
 			name = Headers;
 			sourceTree = "<group>";
@@ -136,6 +158,9 @@
 				B2C148311AA45D8100006EC3 /* GMMessage.m */,
 				EBB971111AA588D0008ABE6C /* GMButton.m */,
 				EBB971161AA5910C008ABE6C /* GMBasicMessageHandler.m */,
+				EB3E512B1AAC48B5001A7476 /* GMIntent.m */,
+				EB3E51301AAC4DDF001A7476 /* GMNopeIntentHandler.m */,
+				EB3E51331AAC4DF8001A7476 /* GMOpenBrowserIntentHandler.m */,
 			);
 			name = Sources;
 			sourceTree = "<group>";
@@ -238,7 +263,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EB3E51311AAC4DDF001A7476 /* GMNopeIntentHandler.m in Sources */,
 				B2C1480F1AA456F300006EC3 /* GrowthMessage.m in Sources */,
+				EB3E512C1AAC48B5001A7476 /* GMIntent.m in Sources */,
+				EB3E51341AAC4DF8001A7476 /* GMOpenBrowserIntentHandler.m in Sources */,
 				B2C148321AA45D8100006EC3 /* GMMessage.m in Sources */,
 				EBB971121AA588D0008ABE6C /* GMButton.m in Sources */,
 				EBB971171AA5910C008ABE6C /* GMBasicMessageHandler.m in Sources */,

@@ -7,6 +7,7 @@
 //
 
 #import "GMButton.h"
+#import "GMIntent.h"
 
 @implementation GMButton
 

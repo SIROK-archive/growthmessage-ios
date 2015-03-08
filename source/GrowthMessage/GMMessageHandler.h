@@ -7,9 +7,9 @@
 //
 
 #import "GMMessage.h"
-
+#import "GrowthMessage.h"
 @protocol GMMessageHandler <NSObject>
 
-- (BOOL)handleMessage:(GMMessage*)message;
+- (BOOL)handleMessage:(GMMessage*)message manager:(GrowthMessage*)manager;
 
 @end

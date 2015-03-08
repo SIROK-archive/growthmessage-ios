@@ -7,20 +7,25 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <objc/runtime.h>
 #import "GMBasicMessageHandler.h"
 #import "GMButton.h"
+#import "GrowthMessage.h"
 
 @interface GMBasicMessageHandler() <UIAlertViewDelegate>
 
 @end
 
 @implementation GMBasicMessageHandler
-- (BOOL)handleMessage:(GMMessage *)message {
+- (BOOL)handleMessage:(GMMessage *)message manager:(GrowthMessage*)manager {
 	if ([message.type isEqualToString:@"plain"]) {
 		//let's show the message
 		dispatch_async(dispatch_get_main_queue(), ^{
 			//TODO: UIAlertController support
 			UIAlertView *alertView = [[UIAlertView alloc] init];
+			objc_setAssociatedObject(alertView, "gm_message", message, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+			objc_setAssociatedObject(alertView, "gm_manager", manager, OBJC_ASSOCIATION_ASSIGN);
+			
 			alertView.delegate = self;
 			alertView.title = message.title;
 			alertView.message = message.body;
@@ -36,7 +41,11 @@
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-	//TODO: implement me
+	__strong GMMessage *message = objc_getAssociatedObject(alertView, "gm_message");
+	GrowthMessage *manager = objc_getAssociatedObject(alertView, "gm_manager");
+	objc_setAssociatedObject(alertView, "gm_message", nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+	objc_setAssociatedObject(alertView, "gm_manager", nil, OBJC_ASSOCIATION_ASSIGN);
 	
+	[manager didSelectButton:[[message buttons] objectAtIndex:buttonIndex] message:message];
 }
 @end

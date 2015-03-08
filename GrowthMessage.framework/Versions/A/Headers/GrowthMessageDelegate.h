@@ -7,10 +7,10 @@
 //
 
 #import "GMMessage.h"
-
+@class GrowthMessage;
 @protocol GrowthMessageDelegate <NSObject>
 
 // this is, for example, to prevent an message showing up while playing game;
-- (BOOL)shoudShowMessage:(GMMessage*)message;
+- (BOOL)shoudShowMessage:(GMMessage*)message manager:(GrowthMessage*)manager;
 
 @end

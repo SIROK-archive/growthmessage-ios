@@ -63,7 +63,7 @@
 	});
 }
 
-- (BOOL)shoudShowMessage:(GMMessage *)message manager:(GrowthMessage *)manager {
+- (BOOL)shouldShowMessage:(GMMessage *)message manager:(GrowthMessage *)manager {
 	return YES;
 }
 

@@ -9,20 +9,22 @@
 #import "GBDomain.h"
 
 @interface GMMessage : GBDomain <NSCoding> {
-    NSString *id;
-	NSString *format;
-	NSDictionary *data;
+    
+    NSString *token;
+	NSString *title;
+	NSString *body;
 	NSArray *buttons;
     NSDate *created;
     
 }
 
-@property (nonatomic, strong) NSString *id;
-@property (nonatomic, strong) NSString *format;
-@property (nonatomic, strong) NSDictionary *data;
+@property (nonatomic, strong) NSString *token;
+@property (nonatomic, strong) NSString *type;
+@property (nonatomic, strong) NSString *title;
+@property (nonatomic, strong) NSString *body;
 @property (nonatomic, strong) NSArray *buttons;
 @property (nonatomic, strong) NSDate *created;
 
-+ (instancetype)findWithClientId:(NSString *)clientId credentialId:(NSString *)credentialId eventId:(NSString *)eventId;
++ (instancetype)findWithClientId:(NSString *)clientId credentialId:(NSString *)credentialId;
 
 @end

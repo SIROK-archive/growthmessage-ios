@@ -44,7 +44,7 @@
 	GMButton *button = [[GMButton alloc] init];
 	button.label = [dictionary objectForKey:@"label"];
 	button.event = [dictionary objectForKey:@"event"];
-	button.intent = [GMIntent domainWithDictionary:[dictionary objectForKey:@"intent"]];
+	button.intent = [GMIntent domainWithDictionary:dictionary];
 	return button;
 }
 @end

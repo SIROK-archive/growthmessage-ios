@@ -12,7 +12,7 @@
 @implementation GMOpenBrowserIntentHandler
 
 - (BOOL)handleIntent:(GMIntent *)intent {
-	if ([intent.action isEqualToString:@"openBrowser"]) {
+	if ([intent.action isEqualToString:@"open-browser"]) {
 		BOOL error = NO;
 		@try {
 			NSURL *url = [NSURL URLWithString:[intent.data objectForKey:@"url"]];

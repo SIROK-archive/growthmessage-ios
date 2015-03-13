@@ -39,4 +39,12 @@
 	[aCoder encodeObject:intent forKey:@"intent"];
 	[aCoder encodeObject:event forKey:@"event"];
 }
+
++ (id)domainWithDictionary:(NSDictionary *)dictionary {
+	GMButton *button = [[GMButton alloc] init];
+	button.label = [dictionary objectForKey:@"label"];
+	button.event = [dictionary objectForKey:@"event"];
+	button.intent = [GMIntent domainWithDictionary:[dictionary objectForKey:@"intent"]];
+	return button;
+}
 @end

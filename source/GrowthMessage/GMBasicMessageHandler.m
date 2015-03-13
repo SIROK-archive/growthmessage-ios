@@ -18,7 +18,7 @@
 
 @implementation GMBasicMessageHandler
 - (BOOL)handleMessage:(GMMessage *)message manager:(GrowthMessage*)manager {
-	if ([message.type isEqualToString:@"plain"]) {
+	if ([message.format isEqualToString:@"plain"]) {
 		//let's show the message
 		dispatch_async(dispatch_get_main_queue(), ^{
 			//TODO: UIAlertController support
@@ -27,8 +27,8 @@
 			objc_setAssociatedObject(alertView, "gm_manager", manager, OBJC_ASSOCIATION_ASSIGN);
 			
 			alertView.delegate = self;
-			alertView.title = message.title;
-			alertView.message = message.body;
+			alertView.title = [message.data objectForKey:@"title"];
+			alertView.message = [message.data objectForKey:@"body"];
 			for (GMButton *button in message.buttons) {
 				[alertView addButtonWithTitle:button.label];
 			}

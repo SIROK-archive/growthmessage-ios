@@ -82,15 +82,17 @@ static NSString *const kGBPreferenceDefaultFileName = @"growthmessage-preference
     
 }
 
-- (void)openMessageIfAvailable {
+- (void)openMessageIfAvailableWithEventId:(NSString*)eventId {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         
         [logger info:@"Check message..."];
         
-		GMMessage *message = [GMMessage findWithClientId:[[[GrowthbeatCore sharedInstance] waitClient] id] credentialId:credentialId];
+		GMMessage *message = [GMMessage findWithClientId:[[[GrowthbeatCore sharedInstance] waitClient] id] credentialId:credentialId eventId:eventId];
 		if(message) {
-			[logger info:@"Message is found. (id: %@)", message.token];
-			[self openMessage: message];
+			[logger info:@"Message is found. (id: %@)", message.id];
+			dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+				[self openMessage: message];
+			});
         } else {
             [logger info:@"Message is not found."];
         }
@@ -101,7 +103,7 @@ static NSString *const kGBPreferenceDefaultFileName = @"growthmessage-preference
 
 - (void)openMessage:(GMMessage*)message {
 	__weak typeof(self) __weak_self = self;
-	if ((! __weak_self.delegate) || [__weak_self.delegate shoudShowMessage:message manager:__weak_self]) {
+	if ((! __weak_self.delegate) || [__weak_self.delegate shouldShowMessage:message manager:__weak_self]) {
 		for (id<GMMessageHandler> handler in __weak_self.messageHandlers) {
 			if ([handler handleMessage:message manager:__weak_self]) {
 				//showed?
@@ -111,7 +113,7 @@ static NSString *const kGBPreferenceDefaultFileName = @"growthmessage-preference
 			}
 		}
 	} else {
-		[logger info:@"Message is found. (id: %@)", message.token];
+		[logger info:@"Message is found. (id: %@)", message.id];
 	}
 }
 

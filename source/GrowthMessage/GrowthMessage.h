@@ -22,7 +22,7 @@
 
 - (void)initializeWithApplicationId:(NSString *)applicationId credentialId:(NSString *)credentialId;
 
-- (void)openMessageIfAvailable;
+- (void)openMessageIfAvailableWithEventId:(NSString*)eventId;
 
 - (void)didSelectButton:(GMButton*)button message:(GMMessage*)message;
 

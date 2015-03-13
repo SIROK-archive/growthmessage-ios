@@ -33,4 +33,13 @@
 	[aCoder encodeObject:data forKey:@"data"];
 }
 
++ (id)domainWithDictionary:(NSDictionary *)dictionary {
+	GMIntent *intent = [[GMIntent alloc] init];
+	
+	intent.action = [dictionary objectForKey:@"action"];
+	intent.data = [dictionary objectForKey:@"data"];
+	
+	return intent;
+}
+
 @end

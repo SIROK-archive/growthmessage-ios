@@ -8,6 +8,8 @@
 
 #import "GrowthMessage.h"
 #import "GMMessage.h"
+#import "GMMessageHandler.h"
+#import "GMIntentHandler.h"
 
 static GrowthMessage *sharedInstance = nil;
 static NSString *const kGBLoggerDefaultTag = @"GrowthMessage";
@@ -32,9 +34,15 @@ static NSString *const kGBPreferenceDefaultFileName = @"growthmessage-preference
 @property (nonatomic, strong) NSString *applicationId;
 @property (nonatomic, strong) NSString *credentialId;
 
+- (void)openMessage:(GMMessage*)message;
+
 @end
 
 @implementation GrowthMessage
+
+@synthesize delegate;
+@synthesize messageHandlers;
+@synthesize intentHandlers;
 
 @synthesize logger;
 @synthesize httpClient;
@@ -74,24 +82,56 @@ static NSString *const kGBPreferenceDefaultFileName = @"growthmessage-preference
     
 }
 
-- (void)openMessageIfAvailable {
-    
+- (void)openMessageIfAvailableWithEventId:(NSString*)eventId {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         
         [logger info:@"Check message..."];
         
-        GMMessage *message = [GMMessage findWithClientId:[[[GrowthbeatCore sharedInstance] waitClient] id] credentialId:credentialId];
-        if(message) {
-            [logger info:@"Message is found. (id: %@)", message.id];
-            
-            // TODO Show message dialog
-            
+		GMMessage *message = [GMMessage findWithClientId:[[[GrowthbeatCore sharedInstance] waitClient] id] credentialId:credentialId eventId:eventId];
+		if(message) {
+			[logger info:@"Message is found. (id: %@)", message.id];
+			dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+				[self openMessage: message];
+			});
         } else {
             [logger info:@"Message is not found."];
         }
         
     });
 
+}
+
+- (void)openMessage:(GMMessage*)message {
+	__weak typeof(self) __weak_self = self;
+	if ((! __weak_self.delegate) || [__weak_self.delegate shouldShowMessage:message manager:__weak_self]) {
+		for (id<GMMessageHandler> handler in __weak_self.messageHandlers) {
+			if ([handler handleMessage:message manager:__weak_self]) {
+				//showed?
+				break;
+			} else {
+				//not handled by the handler, continue...
+			}
+		}
+	} else {
+		[logger info:@"Message is found. (id: %@)", message.id];
+	}
+}
+
+- (void)didSelectButton:(GMButton *)button message:(GMMessage *)message {
+	//track event
+	
+	//handle intent
+	[self hanldeIntend:button.intent];
+}
+
+- (void)hanldeIntend:(GMIntent*)intent {
+	for (id<GMIntentHandler> handler in self.intentHandlers) {
+		if ([handler handleIntent:intent]) {
+			break;
+		} else {
+			//continue
+		}
+	}
 }
 
 @end

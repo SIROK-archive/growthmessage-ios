@@ -7,6 +7,7 @@
 //
 
 #import "GrowthMessage.h"
+#import "GrowthAnalytics.h"
 #import "GMMessage.h"
 #import "GMMessageHandler.h"
 #import "GMIntentHandler.h"
@@ -79,6 +80,9 @@ static NSString *const kGBPreferenceDefaultFileName = @"growthmessage-preference
     self.credentialId = newCredentialId;
     
     [[GrowthbeatCore sharedInstance] initializeWithApplicationId:applicationId credentialId:credentialId];
+    [[GrowthAnalytics sharedInstance] addEventHandler:[[GAEventHandler alloc] initWithCallback:^(NSString *eventId, NSDictionary *properties) {
+        [self openMessageIfAvailableWithEventId:eventId];
+    }]];
     
 }
 

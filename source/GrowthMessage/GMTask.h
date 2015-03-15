@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 SIROK, Inc. All rights reserved.
 //
 
-#import <GrowthbeatCore/GrowthbeatCore.h>
+#import "GBDomain.h"
 
 @interface GMTask : GBDomain <NSCoding> {
     

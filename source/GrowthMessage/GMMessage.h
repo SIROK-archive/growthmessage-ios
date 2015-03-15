@@ -7,13 +7,16 @@
 //
 
 #import "GBDomain.h"
+#import "GMTask.h"
 
 @interface GMMessage : GBDomain <NSCoding> {
+    
     NSString *id;
 	NSString *format;
 	NSDictionary *data;
 	NSArray *buttons;
     NSDate *created;
+    GMTask *task;
     
 }
 
@@ -22,6 +25,7 @@
 @property (nonatomic, strong) NSDictionary *data;
 @property (nonatomic, strong) NSArray *buttons;
 @property (nonatomic, strong) NSDate *created;
+@property (nonatomic, strong) GMTask *task;
 
 + (instancetype)findWithClientId:(NSString *)clientId credentialId:(NSString *)credentialId eventId:(NSString *)eventId;
 

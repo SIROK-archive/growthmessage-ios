@@ -18,6 +18,7 @@
 @synthesize data;
 @synthesize buttons;
 @synthesize created;
+@synthesize task;
 
 + (instancetype)findWithClientId:(NSString *)clientId credentialId:(NSString *)credentialId eventId:(NSString *)eventId {
     
@@ -64,9 +65,12 @@
 		}
 		if ([aDecoder containsValueForKey:@"data"]) {
 			self.data = [aDecoder decodeObjectForKey:@"data"];
-		}
+        }
         if ([aDecoder containsValueForKey:@"created"]) {
             self.created = [aDecoder decodeObjectForKey:@"created"];
+        }
+        if ([aDecoder containsValueForKey:@"task"]) {
+            self.task = [GMTask domainWithDictionary:[aDecoder decodeObjectForKey:@"task"]];
         }
     }
     return self;
@@ -78,6 +82,7 @@
 	[aCoder encodeObject:data forKey:@"data"];
 	[aCoder encodeObject:buttons forKey:@"buttons"];
     [aCoder encodeObject:created forKey:@"created"];
+    [aCoder encodeObject:task forKey:@"task"];
 }
 
 + (id)domainWithDictionary:(NSDictionary *)dictionary {

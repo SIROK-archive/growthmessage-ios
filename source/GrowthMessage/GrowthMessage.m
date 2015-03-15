@@ -114,6 +114,7 @@ static NSString *const kGBPreferenceDefaultFileName = @"growthmessage-preference
 		for (id<GMMessageHandler> handler in __weak_self.messageHandlers) {
 			if ([handler handleMessage:message manager:__weak_self]) {
                 [[GrowthAnalytics sharedInstance] track:[NSString stringWithFormat:@"Event:%@:GrowthMessage:ShowMessage", applicationId] properties:@{
+                    @"taskId": message.task.id,
                     @"messageId": message.id
                 }];
 				break;
@@ -130,12 +131,11 @@ static NSString *const kGBPreferenceDefaultFileName = @"growthmessage-preference
     
     [[GrowthbeatCore sharedInstance] handleIntent:button.intent];
     
-    NSString *eventId = [NSString stringWithFormat:@"Event:%@:GrowthMessage:SelectButton", applicationId];
-    NSDictionary *properties = @{
+    [[GrowthAnalytics sharedInstance] track:[NSString stringWithFormat:@"Event:%@:GrowthMessage:SelectButton", applicationId] properties:@{
+        @"taskId": message.task.id,
         @"messageId": message.id,
         @"buttonId": button.id
-    };
-    [[GrowthAnalytics sharedInstance] track:eventId properties:properties];
+    }];
     
 }
 

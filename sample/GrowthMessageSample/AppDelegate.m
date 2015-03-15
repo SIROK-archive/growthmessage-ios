@@ -8,7 +8,6 @@
 
 #import "AppDelegate.h"
 #import <GrowthAnalytics/GrowthAnalytics.h>
-#import <GrowthbeatCore/GrowthbeatCore.h>
 
 @interface AppDelegate ()
 
@@ -21,16 +20,6 @@
     
     [[GrowthMessage sharedInstance] initializeWithApplicationId:@"P5C3vzoLOEijnlVj" credentialId:@"btFlFAitBJ1CBdL3IR3ROnhLYbeqmLlY"];
     [[[GrowthMessage sharedInstance] httpClient] setBaseUrl:[NSURL URLWithString:@"http://api.stg.message.growthbeat.com/"]];
-	
-	[[GrowthAnalytics sharedInstance] initializeWithApplicationId:@"P5C3vzoLOEijnlVj" credentialId:@"btFlFAitBJ1CBdL3IR3ROnhLYbeqmLlY"];
-	[[GrowthAnalytics sharedInstance] setBasicTags];
-	
-	[[GrowthAnalytics sharedInstance] setUserId:@"USER_ID"];
-	[[GrowthAnalytics sharedInstance] setAge:25];
-	[[GrowthAnalytics sharedInstance] setGender:YES];
-	[[GrowthAnalytics sharedInstance] setLevel:10];
-	
-	NSLog(@"client id: %@", [[[GrowthbeatCore sharedInstance] waitClient] id]);
     
     return YES;
     

@@ -14,9 +14,14 @@
 @implementation GMMessage
 
 @synthesize id;
-@synthesize format;
-@synthesize data;
-@synthesize buttons;
+@synthesize version;
+@synthesize name;
+@synthesize type;
+@synthesize extra;
+@synthesize eventId;
+@synthesize segmentId;
+@synthesize availableFrom;
+@synthesize availableTo;
 @synthesize created;
 @synthesize task;
 
@@ -51,6 +56,48 @@
     
 }
 
+- (instancetype) initWithDictionary:(NSDictionary *)dictionary {
+    
+    self = [super init];
+    if (self) {
+        if ([dictionary objectForKey:@"id"] && [dictionary objectForKey:@"id"] != [NSNull null]) {
+            self.id = [dictionary objectForKey:@"id"];
+        }
+        if ([dictionary objectForKey:@"version"] && [dictionary objectForKey:@"version"] != [NSNull null]) {
+            self.version = [[dictionary objectForKey:@"version"] integerValue];
+        }
+        if ([dictionary objectForKey:@"name"] && [dictionary objectForKey:@"name"] != [NSNull null]) {
+            self.name = [dictionary objectForKey:@"name"];
+        }
+        if ([dictionary objectForKey:@"type"] && [dictionary objectForKey:@"type"] != [NSNull null]) {
+            self.type = GMMessageTypeFromNSString([dictionary objectForKey:@"type"]);
+        }
+        if ([dictionary objectForKey:@"extra"] && [dictionary objectForKey:@"extra"] != [NSNull null]) {
+            self.extra = [dictionary objectForKey:@"extra"];
+        }
+        if ([dictionary objectForKey:@"eventId"] && [dictionary objectForKey:@"eventId"] != [NSNull null]) {
+            self.eventId = [dictionary objectForKey:@"eventId"];
+        }
+        if ([dictionary objectForKey:@"segmentId"] && [dictionary objectForKey:@"segmentId"] != [NSNull null]) {
+            self.segmentId = [dictionary objectForKey:@"segmentId"];
+        }
+        if ([dictionary objectForKey:@"availableFrom"] && [dictionary objectForKey:@"availableFrom"] != [NSNull null]) {
+            self.availableFrom = [dictionary objectForKey:@"availableFrom"];
+        }
+        if ([dictionary objectForKey:@"availableTo"] && [dictionary objectForKey:@"availableTo"] != [NSNull null]) {
+            self.availableTo = [dictionary objectForKey:@"availableTo"];
+        }
+        if ([dictionary objectForKey:@"created"] && [dictionary objectForKey:@"created"] != [NSNull null]) {
+            self.created = [dictionary objectForKey:@"created"];
+        }
+        if ([dictionary objectForKey:@"task"] && [dictionary objectForKey:@"task"] != [NSNull null]) {
+            self.task = [GMTask domainWithDictionary:[dictionary objectForKey:@"task"]];
+        }
+    }
+    return self;
+    
+}
+
 #pragma mark --
 #pragma mark NSCoding
 
@@ -60,11 +107,29 @@
 		if ([aDecoder containsValueForKey:@"id"]) {
 			self.id = [aDecoder decodeObjectForKey:@"id"];
 		}
-		if ([aDecoder containsValueForKey:@"format"]) {
-			self.format = [aDecoder decodeObjectForKey:@"format"];
-		}
-		if ([aDecoder containsValueForKey:@"data"]) {
-			self.data = [aDecoder decodeObjectForKey:@"data"];
+		if ([aDecoder containsValueForKey:@"version"]) {
+			self.version = [aDecoder decodeIntegerForKey:@"version"];
+        }
+        if ([aDecoder containsValueForKey:@"name"]) {
+            self.name = [aDecoder decodeObjectForKey:@"name"];
+        }
+        if ([aDecoder containsValueForKey:@"type"]) {
+            self.type = [aDecoder decodeIntegerForKey:@"type"];
+        }
+        if ([aDecoder containsValueForKey:@"extra"]) {
+            self.extra = [aDecoder decodeObjectForKey:@"extra"];
+        }
+        if ([aDecoder containsValueForKey:@"eventId"]) {
+            self.eventId = [aDecoder decodeObjectForKey:@"eventId"];
+        }
+        if ([aDecoder containsValueForKey:@"segmentId"]) {
+            self.segmentId = [aDecoder decodeObjectForKey:@"segmentId"];
+        }
+        if ([aDecoder containsValueForKey:@"availableFrom"]) {
+            self.availableFrom = [aDecoder decodeObjectForKey:@"availableFrom"];
+        }
+        if ([aDecoder containsValueForKey:@"availableTo"]) {
+            self.availableTo = [aDecoder decodeObjectForKey:@"availableTo"];
         }
         if ([aDecoder containsValueForKey:@"created"]) {
             self.created = [aDecoder decodeObjectForKey:@"created"];
@@ -78,31 +143,17 @@
 
 - (void) encodeWithCoder:(NSCoder *)aCoder {
 	[aCoder encodeObject:id forKey:@"id"];
-	[aCoder encodeObject:format forKey:@"format"];
-	[aCoder encodeObject:data forKey:@"data"];
-	[aCoder encodeObject:buttons forKey:@"buttons"];
+	[aCoder encodeInteger:version forKey:@"version"];
+	[aCoder encodeObject:name forKey:@"name"];
+    [aCoder encodeInteger:type forKey:@"type"];
+    [aCoder encodeObject:extra forKey:@"extra"];
+    [aCoder encodeObject:eventId forKey:@"eventId"];
+    [aCoder encodeObject:segmentId forKey:@"segmentId"];
+    [aCoder encodeObject:availableFrom forKey:@"availableFrom"];
+    [aCoder encodeObject:availableTo forKey:@"availableTo"];
     [aCoder encodeObject:created forKey:@"created"];
     [aCoder encodeObject:task forKey:@"task"];
 }
 
-+ (id)domainWithDictionary:(NSDictionary *)dictionary {
-	NSError *error = nil;
-	GMMessage *message = [[GMMessage alloc] init];
-	message.id = [dictionary objectForKey:@"id"];
-	message.format = [dictionary objectForKey:@"format"];
-	message.data = [NSJSONSerialization JSONObjectWithData:[(NSString*)[dictionary objectForKey:@"data"] dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&error];
-	if (error) {
-		[[[GrowthMessage sharedInstance] logger] error:@"parsing error %@", error];
-		message = nil;
-	}
-	
-	NSMutableArray *buttons = [NSMutableArray array];
-	for (NSDictionary *buttonData in [message.data objectForKey:@"buttons"]) {
-		GMButton *button = [GMButton domainWithDictionary:buttonData];
-		[buttons addObject:button];
-	}
-	message.buttons = [buttons copy];
-	
-	return message;
-}
+
 @end

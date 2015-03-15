@@ -34,7 +34,7 @@
         alertView.title = [message.data objectForKey:@"title"];
         alertView.message = [message.data objectForKey:@"body"];
         for (GMButton *button in message.buttons) {
-            [alertView addButtonWithTitle:button.label];
+            [alertView addButtonWithTitle:button.name];
         }
         [alertView show];
     });

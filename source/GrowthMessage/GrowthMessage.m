@@ -126,10 +126,14 @@ static NSString *const kGBPreferenceDefaultFileName = @"growthmessage-preference
 
 - (void)didSelectButton:(GMButton *)button message:(GMMessage *)message {
     
-	//track event
-	
-	//handle intent
-	[[GrowthbeatCore sharedInstance] handleIntent:button.intent];
+    [[GrowthbeatCore sharedInstance] handleIntent:button.intent];
+    
+    NSString *eventId = [NSString stringWithFormat:@"Event:%@:GrowthMessage:SelectButton", applicationId];
+    NSDictionary *properties = @{
+        @"messageId": message.id,
+        @"buttonId": button.id
+    };
+    [[GrowthAnalytics sharedInstance] track:eventId properties:properties];
     
 }
 

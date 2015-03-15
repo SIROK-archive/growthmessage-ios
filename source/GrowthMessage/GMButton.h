@@ -11,12 +11,14 @@
 
 @interface GMButton : GBDomain <NSCoding> {
 
+    NSString *id;
 	NSString *label;
 	GBIntent *intent;
 	NSString *event;
 	
 }
 
+@property (nonatomic, strong) NSString *id;
 @property (nonatomic, strong) NSString *label;
 @property (nonatomic, strong) GBIntent *intent;
 @property (nonatomic, strong) NSString *event;

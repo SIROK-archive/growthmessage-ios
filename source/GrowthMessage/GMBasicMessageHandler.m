@@ -17,35 +17,40 @@
 @end
 
 @implementation GMBasicMessageHandler
+
 - (BOOL)handleMessage:(GMMessage *)message manager:(GrowthMessage*)manager {
-	if ([message.format isEqualToString:@"plain"]) {
-		//let's show the message
-		dispatch_async(dispatch_get_main_queue(), ^{
-			//TODO: UIAlertController support
-			UIAlertView *alertView = [[UIAlertView alloc] init];
-			objc_setAssociatedObject(alertView, "gm_message", message, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-			objc_setAssociatedObject(alertView, "gm_manager", manager, OBJC_ASSOCIATION_ASSIGN);
-			
-			alertView.delegate = self;
-			alertView.title = [message.data objectForKey:@"title"];
-			alertView.message = [message.data objectForKey:@"body"];
-			for (GMButton *button in message.buttons) {
-				[alertView addButtonWithTitle:button.label];
-			}
-			[alertView show];
-		});
-		return YES;
-	} else {
-		return NO;
-	}
+    
+    if (![message.format isEqualToString:@"plain"])
+        return NO;
+    
+    //let's show the message
+    dispatch_async(dispatch_get_main_queue(), ^{
+        //TODO: UIAlertController support
+        UIAlertView *alertView = [[UIAlertView alloc] init];
+        objc_setAssociatedObject(alertView, "gm_message", message, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        objc_setAssociatedObject(alertView, "gm_manager", manager, OBJC_ASSOCIATION_ASSIGN);
+        
+        alertView.delegate = self;
+        alertView.title = [message.data objectForKey:@"title"];
+        alertView.message = [message.data objectForKey:@"body"];
+        for (GMButton *button in message.buttons) {
+            [alertView addButtonWithTitle:button.label];
+        }
+        [alertView show];
+    });
+    
+    return YES;
+    
+    
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-	__strong GMMessage *message = objc_getAssociatedObject(alertView, "gm_message");
-	GrowthMessage *manager = objc_getAssociatedObject(alertView, "gm_manager");
-	objc_setAssociatedObject(alertView, "gm_message", nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-	objc_setAssociatedObject(alertView, "gm_manager", nil, OBJC_ASSOCIATION_ASSIGN);
-	
-	[manager didSelectButton:[[message buttons] objectAtIndex:buttonIndex] message:message];
+    __strong GMMessage *message = objc_getAssociatedObject(alertView, "gm_message");
+    GrowthMessage *manager = objc_getAssociatedObject(alertView, "gm_manager");
+    objc_setAssociatedObject(alertView, "gm_message", nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(alertView, "gm_manager", nil, OBJC_ASSOCIATION_ASSIGN);
+    
+    [manager didSelectButton:[[message buttons] objectAtIndex:buttonIndex] message:message];
 }
+
 @end

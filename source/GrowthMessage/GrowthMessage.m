@@ -113,7 +113,9 @@ static NSString *const kGBPreferenceDefaultFileName = @"growthmessage-preference
 	if ((! __weak_self.delegate) || [__weak_self.delegate shouldShowMessage:message manager:__weak_self]) {
 		for (id<GMMessageHandler> handler in __weak_self.messageHandlers) {
 			if ([handler handleMessage:message manager:__weak_self]) {
-				//showed?
+                [[GrowthAnalytics sharedInstance] track:[NSString stringWithFormat:@"Event:%@:GrowthMessage:ShowMessage", applicationId] properties:@{
+                    @"messageId": message.id
+                }];
 				break;
 			} else {
 				//not handled by the handler, continue...

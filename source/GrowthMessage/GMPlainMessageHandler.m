@@ -1,5 +1,5 @@
 //
-//  GMDefaultMessageHandler.m
+//  GMPlainMessageHandler.m
 //  GrowthMessage
 //
 //  Created by 堀内 暢之 on 2015/03/03.
@@ -8,19 +8,19 @@
 
 #import <UIKit/UIKit.h>
 #import <objc/runtime.h>
-#import "GMDefaultMessageHandler.h"
+#import "GMPlainMessageHandler.h"
 #import "GMButton.h"
 #import "GrowthMessage.h"
 
-@interface GMDefaultMessageHandler() <UIAlertViewDelegate>
+@interface GMPlainMessageHandler() <UIAlertViewDelegate>
 
 @end
 
-@implementation GMDefaultMessageHandler
+@implementation GMPlainMessageHandler
 
 - (BOOL)handleMessage:(GMMessage *)message manager:(GrowthMessage*)manager {
     
-    if (![message.format isEqualToString:@"dafault"])
+    if (message.type != GMMessageTypePlain)
         return NO;
     
     //let's show the message
@@ -31,9 +31,9 @@
         objc_setAssociatedObject(alertView, "gm_manager", manager, OBJC_ASSOCIATION_ASSIGN);
         
         alertView.delegate = self;
-        alertView.title = [message.data objectForKey:@"title"];
-        alertView.message = [message.data objectForKey:@"body"];
-        for (GMButton *button in message.buttons) {
+        alertView.title = [message.extra objectForKey:@"title"];
+        alertView.message = [message.extra objectForKey:@"body"];
+        for (GMButton *button in [message.extra objectForKey:@"buttons"]) {
             [alertView addButtonWithTitle:button.name];
         }
         [alertView show];
@@ -50,7 +50,7 @@
     objc_setAssociatedObject(alertView, "gm_message", nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     objc_setAssociatedObject(alertView, "gm_manager", nil, OBJC_ASSOCIATION_ASSIGN);
     
-    [manager didSelectButton:[[message buttons] objectAtIndex:buttonIndex] message:message];
+    [manager didSelectButton:[[message.extra objectForKey:@"buttons"] objectAtIndex:buttonIndex] message:message];
 }
 
 @end

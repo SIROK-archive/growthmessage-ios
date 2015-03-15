@@ -30,12 +30,12 @@
 		B2C148321AA45D8100006EC3 /* GMMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = B2C148311AA45D8100006EC3 /* GMMessage.m */; };
 		B2EA120F1AB62BB500445389 /* GMMessageType.m in Sources */ = {isa = PBXBuildFile; fileRef = B2EA120E1AB62BB500445389 /* GMMessageType.m */; };
 		EBB971121AA588D0008ABE6C /* GMButton.m in Sources */ = {isa = PBXBuildFile; fileRef = EBB971111AA588D0008ABE6C /* GMButton.m */; };
-		EBB971171AA5910C008ABE6C /* GMDefaultMessageHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = EBB971161AA5910C008ABE6C /* GMDefaultMessageHandler.m */; };
+		EBB971171AA5910C008ABE6C /* GMPlainMessageHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = EBB971161AA5910C008ABE6C /* GMPlainMessageHandler.m */; };
 		EBB971181AA593C3008ABE6C /* GMButton.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = EBB971101AA588D0008ABE6C /* GMButton.h */; };
 		EBB971191AA593C3008ABE6C /* GMMessage.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B2C148301AA45D8100006EC3 /* GMMessage.h */; };
 		EBB9711A1AA593C3008ABE6C /* GMMessageHandler.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = EBB971131AA58B9F008ABE6C /* GMMessageHandler.h */; };
 		EBB9711B1AA593C3008ABE6C /* GrowthMessageDelegate.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = EBB971141AA58D2C008ABE6C /* GrowthMessageDelegate.h */; };
-		EBB9711C1AA593C3008ABE6C /* GMDefaultMessageHandler.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = EBB971151AA5910C008ABE6C /* GMDefaultMessageHandler.h */; };
+		EBB9711C1AA593C3008ABE6C /* GMPlainMessageHandler.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = EBB971151AA5910C008ABE6C /* GMPlainMessageHandler.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,7 +59,7 @@
 				EBB971191AA593C3008ABE6C /* GMMessage.h in CopyFiles */,
 				EBB9711A1AA593C3008ABE6C /* GMMessageHandler.h in CopyFiles */,
 				EBB9711B1AA593C3008ABE6C /* GrowthMessageDelegate.h in CopyFiles */,
-				EBB9711C1AA593C3008ABE6C /* GMDefaultMessageHandler.h in CopyFiles */,
+				EBB9711C1AA593C3008ABE6C /* GMPlainMessageHandler.h in CopyFiles */,
 				B2C1480D1AA456F300006EC3 /* GrowthMessage.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -82,8 +82,8 @@
 		EBB971111AA588D0008ABE6C /* GMButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMButton.m; sourceTree = "<group>"; };
 		EBB971131AA58B9F008ABE6C /* GMMessageHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GMMessageHandler.h; sourceTree = "<group>"; };
 		EBB971141AA58D2C008ABE6C /* GrowthMessageDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GrowthMessageDelegate.h; sourceTree = "<group>"; };
-		EBB971151AA5910C008ABE6C /* GMDefaultMessageHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMDefaultMessageHandler.h; sourceTree = "<group>"; };
-		EBB971161AA5910C008ABE6C /* GMDefaultMessageHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMDefaultMessageHandler.m; sourceTree = "<group>"; };
+		EBB971151AA5910C008ABE6C /* GMPlainMessageHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMPlainMessageHandler.h; sourceTree = "<group>"; };
+		EBB971161AA5910C008ABE6C /* GMPlainMessageHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMPlainMessageHandler.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,7 +129,7 @@
 			isa = PBXGroup;
 			children = (
 				EBB971101AA588D0008ABE6C /* GMButton.h */,
-				EBB971151AA5910C008ABE6C /* GMDefaultMessageHandler.h */,
+				EBB971151AA5910C008ABE6C /* GMPlainMessageHandler.h */,
 				B2C148301AA45D8100006EC3 /* GMMessage.h */,
 				EBB971131AA58B9F008ABE6C /* GMMessageHandler.h */,
 				B2EA120D1AB62BB500445389 /* GMMessageType.h */,
@@ -144,7 +144,7 @@
 			isa = PBXGroup;
 			children = (
 				EBB971111AA588D0008ABE6C /* GMButton.m */,
-				EBB971161AA5910C008ABE6C /* GMDefaultMessageHandler.m */,
+				EBB971161AA5910C008ABE6C /* GMPlainMessageHandler.m */,
 				B2C148311AA45D8100006EC3 /* GMMessage.m */,
 				B2EA120E1AB62BB500445389 /* GMMessageType.m */,
 				B2AC252B1AB594AF008ED20B /* GMTask.m */,
@@ -256,7 +256,7 @@
 				B2C148321AA45D8100006EC3 /* GMMessage.m in Sources */,
 				B2AC252C1AB594AF008ED20B /* GMTask.m in Sources */,
 				EBB971121AA588D0008ABE6C /* GMButton.m in Sources */,
-				EBB971171AA5910C008ABE6C /* GMDefaultMessageHandler.m in Sources */,
+				EBB971171AA5910C008ABE6C /* GMPlainMessageHandler.m in Sources */,
 				B2EA120F1AB62BB500445389 /* GMMessageType.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

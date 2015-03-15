@@ -1,5 +1,5 @@
 //
-//  GMBasicMessageHandler.m
+//  GMDefaultMessageHandler.m
 //  GrowthMessage
 //
 //  Created by 堀内 暢之 on 2015/03/03.
@@ -8,19 +8,19 @@
 
 #import <UIKit/UIKit.h>
 #import <objc/runtime.h>
-#import "GMBasicMessageHandler.h"
+#import "GMDefaultMessageHandler.h"
 #import "GMButton.h"
 #import "GrowthMessage.h"
 
-@interface GMBasicMessageHandler() <UIAlertViewDelegate>
+@interface GMDefaultMessageHandler() <UIAlertViewDelegate>
 
 @end
 
-@implementation GMBasicMessageHandler
+@implementation GMDefaultMessageHandler
 
 - (BOOL)handleMessage:(GMMessage *)message manager:(GrowthMessage*)manager {
     
-    if (![message.format isEqualToString:@"plain"])
+    if (![message.format isEqualToString:@"dafault"])
         return NO;
     
     //let's show the message

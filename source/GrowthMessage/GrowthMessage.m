@@ -10,7 +10,7 @@
 #import "GrowthAnalytics.h"
 #import "GMMessage.h"
 #import "GMMessageHandler.h"
-#import "GMBasicMessageHandler.h"
+#import "GMDefaultMessageHandler.h"
 
 static GrowthMessage *sharedInstance = nil;
 static NSString *const kGBLoggerDefaultTag = @"GrowthMessage";
@@ -85,7 +85,7 @@ static NSString *const kGBPreferenceDefaultFileName = @"growthmessage-preference
         [self openMessageIfAvailableWithEventId:eventId];
     }]];
     
-    self.messageHandlers = [NSArray arrayWithObjects:[[GMBasicMessageHandler alloc] init], nil];
+    self.messageHandlers = [NSArray arrayWithObjects:[[GMDefaultMessageHandler alloc] init], nil];
     
 }
 

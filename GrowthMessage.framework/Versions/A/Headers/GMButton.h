@@ -7,18 +7,20 @@
 //
 
 #import "GBDomain.h"
-#import "GMIntent.h"
+#import "GBIntent.h"
 
 @interface GMButton : GBDomain <NSCoding> {
 
+    NSString *id;
 	NSString *label;
-	GMIntent *intent;
+	GBIntent *intent;
 	NSString *event;
 	
 }
 
+@property (nonatomic, strong) NSString *id;
 @property (nonatomic, strong) NSString *label;
-@property (nonatomic, strong) GMIntent *intent;
+@property (nonatomic, strong) GBIntent *intent;
 @property (nonatomic, strong) NSString *event;
 
 @end

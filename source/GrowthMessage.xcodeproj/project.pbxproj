@@ -23,6 +23,7 @@
 
 /* Begin PBXBuildFile section */
 		B20555F01AB54DE0007DCCAD /* GrowthAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B20555EF1AB54DE0007DCCAD /* GrowthAnalytics.framework */; };
+		B2AC252C1AB594AF008ED20B /* GMTask.m in Sources */ = {isa = PBXBuildFile; fileRef = B2AC252B1AB594AF008ED20B /* GMTask.m */; };
 		B2C1480D1AA456F300006EC3 /* GrowthMessage.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B2C1480C1AA456F300006EC3 /* GrowthMessage.h */; };
 		B2C1480F1AA456F300006EC3 /* GrowthMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = B2C1480E1AA456F300006EC3 /* GrowthMessage.m */; };
 		B2C1482F1AA45D3600006EC3 /* GrowthbeatCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2C1482E1AA45D3600006EC3 /* GrowthbeatCore.framework */; };
@@ -66,6 +67,8 @@
 
 /* Begin PBXFileReference section */
 		B20555EF1AB54DE0007DCCAD /* GrowthAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GrowthAnalytics.framework; path = "../submodules/growthanalytics-ios/GrowthAnalytics.framework"; sourceTree = "<group>"; };
+		B2AC252A1AB594AF008ED20B /* GMTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMTask.h; sourceTree = "<group>"; };
+		B2AC252B1AB594AF008ED20B /* GMTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMTask.m; sourceTree = "<group>"; };
 		B2C148091AA456F300006EC3 /* libGrowthMessage.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libGrowthMessage.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2C1480C1AA456F300006EC3 /* GrowthMessage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GrowthMessage.h; sourceTree = "<group>"; };
 		B2C1480E1AA456F300006EC3 /* GrowthMessage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GrowthMessage.m; sourceTree = "<group>"; };
@@ -126,6 +129,7 @@
 				EBB971101AA588D0008ABE6C /* GMButton.h */,
 				B2C148301AA45D8100006EC3 /* GMMessage.h */,
 				EBB971131AA58B9F008ABE6C /* GMMessageHandler.h */,
+				B2AC252A1AB594AF008ED20B /* GMTask.h */,
 				B2C1480C1AA456F300006EC3 /* GrowthMessage.h */,
 				EBB971141AA58D2C008ABE6C /* GrowthMessageDelegate.h */,
 			);
@@ -138,6 +142,7 @@
 				EBB971161AA5910C008ABE6C /* GMBasicMessageHandler.m */,
 				EBB971111AA588D0008ABE6C /* GMButton.m */,
 				B2C148311AA45D8100006EC3 /* GMMessage.m */,
+				B2AC252B1AB594AF008ED20B /* GMTask.m */,
 				B2C1480E1AA456F300006EC3 /* GrowthMessage.m */,
 			);
 			name = Sources;
@@ -179,7 +184,7 @@
 		B2C148011AA456F300006EC3 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0610;
+				LastUpgradeCheck = 0620;
 				ORGANIZATIONNAME = "SIROK, Inc.";
 				TargetAttributes = {
 					B2C148081AA456F300006EC3 = {
@@ -244,6 +249,7 @@
 			files = (
 				B2C1480F1AA456F300006EC3 /* GrowthMessage.m in Sources */,
 				B2C148321AA45D8100006EC3 /* GMMessage.m in Sources */,
+				B2AC252C1AB594AF008ED20B /* GMTask.m in Sources */,
 				EBB971121AA588D0008ABE6C /* GMButton.m in Sources */,
 				EBB971171AA5910C008ABE6C /* GMBasicMessageHandler.m in Sources */,
 			);
@@ -295,7 +301,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
 			};

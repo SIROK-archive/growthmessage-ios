@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B282CECB1AB5501E002D6F10 /* GrowthAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B282CECA1AB5501E002D6F10 /* GrowthAnalytics.framework */; };
 		B2C148421AA463A500006EC3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B2C148411AA463A500006EC3 /* main.m */; };
 		B2C148451AA463A500006EC3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B2C148441AA463A500006EC3 /* AppDelegate.m */; };
 		B2C148481AA463A500006EC3 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2C148471AA463A500006EC3 /* ViewController.m */; };
@@ -16,10 +17,10 @@
 		B2C148691AA4645E00006EC3 /* GrowthbeatCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2C148681AA4645E00006EC3 /* GrowthbeatCore.framework */; };
 		B2C1486B1AA4647F00006EC3 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2C1486A1AA4647F00006EC3 /* SystemConfiguration.framework */; };
 		EB1C87BF1AB1735300C3F122 /* libGrowthMessage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EB1C87BE1AB1735300C3F122 /* libGrowthMessage.a */; };
-		EB1C87C11AB1736C00C3F122 /* GrowthAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB1C87C01AB1736C00C3F122 /* GrowthAnalytics.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B282CECA1AB5501E002D6F10 /* GrowthAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GrowthAnalytics.framework; path = "../submodules/growthanalytics-ios/GrowthAnalytics.framework"; sourceTree = "<group>"; };
 		B2C1483C1AA463A500006EC3 /* GrowthMessageSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GrowthMessageSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2C148401AA463A500006EC3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B2C148411AA463A500006EC3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -33,7 +34,6 @@
 		B2C148681AA4645E00006EC3 /* GrowthbeatCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GrowthbeatCore.framework; path = "../submodules/growthbeat-core-ios/GrowthbeatCore.framework"; sourceTree = "<group>"; };
 		B2C1486A1AA4647F00006EC3 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		EB1C87BE1AB1735300C3F122 /* libGrowthMessage.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGrowthMessage.a; path = "../../../Library/Developer/Xcode/DerivedData/GrowthMessageSample-drxjazmeublivnacmlseganlkhtx/Build/Products/Debug-iphoneos/libGrowthMessage.a"; sourceTree = "<group>"; };
-		EB1C87C01AB1736C00C3F122 /* GrowthAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GrowthAnalytics.framework; path = GrowthMessageSample/GrowthAnalytics.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,7 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EB1C87C11AB1736C00C3F122 /* GrowthAnalytics.framework in Frameworks */,
+				B282CECB1AB5501E002D6F10 /* GrowthAnalytics.framework in Frameworks */,
 				EB1C87BF1AB1735300C3F122 /* libGrowthMessage.a in Frameworks */,
 				B2C1486B1AA4647F00006EC3 /* SystemConfiguration.framework in Frameworks */,
 				B2C148691AA4645E00006EC3 /* GrowthbeatCore.framework in Frameworks */,
@@ -54,8 +54,6 @@
 		B2C148331AA463A500006EC3 = {
 			isa = PBXGroup;
 			children = (
-				EB1C87C01AB1736C00C3F122 /* GrowthAnalytics.framework */,
-				EB1C87BE1AB1735300C3F122 /* libGrowthMessage.a */,
 				B2C1483E1AA463A500006EC3 /* GrowthMessageSample */,
 				B2C148651AA4642F00006EC3 /* Framework */,
 				B2C1483D1AA463A500006EC3 /* Products */,
@@ -97,6 +95,8 @@
 		B2C148651AA4642F00006EC3 /* Framework */ = {
 			isa = PBXGroup;
 			children = (
+				EB1C87BE1AB1735300C3F122 /* libGrowthMessage.a */,
+				B282CECA1AB5501E002D6F10 /* GrowthAnalytics.framework */,
 				B2C148681AA4645E00006EC3 /* GrowthbeatCore.framework */,
 				B2C1486A1AA4647F00006EC3 /* SystemConfiguration.framework */,
 			);
@@ -285,12 +285,14 @@
 					"$(inherited)",
 					"$(SRCROOT)/../",
 					"$(SRCROOT)/../submodules/growthbeat-core-ios",
+					"$(SRCROOT)/../submodules/growthanalytics-ios",
 					"$(PROJECT_DIR)/GrowthMessageSample",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../submodules/growthbeat-core-ios/GrowthbeatCore.framework/Headers/",
+					"$(SRCROOT)/../submodules/growthanalytics-ios/GrowthAnalytics.framework/Headers/",
 				);
 				INFOPLIST_FILE = GrowthMessageSample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -310,12 +312,14 @@
 					"$(inherited)",
 					"$(SRCROOT)/../",
 					"$(SRCROOT)/../submodules/growthbeat-core-ios",
+					"$(SRCROOT)/../submodules/growthanalytics-ios",
 					"$(PROJECT_DIR)/GrowthMessageSample",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../submodules/growthbeat-core-ios/GrowthbeatCore.framework/Headers/",
+					"$(SRCROOT)/../submodules/growthanalytics-ios/GrowthAnalytics.framework/Headers/",
 				);
 				INFOPLIST_FILE = GrowthMessageSample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

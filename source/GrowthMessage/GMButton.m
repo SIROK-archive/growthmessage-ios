@@ -7,7 +7,7 @@
 //
 
 #import "GMButton.h"
-#import "GMIntent.h"
+#import "GBIntent.h"
 
 @implementation GMButton
 
@@ -44,7 +44,7 @@
 	GMButton *button = [[GMButton alloc] init];
 	button.label = [dictionary objectForKey:@"label"];
 	button.event = [dictionary objectForKey:@"event"];
-	button.intent = [GMIntent domainWithDictionary:dictionary];
+	button.intent = [GBIntent domainWithDictionary:dictionary];
 	return button;
 }
 @end

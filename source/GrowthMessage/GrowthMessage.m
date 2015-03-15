@@ -10,7 +10,7 @@
 #import "GrowthAnalytics.h"
 #import "GMMessage.h"
 #import "GMMessageHandler.h"
-#import "GMIntentHandler.h"
+#import "GMBasicMessageHandler.h"
 
 static GrowthMessage *sharedInstance = nil;
 static NSString *const kGBLoggerDefaultTag = @"GrowthMessage";
@@ -43,7 +43,6 @@ static NSString *const kGBPreferenceDefaultFileName = @"growthmessage-preference
 
 @synthesize delegate;
 @synthesize messageHandlers;
-@synthesize intentHandlers;
 
 @synthesize logger;
 @synthesize httpClient;
@@ -86,6 +85,8 @@ static NSString *const kGBPreferenceDefaultFileName = @"growthmessage-preference
         [self openMessageIfAvailableWithEventId:eventId];
     }]];
     
+    self.messageHandlers = [NSArray arrayWithObjects:[[GMBasicMessageHandler alloc] init], nil];
+    
 }
 
 - (void)openMessageIfAvailableWithEventId:(NSString*)eventId {
@@ -124,20 +125,12 @@ static NSString *const kGBPreferenceDefaultFileName = @"growthmessage-preference
 }
 
 - (void)didSelectButton:(GMButton *)button message:(GMMessage *)message {
+    
 	//track event
 	
 	//handle intent
-	[self hanldeIntend:button.intent];
-}
-
-- (void)hanldeIntend:(GMIntent*)intent {
-	for (id<GMIntentHandler> handler in self.intentHandlers) {
-		if ([handler handleIntent:intent]) {
-			break;
-		} else {
-			//continue
-		}
-	}
+	[[GrowthbeatCore sharedInstance] handleIntent:button.intent];
+    
 }
 
 @end

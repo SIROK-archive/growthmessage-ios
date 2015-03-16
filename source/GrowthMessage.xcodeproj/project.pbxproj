@@ -29,6 +29,8 @@
 		B2C1482F1AA45D3600006EC3 /* GrowthbeatCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2C1482E1AA45D3600006EC3 /* GrowthbeatCore.framework */; };
 		B2C148321AA45D8100006EC3 /* GMMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = B2C148311AA45D8100006EC3 /* GMMessage.m */; };
 		B2EA120F1AB62BB500445389 /* GMMessageType.m in Sources */ = {isa = PBXBuildFile; fileRef = B2EA120E1AB62BB500445389 /* GMMessageType.m */; };
+		B2EA12101AB67C3100445389 /* GMMessageType.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B2EA120D1AB62BB500445389 /* GMMessageType.h */; };
+		B2EA12111AB67C3100445389 /* GMTask.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B2AC252A1AB594AF008ED20B /* GMTask.h */; };
 		EBB971121AA588D0008ABE6C /* GMButton.m in Sources */ = {isa = PBXBuildFile; fileRef = EBB971111AA588D0008ABE6C /* GMButton.m */; };
 		EBB971171AA5910C008ABE6C /* GMPlainMessageHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = EBB971161AA5910C008ABE6C /* GMPlainMessageHandler.m */; };
 		EBB971181AA593C3008ABE6C /* GMButton.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = EBB971101AA588D0008ABE6C /* GMButton.h */; };
@@ -55,6 +57,8 @@
 			dstPath = Headers;
 			dstSubfolderSpec = 16;
 			files = (
+				B2EA12101AB67C3100445389 /* GMMessageType.h in CopyFiles */,
+				B2EA12111AB67C3100445389 /* GMTask.h in CopyFiles */,
 				EBB971181AA593C3008ABE6C /* GMButton.h in CopyFiles */,
 				EBB971191AA593C3008ABE6C /* GMMessage.h in CopyFiles */,
 				EBB9711A1AA593C3008ABE6C /* GMMessageHandler.h in CopyFiles */,
@@ -414,7 +418,7 @@
 				B2C1481C1AA456F300006EC3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		B2C1481D1AA456F300006EC3 /* Build configuration list for PBXNativeTarget "GrowthMessage" */ = {
 			isa = XCConfigurationList;
@@ -423,7 +427,7 @@
 				B2C1481F1AA456F300006EC3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		B2C148251AA4581900006EC3 /* Build configuration list for PBXAggregateTarget "GrowthMessageFramework" */ = {
 			isa = XCConfigurationList;
@@ -432,7 +436,7 @@
 				B2C148271AA4581900006EC3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};

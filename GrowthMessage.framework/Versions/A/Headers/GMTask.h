@@ -1,28 +1,30 @@
 //
-//  GMButton.h
+//  GMTask.h
 //  GrowthMessage
 //
-//  Created by 堀内 暢之 on 2015/03/03.
+//  Created by Naoyuki Kataoka on 2015/03/15.
 //  Copyright (c) 2015年 SIROK, Inc. All rights reserved.
 //
 
 #import "GBDomain.h"
-#import "GBIntent.h"
 
-@interface GMButton : GBDomain <NSCoding> {
-
+@interface GMTask : GBDomain <NSCoding> {
+    
     NSString *id;
     NSString *applicationId;
-	NSString *name;
-	GBIntent *intent;
+    NSString *name;
+    NSString *description;
     NSDate *created;
-	
+    NSDate *updated;
+    
 }
 
 @property (nonatomic, strong) NSString *id;
 @property (nonatomic, strong) NSString *applicationId;
 @property (nonatomic, strong) NSString *name;
-@property (nonatomic, strong) GBIntent *intent;
+@property (nonatomic, strong) NSString *description;
 @property (nonatomic, strong) NSDate *created;
+@property (nonatomic, strong) NSDate *updated;
+
 
 @end

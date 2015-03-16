@@ -8,22 +8,33 @@
 
 #import "GBDomain.h"
 #import "GMTask.h"
+#import "GMMessageType.h"
 
 @interface GMMessage : GBDomain <NSCoding> {
     
     NSString *id;
-	NSString *format;
-	NSDictionary *data;
-	NSArray *buttons;
+	NSInteger version;
+    NSString *name;
+    GMMessageType type;
+    NSDictionary *extra;
+    NSString *eventId;
+    NSString *segmentId;
+    NSDate *availableFrom;
+    NSDate *availableTo;
     NSDate *created;
     GMTask *task;
     
 }
 
 @property (nonatomic, strong) NSString *id;
-@property (nonatomic, strong) NSString *format;
-@property (nonatomic, strong) NSDictionary *data;
-@property (nonatomic, strong) NSArray *buttons;
+@property (nonatomic, assign) NSInteger version;
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic, assign) GMMessageType type;
+@property (nonatomic, strong) NSDictionary *extra;
+@property (nonatomic, strong) NSString *eventId;
+@property (nonatomic, strong) NSString *segmentId;
+@property (nonatomic, strong) NSDate *availableFrom;
+@property (nonatomic, strong) NSDate *availableTo;
 @property (nonatomic, strong) NSDate *created;
 @property (nonatomic, strong) GMTask *task;
 

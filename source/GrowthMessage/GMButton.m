@@ -12,10 +12,9 @@
 @implementation GMButton
 
 @synthesize id;
-@synthesize applicationId;
-@synthesize name;
-@synthesize intent;
+@synthesize type;
 @synthesize created;
+@synthesize intent;
 
 - (instancetype) initWithDictionary:(NSDictionary *)dictionary {
     
@@ -24,17 +23,14 @@
         if ([dictionary objectForKey:@"id"] && [dictionary objectForKey:@"id"] != [NSNull null]) {
             self.id = [dictionary objectForKey:@"id"];
         }
-        if ([dictionary objectForKey:@"applicationId"] && [dictionary objectForKey:@"applicationId"] != [NSNull null]) {
-            self.applicationId = [dictionary objectForKey:@"applicationId"];
-        }
-        if ([dictionary objectForKey:@"name"] && [dictionary objectForKey:@"name"] != [NSNull null]) {
-            self.name = [dictionary objectForKey:@"name"];
-        }
-        if ([dictionary objectForKey:@"intent"] && [dictionary objectForKey:@"intent"] != [NSNull null]) {
-            self.intent = [GBIntent domainWithDictionary:[dictionary objectForKey:@"intent"]];
+        if ([dictionary objectForKey:@"type"] && [dictionary objectForKey:@"type"] != [NSNull null]) {
+            self.type = GMButtonTypeFromNSString([dictionary objectForKey:@"type"]);
         }
         if ([dictionary objectForKey:@"created"] && [dictionary objectForKey:@"created"] != [NSNull null]) {
             self.created = [dictionary objectForKey:@"created"];
+        }
+        if ([dictionary objectForKey:@"intent"] && [dictionary objectForKey:@"intent"] != [NSNull null]) {
+            self.intent = [GBIntent domainWithDictionary:[dictionary objectForKey:@"intent"]];
         }
     }
     return self;
@@ -50,17 +46,14 @@
         if ([aDecoder containsValueForKey:@"id"]) {
             self.id = [aDecoder decodeObjectForKey:@"id"];
         }
-        if ([aDecoder containsValueForKey:@"applicationId"]) {
-            self.applicationId = [aDecoder decodeObjectForKey:@"applicationId"];
-        }
-		if ([aDecoder containsValueForKey:@"name"]) {
-			self.name = [aDecoder decodeObjectForKey:@"name"];
-		}
-		if ([aDecoder containsValueForKey:@"intent"]) {
-			self.intent = [aDecoder decodeObjectForKey:@"intent"];
+        if ([aDecoder containsValueForKey:@"type"]) {
+            self.type = [aDecoder decodeIntegerForKey:@"type"];
         }
         if ([aDecoder containsValueForKey:@"created"]) {
             self.created = [aDecoder decodeObjectForKey:@"created"];
+        }
+		if ([aDecoder containsValueForKey:@"intent"]) {
+			self.intent = [aDecoder decodeObjectForKey:@"intent"];
         }
 	}
 	return self;
@@ -68,10 +61,9 @@
 
 - (void) encodeWithCoder:(NSCoder *)aCoder {
     [aCoder encodeObject:id forKey:@"id"];
-    [aCoder encodeObject:applicationId forKey:@"applicationId"];
-    [aCoder encodeObject:name forKey:@"name"];
-    [aCoder encodeObject:intent forKey:@"intent"];
+    [aCoder encodeInteger:type forKey:@"type"];
     [aCoder encodeObject:created forKey:@"created"];
+    [aCoder encodeObject:intent forKey:@"intent"];
 }
 
 @end

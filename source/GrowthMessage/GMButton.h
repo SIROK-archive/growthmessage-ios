@@ -10,11 +10,14 @@
 #import "GBIntent.h"
 #import "GMButtonType.h"
 
+@class GMMessage;
+
 @interface GMButton : GBDomain <NSCoding> {
 
     NSString *id;
     GMButtonType type;
     NSDate *created;
+    GMMessage *message;
 	GBIntent *intent;
 	
 }
@@ -22,5 +25,7 @@
 @property (nonatomic, strong) NSString *id;
 @property (nonatomic, assign) GMButtonType type;
 @property (nonatomic, strong) NSDate *created;
+@property (nonatomic, strong) GMMessage *message;
 @property (nonatomic, strong) GBIntent *intent;
+
 @end

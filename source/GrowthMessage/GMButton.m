@@ -8,12 +8,14 @@
 
 #import "GMButton.h"
 #import "GBIntent.h"
+#import "GMMessage.h"
 
 @implementation GMButton
 
 @synthesize id;
 @synthesize type;
 @synthesize created;
+@synthesize message;
 @synthesize intent;
 
 - (instancetype) initWithDictionary:(NSDictionary *)dictionary {
@@ -28,6 +30,9 @@
         }
         if ([dictionary objectForKey:@"created"] && [dictionary objectForKey:@"created"] != [NSNull null]) {
             self.created = [dictionary objectForKey:@"created"];
+        }
+        if ([dictionary objectForKey:@"message"] && [dictionary objectForKey:@"message"] != [NSNull null]) {
+            self.message = [GMMessage domainWithDictionary:[dictionary objectForKey:@"message"]];
         }
         if ([dictionary objectForKey:@"intent"] && [dictionary objectForKey:@"intent"] != [NSNull null]) {
             self.intent = [GBIntent domainWithDictionary:[dictionary objectForKey:@"intent"]];
@@ -52,8 +57,11 @@
         if ([aDecoder containsValueForKey:@"created"]) {
             self.created = [aDecoder decodeObjectForKey:@"created"];
         }
-		if ([aDecoder containsValueForKey:@"intent"]) {
-			self.intent = [aDecoder decodeObjectForKey:@"intent"];
+        if ([aDecoder containsValueForKey:@"message"]) {
+            self.message = [aDecoder decodeObjectForKey:@"message"];
+        }
+        if ([aDecoder containsValueForKey:@"intent"]) {
+            self.intent = [aDecoder decodeObjectForKey:@"intent"];
         }
 	}
 	return self;
@@ -63,6 +71,7 @@
     [aCoder encodeObject:id forKey:@"id"];
     [aCoder encodeInteger:type forKey:@"type"];
     [aCoder encodeObject:created forKey:@"created"];
+    [aCoder encodeObject:message forKey:@"message"];
     [aCoder encodeObject:intent forKey:@"intent"];
 }
 

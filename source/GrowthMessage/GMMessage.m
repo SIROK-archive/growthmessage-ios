@@ -10,6 +10,8 @@
 #import "GBUtils.h"
 #import "GBHttpClient.h"
 #import "GrowthMessage.h"
+#import "GMPlainMessage.h"
+#import "GMImageMessage.h"
 
 @implementation GMMessage
 
@@ -17,13 +19,13 @@
 @synthesize version;
 @synthesize name;
 @synthesize type;
-@synthesize extra;
 @synthesize eventId;
 @synthesize segmentId;
 @synthesize availableFrom;
 @synthesize availableTo;
 @synthesize created;
 @synthesize task;
+@synthesize buttons;
 
 + (instancetype)findWithClientId:(NSString *)clientId credentialId:(NSString *)credentialId eventId:(NSString *)eventId {
     
@@ -56,6 +58,26 @@
     
 }
 
++ (instancetype)domainWithDictionary:(NSDictionary *)dictionary {
+    
+    GMMessage *message = [[self alloc] initWithDictionary:dictionary];
+    switch (message.type) {
+        case GMMessageTypePlain:
+            if([message isKindOfClass:[GMPlainMessage class]])
+                return message;
+            else
+                return [GMPlainMessage domainWithDictionary:dictionary];
+        case GMMessageTypeImage:
+            if([message isKindOfClass:[GMImageMessage class]])
+                return message;
+            else
+                return [GMImageMessage domainWithDictionary:dictionary];
+        default:
+            return nil;
+    }
+    
+}
+
 - (instancetype) initWithDictionary:(NSDictionary *)dictionary {
     
     self = [super init];
@@ -71,9 +93,6 @@
         }
         if ([dictionary objectForKey:@"type"] && [dictionary objectForKey:@"type"] != [NSNull null]) {
             self.type = GMMessageTypeFromNSString([dictionary objectForKey:@"type"]);
-        }
-        if ([dictionary objectForKey:@"extra"] && [dictionary objectForKey:@"extra"] != [NSNull null]) {
-            self.extra = [dictionary objectForKey:@"extra"];
         }
         if ([dictionary objectForKey:@"eventId"] && [dictionary objectForKey:@"eventId"] != [NSNull null]) {
             self.eventId = [dictionary objectForKey:@"eventId"];
@@ -92,6 +111,13 @@
         }
         if ([dictionary objectForKey:@"task"] && [dictionary objectForKey:@"task"] != [NSNull null]) {
             self.task = [GMTask domainWithDictionary:[dictionary objectForKey:@"task"]];
+        }
+        if ([dictionary objectForKey:@"buttons"] && [dictionary objectForKey:@"buttons"] != [NSNull null]) {
+            NSMutableArray *newButtons = [NSMutableArray array];
+            for (NSDictionary *buttonDictionary in [dictionary objectForKey:@"buttons"]) {
+                [newButtons addObject:[GMButton domainWithDictionary:buttonDictionary]];
+            }
+            self.buttons = newButtons;
         }
     }
     return self;
@@ -115,9 +141,6 @@
         }
         if ([aDecoder containsValueForKey:@"type"]) {
             self.type = [aDecoder decodeIntegerForKey:@"type"];
-        }
-        if ([aDecoder containsValueForKey:@"extra"]) {
-            self.extra = [aDecoder decodeObjectForKey:@"extra"];
         }
         if ([aDecoder containsValueForKey:@"eventId"]) {
             self.eventId = [aDecoder decodeObjectForKey:@"eventId"];
@@ -146,7 +169,6 @@
 	[aCoder encodeInteger:version forKey:@"version"];
 	[aCoder encodeObject:name forKey:@"name"];
     [aCoder encodeInteger:type forKey:@"type"];
-    [aCoder encodeObject:extra forKey:@"extra"];
     [aCoder encodeObject:eventId forKey:@"eventId"];
     [aCoder encodeObject:segmentId forKey:@"segmentId"];
     [aCoder encodeObject:availableFrom forKey:@"availableFrom"];

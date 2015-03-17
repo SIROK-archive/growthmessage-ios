@@ -14,8 +14,8 @@
 		B2C1484B1AA463A500006EC3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B2C148491AA463A500006EC3 /* Main.storyboard */; };
 		B2C1484D1AA463A500006EC3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B2C1484C1AA463A500006EC3 /* Images.xcassets */; };
 		B2C148501AA463A500006EC3 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2C1484E1AA463A500006EC3 /* LaunchScreen.xib */; };
-		B2C148691AA4645E00006EC3 /* GrowthbeatCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2C148681AA4645E00006EC3 /* GrowthbeatCore.framework */; };
 		B2C1486B1AA4647F00006EC3 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2C1486A1AA4647F00006EC3 /* SystemConfiguration.framework */; };
+		B2C4A0741AB7CE2C00015D16 /* GrowthbeatCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2C4A0731AB7CE2C00015D16 /* GrowthbeatCore.framework */; };
 		EB1C87BF1AB1735300C3F122 /* libGrowthMessage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EB1C87BE1AB1735300C3F122 /* libGrowthMessage.a */; };
 /* End PBXBuildFile section */
 
@@ -31,8 +31,8 @@
 		B2C1484A1AA463A500006EC3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B2C1484C1AA463A500006EC3 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		B2C1484F1AA463A500006EC3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		B2C148681AA4645E00006EC3 /* GrowthbeatCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GrowthbeatCore.framework; path = "../submodules/growthbeat-core-ios/GrowthbeatCore.framework"; sourceTree = "<group>"; };
 		B2C1486A1AA4647F00006EC3 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		B2C4A0731AB7CE2C00015D16 /* GrowthbeatCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GrowthbeatCore.framework; path = "../submodules/growthbeat-core-ios/GrowthbeatCore.framework"; sourceTree = "<group>"; };
 		EB1C87BE1AB1735300C3F122 /* libGrowthMessage.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGrowthMessage.a; path = "../../../Library/Developer/Xcode/DerivedData/GrowthMessageSample-drxjazmeublivnacmlseganlkhtx/Build/Products/Debug-iphoneos/libGrowthMessage.a"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -41,10 +41,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B2C4A0741AB7CE2C00015D16 /* GrowthbeatCore.framework in Frameworks */,
 				B282CECB1AB5501E002D6F10 /* GrowthAnalytics.framework in Frameworks */,
 				EB1C87BF1AB1735300C3F122 /* libGrowthMessage.a in Frameworks */,
 				B2C1486B1AA4647F00006EC3 /* SystemConfiguration.framework in Frameworks */,
-				B2C148691AA4645E00006EC3 /* GrowthbeatCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -96,8 +96,8 @@
 			isa = PBXGroup;
 			children = (
 				EB1C87BE1AB1735300C3F122 /* libGrowthMessage.a */,
+				B2C4A0731AB7CE2C00015D16 /* GrowthbeatCore.framework */,
 				B282CECA1AB5501E002D6F10 /* GrowthAnalytics.framework */,
-				B2C148681AA4645E00006EC3 /* GrowthbeatCore.framework */,
 				B2C1486A1AA4647F00006EC3 /* SystemConfiguration.framework */,
 			);
 			name = Framework;
@@ -287,6 +287,7 @@
 					"$(SRCROOT)/../submodules/growthbeat-core-ios",
 					"$(SRCROOT)/../submodules/growthanalytics-ios",
 					"$(PROJECT_DIR)/GrowthMessageSample",
+					"/Users/kataoka/growthmessage-ios/submodules/growthbeat-core-ios",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -314,6 +315,7 @@
 					"$(SRCROOT)/../submodules/growthbeat-core-ios",
 					"$(SRCROOT)/../submodules/growthanalytics-ios",
 					"$(PROJECT_DIR)/GrowthMessageSample",
+					"/Users/kataoka/growthmessage-ios/submodules/growthbeat-core-ios",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",

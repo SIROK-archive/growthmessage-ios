@@ -11,6 +11,8 @@
 #import "GMPlainMessageHandler.h"
 #import "GMButton.h"
 #import "GrowthMessage.h"
+#import "GMPlainMessage.h"
+#import "GMPlainButton.h"
 
 @interface GMPlainMessageHandler() <UIAlertViewDelegate>
 
@@ -22,6 +24,10 @@
     
     if (message.type != GMMessageTypePlain)
         return NO;
+    if (![message isKindOfClass:[GMPlainMessage class]])
+        return NO;
+    
+    GMPlainMessage *plainMessage = (GMPlainMessage *)message;
     
     //let's show the message
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -31,11 +37,10 @@
         objc_setAssociatedObject(alertView, "gm_manager", manager, OBJC_ASSOCIATION_ASSIGN);
         
         alertView.delegate = self;
-        alertView.title = [message.extra objectForKey:@"title"];
-        alertView.message = [message.extra objectForKey:@"body"];
-        for (GMButton *button in [message.extra objectForKey:@"buttons"]) {
-            // TODO implement
-            // [alertView addButtonWithTitle:button.name];
+        alertView.title = plainMessage.caption;
+        alertView.message = plainMessage.text;
+        for (GMPlainButton *plainButton in plainMessage.buttons) {
+            [alertView addButtonWithTitle:plainButton.label];
         }
         [alertView show];
     });
@@ -46,12 +51,12 @@
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    __strong GMMessage *message = objc_getAssociatedObject(alertView, "gm_message");
+    __strong GMPlainMessage *plainMessage = objc_getAssociatedObject(alertView, "gm_message");
     GrowthMessage *manager = objc_getAssociatedObject(alertView, "gm_manager");
     objc_setAssociatedObject(alertView, "gm_message", nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     objc_setAssociatedObject(alertView, "gm_manager", nil, OBJC_ASSOCIATION_ASSIGN);
     
-    [manager didSelectButton:[[message.extra objectForKey:@"buttons"] objectAtIndex:buttonIndex] message:message];
+    [manager didSelectButton:[plainMessage.buttons objectAtIndex:buttonIndex] message:plainMessage];
 }
 
 @end

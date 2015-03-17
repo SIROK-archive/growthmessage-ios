@@ -22,12 +22,18 @@
 
 + (instancetype)domainWithDictionary:(NSDictionary *)dictionary {
     
-    GMButton *button = [super domainWithDictionary:dictionary];
+    GMButton *button = [[self alloc] initWithDictionary:dictionary];
     switch (button.type) {
         case GMButtonTypePlain:
-            return [GMPlainButton domainWithDictionary:dictionary];
+            if ([button isKindOfClass:[GMPlainButton class]])
+                return button;
+            else
+                return [GMPlainButton domainWithDictionary:dictionary];
         case GMButtonTypeImage:
-            return [GMImageButton domainWithDictionary:dictionary];
+            if ([button isKindOfClass:[GMImageButton class]])
+                return button;
+            else
+                return [GMImageButton domainWithDictionary:dictionary];
         default:
             return nil;
     }

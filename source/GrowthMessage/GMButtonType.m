@@ -8,7 +8,7 @@
 
 #import "GMButtonType.h"
 
-NSString *NSStringFromContnetType(GMButtonType buttonType) {
+NSString *NSStringFromGMButtonType(GMButtonType buttonType) {
     
     switch (buttonType) {
         case GMButtonTypeUnknown:

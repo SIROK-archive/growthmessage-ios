@@ -14,7 +14,7 @@ NSString *NSStringFromGMButtonType(GMButtonType buttonType) {
         case GMButtonTypeUnknown:
             return nil;
         case GMButtonTypePlain:
-            return @"image";
+            return @"plain";
         case GMButtonTypeImage:
             return @"image";
     }
@@ -23,7 +23,7 @@ NSString *NSStringFromGMButtonType(GMButtonType buttonType) {
 
 GMButtonType GMButtonTypeFromNSString(NSString *buttonTypeString) {
     
-    if ([buttonTypeString isEqualToString:@"image"]) {
+    if ([buttonTypeString isEqualToString:@"plain"]) {
         return GMButtonTypePlain;
     }
     if ([buttonTypeString isEqualToString:@"image"]) {

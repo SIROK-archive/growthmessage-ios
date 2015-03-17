@@ -82,6 +82,10 @@ static NSString *const kGBPreferenceDefaultFileName = @"growthmessage-preference
     
     [[GrowthAnalytics sharedInstance] initializeWithApplicationId:applicationId credentialId:credentialId];
     [[GrowthAnalytics sharedInstance] addEventHandler:[[GAEventHandler alloc] initWithCallback:^(NSString *eventId, NSDictionary *properties) {
+        // TODO for debug
+        if([eventId containsString:@"GrowthMessage"])
+            return;
+        
         [self openMessageIfAvailableWithEventId:eventId];
     }]];
     

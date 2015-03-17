@@ -9,6 +9,8 @@
 #import "GMButton.h"
 #import "GBIntent.h"
 #import "GMMessage.h"
+#import "GMPlainButton.h"
+#import "GMImageButton.h"
 
 @implementation GMButton
 
@@ -18,7 +20,21 @@
 @synthesize message;
 @synthesize intent;
 
-- (instancetype) initWithDictionary:(NSDictionary *)dictionary {
++ (instancetype)domainWithDictionary:(NSDictionary *)dictionary {
+    
+    GMButton *button = [super domainWithDictionary:dictionary];
+    switch (button.type) {
+        case GMButtonTypePlain:
+            return [GMPlainButton domainWithDictionary:dictionary];
+        case GMButtonTypeImage:
+            return [GMImageButton domainWithDictionary:dictionary];
+        default:
+            return nil;
+    }
+    
+}
+
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     
     self = [super init];
     if (self) {

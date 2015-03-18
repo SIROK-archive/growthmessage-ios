@@ -7,44 +7,94 @@
 //
 
 #import "GMButton.h"
-#import "GMIntent.h"
+#import "GBIntent.h"
+#import "GMMessage.h"
+#import "GMPlainButton.h"
+#import "GMImageButton.h"
 
 @implementation GMButton
 
-@synthesize label;
+@synthesize id;
+@synthesize type;
+@synthesize created;
+@synthesize message;
 @synthesize intent;
-@synthesize event;
+
++ (instancetype)domainWithDictionary:(NSDictionary *)dictionary {
+    
+    GMButton *button = [[self alloc] initWithDictionary:dictionary];
+    switch (button.type) {
+        case GMButtonTypePlain:
+            if ([button isKindOfClass:[GMPlainButton class]])
+                return button;
+            else
+                return [GMPlainButton domainWithDictionary:dictionary];
+        case GMButtonTypeImage:
+            if ([button isKindOfClass:[GMImageButton class]])
+                return button;
+            else
+                return [GMImageButton domainWithDictionary:dictionary];
+        default:
+            return nil;
+    }
+    
+}
+
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary {
+    
+    self = [super init];
+    if (self) {
+        if ([dictionary objectForKey:@"id"] && [dictionary objectForKey:@"id"] != [NSNull null]) {
+            self.id = [dictionary objectForKey:@"id"];
+        }
+        if ([dictionary objectForKey:@"type"] && [dictionary objectForKey:@"type"] != [NSNull null]) {
+            self.type = GMButtonTypeFromNSString([dictionary objectForKey:@"type"]);
+        }
+        if ([dictionary objectForKey:@"created"] && [dictionary objectForKey:@"created"] != [NSNull null]) {
+            self.created = [dictionary objectForKey:@"created"];
+        }
+        if ([dictionary objectForKey:@"message"] && [dictionary objectForKey:@"message"] != [NSNull null]) {
+            self.message = [GMMessage domainWithDictionary:[dictionary objectForKey:@"message"]];
+        }
+        if ([dictionary objectForKey:@"intent"] && [dictionary objectForKey:@"intent"] != [NSNull null]) {
+            self.intent = [GBIntent domainWithDictionary:[dictionary objectForKey:@"intent"]];
+        }
+    }
+    return self;
+    
+}
 
 #pragma mark --
 #pragma mark NSCoding
 
 - (instancetype) initWithCoder:(NSCoder *)aDecoder {
 	self = [super init];
-	if (self) {
-		if ([aDecoder containsValueForKey:@"label"]) {
-			self.label = [aDecoder decodeObjectForKey:@"label"];
-		}
-		if ([aDecoder containsValueForKey:@"intent"]) {
-			self.intent = [aDecoder decodeObjectForKey:@"intent"];
-		}
-		if ([aDecoder containsValueForKey:@"event"]) {
-			self.event = [aDecoder decodeObjectForKey:@"event"];
-		}
+    if (self) {
+        if ([aDecoder containsValueForKey:@"id"]) {
+            self.id = [aDecoder decodeObjectForKey:@"id"];
+        }
+        if ([aDecoder containsValueForKey:@"type"]) {
+            self.type = [aDecoder decodeIntegerForKey:@"type"];
+        }
+        if ([aDecoder containsValueForKey:@"created"]) {
+            self.created = [aDecoder decodeObjectForKey:@"created"];
+        }
+        if ([aDecoder containsValueForKey:@"message"]) {
+            self.message = [aDecoder decodeObjectForKey:@"message"];
+        }
+        if ([aDecoder containsValueForKey:@"intent"]) {
+            self.intent = [aDecoder decodeObjectForKey:@"intent"];
+        }
 	}
 	return self;
 }
 
 - (void) encodeWithCoder:(NSCoder *)aCoder {
-	[aCoder encodeObject:label forKey:@"label"];
-	[aCoder encodeObject:intent forKey:@"intent"];
-	[aCoder encodeObject:event forKey:@"event"];
+    [aCoder encodeObject:id forKey:@"id"];
+    [aCoder encodeInteger:type forKey:@"type"];
+    [aCoder encodeObject:created forKey:@"created"];
+    [aCoder encodeObject:message forKey:@"message"];
+    [aCoder encodeObject:intent forKey:@"intent"];
 }
 
-+ (id)domainWithDictionary:(NSDictionary *)dictionary {
-	GMButton *button = [[GMButton alloc] init];
-	button.label = [dictionary objectForKey:@"label"];
-	button.event = [dictionary objectForKey:@"event"];
-	button.intent = [GMIntent domainWithDictionary:dictionary];
-	return button;
-}
 @end

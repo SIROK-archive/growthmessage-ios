@@ -1,5 +1,5 @@
 //
-//  GMBasicMessageHandler.h
+//  GMPlainMessageHandler.h
 //  GrowthMessage
 //
 //  Created by 堀内 暢之 on 2015/03/03.
@@ -9,6 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "GMMessageHandler.h"
 
-@interface GMBasicMessageHandler : NSObject <GMMessageHandler>
+@interface GMPlainMessageHandler : NSObject <GMMessageHandler>
 
 @end

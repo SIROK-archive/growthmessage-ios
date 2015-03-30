@@ -18,7 +18,6 @@
 
 	```objc
 	[[GrowthMessage sharedInstance] initializeWithApplicationId:@"APPLICATION_ID" credentialId:@"CREDENTIAL_ID"];
-    [[[GrowthMessage sharedInstance] httpClient] setBaseUrl:[NSURL URLWithString:@"http://api.stg.message.growthbeat.com/"]];
 	```
 
 1. Write following code in AppDelegate's applicationDidBecomeActive:
@@ -36,15 +35,6 @@
 1. Import the ViewController header.
 	```objc
 	#import <GrowthMessage/GrowthMessage.h>
-	#import <GrowthMessage/GMBasicMessageHandler.h>
-	#import <GrowthMessage/GMButton.h>
-	#import <GrowthMessage/GMNopeIntentHandler.h>
-	#import <GrowthMessage/GMOpenBrowserIntentHandler.h>
-	```
-
-1. Write following code in @interface ViewController()
-	```objc
-	@interface ViewController () <GrowthMessageDelegate>
 	```
 
 1. Write following code in viewDidAppear

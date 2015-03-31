@@ -36,6 +36,6 @@
 @property (nonatomic, strong) GMTask *task;
 @property (nonatomic, strong) NSArray *buttons;
 
-+ (instancetype)findWithClientId:(NSString *)clientId credentialId:(NSString *)credentialId eventId:(NSString *)eventId;
++ (instancetype)receiveWithClientId:(NSString *)clientId eventId:(NSString *)eventId credentialId:(NSString *)credentialId;
 
 @end

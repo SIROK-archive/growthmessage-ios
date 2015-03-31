@@ -95,7 +95,7 @@ static NSString *const kGBPreferenceDefaultFileName = @"growthmessage-preference
         
         [logger info:@"Check message..."];
         
-		GMMessage *message = [GMMessage findWithClientId:[[[GrowthbeatCore sharedInstance] waitClient] id] credentialId:credentialId eventId:eventId];
+        GMMessage *message = [GMMessage receiveWithClientId:[[[GrowthbeatCore sharedInstance] waitClient] id] eventId:eventId credentialId:credentialId];
 		if(message) {
 			[logger info:@"Message is found. (id: %@)", message.id];
 			dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -110,19 +110,20 @@ static NSString *const kGBPreferenceDefaultFileName = @"growthmessage-preference
 }
 
 - (void)openMessage:(GMMessage *)message {
-	if (!delegate || [delegate shouldShowMessage:message]) {
-		for (id<GMMessageHandler> handler in messageHandlers) {
-			if (![handler handleMessage:message])
-                continue;
-            [[GrowthAnalytics sharedInstance] track:[NSString stringWithFormat:@"Event:%@:GrowthMessage:ShowMessage", applicationId] properties:@{
-                 @"taskId": message.task.id,
-                 @"messageId": message.id
-            }];
-            break;
-		}
-	} else {
-		[logger info:@"Message is found. (id: %@)", message.id];
-	}
+    
+	if (delegate && ![delegate shouldShowMessage:message])
+        return;
+    
+    for (id<GMMessageHandler> handler in messageHandlers) {
+        if (![handler handleMessage:message])
+            continue;
+        [[GrowthAnalytics sharedInstance] track:[NSString stringWithFormat:@"Event:%@:GrowthMessage:ShowMessage", applicationId] properties:@{
+            @"taskId": message.task.id,
+            @"messageId": message.id
+        }];
+        break;
+    }
+    
 }
 
 - (void)didSelectButton:(GMButton *)button message:(GMMessage *)message {

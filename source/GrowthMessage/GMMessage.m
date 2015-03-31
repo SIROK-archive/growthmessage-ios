@@ -26,7 +26,7 @@
 @synthesize task;
 @synthesize buttons;
 
-+ (instancetype)findWithClientId:(NSString *)clientId credentialId:(NSString *)credentialId eventId:(NSString *)eventId {
++ (instancetype)receiveWithClientId:(NSString *)clientId eventId:(NSString *)eventId credentialId:(NSString *)credentialId {
     
     NSString *path = @"/1/receive";
     NSMutableDictionary *body = [NSMutableDictionary dictionary];
@@ -34,25 +34,27 @@
     if (clientId) {
         [body setObject:clientId forKey:@"clientId"];
     }
+    if (eventId) {
+        [body setObject:eventId forKey:@"eventId"];
+    }
     if (credentialId) {
         [body setObject:credentialId forKey:@"credentialId"];
     }
-	if (eventId) {
-		[body setObject:eventId forKey:@"eventId"];
-	}
     
     GBHttpRequest *httpRequest = [GBHttpRequest instanceWithMethod:GBRequestMethodPost path:path query:nil body:body];
     GBHttpResponse *httpResponse = [[[GrowthMessage sharedInstance] httpClient] httpRequest:httpRequest];
     if(!httpResponse.success){
-        [[[GrowthMessage sharedInstance] logger] error:@"Failed to find message. %@", httpResponse.error?httpResponse.error:[httpResponse.body objectForKey:@"message"]];
+        [[[GrowthMessage sharedInstance] logger] error:@"Failed to receive message. %@", httpResponse.error?httpResponse.error:[httpResponse.body objectForKey:@"message"]];
         return nil;
-	} else if (! httpResponse.body) {
-		[[[GrowthMessage sharedInstance] logger] info:@"message not available"];
-		return nil;
-	} else {
-		[[[GrowthMessage sharedInstance] logger] info:@"got a message %@", httpResponse.body];
-	}
-	
+    }
+    
+    if (!httpResponse.body) {
+        [[[GrowthMessage sharedInstance] logger] info:@"No message is received."];
+        return nil;
+    }
+    
+    [[[GrowthMessage sharedInstance] logger] info:@"A message is received."];
+    
     return [GMMessage domainWithDictionary:httpResponse.body];
     
 }

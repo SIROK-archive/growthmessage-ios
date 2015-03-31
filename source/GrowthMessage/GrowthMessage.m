@@ -138,7 +138,7 @@ static NSString *const kGBPreferenceDefaultFileName = @"growthmessage-preference
     [[GrowthAnalytics sharedInstance] track:[NSString stringWithFormat:@"Event:%@:GrowthMessage:SelectButton", applicationId] properties:@{
         @"taskId": message.task.id,
         @"messageId": message.id,
-        @"buttonId": button.id
+        @"intentId": button.intent.id
     }];
     
 }

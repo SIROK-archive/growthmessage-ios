@@ -1,6 +1,6 @@
 # Growth Message SDK for iOS
 
-[Growth Message](https://message.growthbeat.com/) is message service for mobile apps.
+[Growth Message](https://message.growthbeat.com/) in-app message service for mobile apps.
 
 ## Usage 
 
@@ -58,7 +58,7 @@ You can use Growthbeat SDK instead of this SDK. Growthbeat is growth hack tool f
 
 # Building framework
 
-1. Set build target to GrowthAnalyticsFramework and iOS Device.
+1. Set build target to GrowthMessageFramework and iOS Device.
 1. Run.
 
 ## License

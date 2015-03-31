@@ -14,12 +14,11 @@
     
     NSString *id;
 	NSInteger version;
-    NSString *name;
     GMMessageType type;
     NSString *eventId;
+    NSInteger frequency;
     NSString *segmentId;
-    NSDate *availableFrom;
-    NSDate *availableTo;
+    NSInteger cap;
     NSDate *created;
     GMTask *task;
     NSArray *buttons;
@@ -28,12 +27,11 @@
 
 @property (nonatomic, strong) NSString *id;
 @property (nonatomic, assign) NSInteger version;
-@property (nonatomic, strong) NSString *name;
 @property (nonatomic, assign) GMMessageType type;
 @property (nonatomic, strong) NSString *eventId;
+@property (nonatomic, assign) NSInteger frequency;
 @property (nonatomic, strong) NSString *segmentId;
-@property (nonatomic, strong) NSDate *availableFrom;
-@property (nonatomic, strong) NSDate *availableTo;
+@property (nonatomic, assign) NSInteger cap;
 @property (nonatomic, strong) NSDate *created;
 @property (nonatomic, strong) GMTask *task;
 @property (nonatomic, strong) NSArray *buttons;

@@ -14,7 +14,6 @@
 
 @implementation GMButton
 
-@synthesize id;
 @synthesize type;
 @synthesize created;
 @synthesize message;
@@ -44,9 +43,6 @@
     
     self = [super init];
     if (self) {
-        if ([dictionary objectForKey:@"id"] && [dictionary objectForKey:@"id"] != [NSNull null]) {
-            self.id = [dictionary objectForKey:@"id"];
-        }
         if ([dictionary objectForKey:@"type"] && [dictionary objectForKey:@"type"] != [NSNull null]) {
             self.type = GMButtonTypeFromNSString([dictionary objectForKey:@"type"]);
         }
@@ -70,9 +66,6 @@
 - (instancetype) initWithCoder:(NSCoder *)aDecoder {
 	self = [super init];
     if (self) {
-        if ([aDecoder containsValueForKey:@"id"]) {
-            self.id = [aDecoder decodeObjectForKey:@"id"];
-        }
         if ([aDecoder containsValueForKey:@"type"]) {
             self.type = [aDecoder decodeIntegerForKey:@"type"];
         }
@@ -90,7 +83,6 @@
 }
 
 - (void) encodeWithCoder:(NSCoder *)aCoder {
-    [aCoder encodeObject:id forKey:@"id"];
     [aCoder encodeInteger:type forKey:@"type"];
     [aCoder encodeObject:created forKey:@"created"];
     [aCoder encodeObject:message forKey:@"message"];

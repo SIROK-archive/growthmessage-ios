@@ -29,7 +29,7 @@
 
 + (instancetype)findWithClientId:(NSString *)clientId credentialId:(NSString *)credentialId eventId:(NSString *)eventId {
     
-    NSString *path = @"/0/message";
+    NSString *path = @"/1/receive";
     NSMutableDictionary *body = [NSMutableDictionary dictionary];
     
     if (clientId) {

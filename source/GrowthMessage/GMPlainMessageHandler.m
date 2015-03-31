@@ -51,10 +51,9 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     __strong GMPlainMessage *plainMessage = objc_getAssociatedObject(alertView, "gm_message");
-    GrowthMessage *manager = objc_getAssociatedObject(alertView, "gm_manager");
     objc_setAssociatedObject(alertView, "gm_message", nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     
-    [manager didSelectButton:[plainMessage.buttons objectAtIndex:buttonIndex] message:plainMessage];
+    [[GrowthMessage sharedInstance] didSelectButton:[plainMessage.buttons objectAtIndex:buttonIndex] message:plainMessage];
 }
 
 @end

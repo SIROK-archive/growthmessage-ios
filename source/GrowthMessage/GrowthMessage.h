@@ -25,9 +25,7 @@
 
 - (void)initializeWithApplicationId:(NSString *)applicationId credentialId:(NSString *)credentialId;
 
-- (void)openMessageIfAvailableWithEventId:(NSString*)eventId;
-
-- (void)didSelectButton:(GMButton*)button message:(GMMessage*)message;
+- (void)didSelectButton:(GMButton *)button message:(GMMessage *)message;
 
 - (GBLogger *)logger;
 - (GBHttpClient *)httpClient;

@@ -12,7 +12,6 @@
 
 @protocol GrowthMessageDelegate <NSObject>
 
-// this is, for example, to prevent an message showing up while playing game;
-- (BOOL)shouldShowMessage:(GMMessage*)message manager:(GrowthMessage*)manager;
+- (BOOL)shouldShowMessage:(GMMessage *)message;
 
 @end

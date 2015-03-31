@@ -112,19 +112,16 @@ static NSString *const kGBPreferenceDefaultFileName = @"growthmessage-preference
 
 }
 
-- (void)openMessage:(GMMessage*)message {
-	__weak typeof(self) __weak_self = self;
-	if ((! __weak_self.delegate) || [__weak_self.delegate shouldShowMessage:message manager:__weak_self]) {
-		for (id<GMMessageHandler> handler in __weak_self.messageHandlers) {
-			if ([handler handleMessage:message manager:__weak_self]) {
-                [[GrowthAnalytics sharedInstance] track:[NSString stringWithFormat:@"Event:%@:GrowthMessage:ShowMessage", applicationId] properties:@{
-                    @"taskId": message.task.id,
-                    @"messageId": message.id
-                }];
-				break;
-			} else {
-				//not handled by the handler, continue...
-			}
+- (void)openMessage:(GMMessage *)message {
+	if (!delegate || [delegate shouldShowMessage:message]) {
+		for (id<GMMessageHandler> handler in messageHandlers) {
+			if (![handler handleMessage:message])
+                continue;
+            [[GrowthAnalytics sharedInstance] track:[NSString stringWithFormat:@"Event:%@:GrowthMessage:ShowMessage", applicationId] properties:@{
+                 @"taskId": message.task.id,
+                 @"messageId": message.id
+            }];
+            break;
 		}
 	} else {
 		[logger info:@"Message is found. (id: %@)", message.id];

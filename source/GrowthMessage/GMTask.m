@@ -15,6 +15,9 @@
 @synthesize applicationId;
 @synthesize name;
 @synthesize description;
+@synthesize availableFrom;
+@synthesize availableTo;
+@synthesize disabled;
 @synthesize created;
 @synthesize updated;
 
@@ -33,6 +36,15 @@
         }
         if ([dictionary objectForKey:@"description"] && [dictionary objectForKey:@"description"] != [NSNull null]) {
             self.description = [dictionary objectForKey:@"description"];
+        }
+        if ([dictionary objectForKey:@"availableFrom"] && [dictionary objectForKey:@"availableFrom"] != [NSNull null]) {
+            self.availableFrom = [dictionary objectForKey:@"availableFrom"];
+        }
+        if ([dictionary objectForKey:@"availableTo"] && [dictionary objectForKey:@"availableTo"] != [NSNull null]) {
+            self.availableTo = [dictionary objectForKey:@"availableTo"];
+        }
+        if ([dictionary objectForKey:@"disabled"] && [dictionary objectForKey:@"disabled"] != [NSNull null]) {
+            self.disabled = [[dictionary objectForKey:@"disabled"] boolValue];
         }
         if ([dictionary objectForKey:@"created"] && [dictionary objectForKey:@"created"] != [NSNull null]) {
             self.created = [GBDateUtils dateWithDateTimeString:[dictionary objectForKey:@"created"]];
@@ -63,6 +75,15 @@
         if ([aDecoder containsValueForKey:@"description"]) {
             self.description = [aDecoder decodeObjectForKey:@"description"];
         }
+        if ([aDecoder containsValueForKey:@"availableFrom"]) {
+            self.availableFrom = [aDecoder decodeObjectForKey:@"availableFrom"];
+        }
+        if ([aDecoder containsValueForKey:@"availableTo"]) {
+            self.availableTo = [aDecoder decodeObjectForKey:@"availableTo"];
+        }
+        if ([aDecoder containsValueForKey:@"disabled"]) {
+            self.disabled = [aDecoder decodeBoolForKey:@"disabled"];
+        }
         if ([aDecoder containsValueForKey:@"created"]) {
             self.created = [aDecoder decodeObjectForKey:@"created"];
         }
@@ -78,6 +99,9 @@
     [aCoder encodeObject:applicationId forKey:@"applicationId"];
     [aCoder encodeObject:name forKey:@"name"];
     [aCoder encodeObject:description forKey:@"description"];
+    [aCoder encodeObject:availableFrom forKey:@"availableFrom"];
+    [aCoder encodeObject:availableTo forKey:@"availableTo"];
+    [aCoder encodeBool:disabled forKey:@"disabled"];
     [aCoder encodeObject:created forKey:@"created"];
     [aCoder encodeObject:updated forKey:@"updated"];
 }

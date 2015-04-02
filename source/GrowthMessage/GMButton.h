@@ -14,7 +14,6 @@
 
 @interface GMButton : GBDomain <NSCoding> {
 
-    NSString *id;
     GMButtonType type;
     NSDate *created;
     GMMessage *message;
@@ -22,7 +21,6 @@
 	
 }
 
-@property (nonatomic, strong) NSString *id;
 @property (nonatomic, assign) GMButtonType type;
 @property (nonatomic, strong) NSDate *created;
 @property (nonatomic, strong) GMMessage *message;

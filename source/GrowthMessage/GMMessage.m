@@ -17,43 +17,44 @@
 
 @synthesize id;
 @synthesize version;
-@synthesize name;
 @synthesize type;
 @synthesize eventId;
+@synthesize frequency;
 @synthesize segmentId;
-@synthesize availableFrom;
-@synthesize availableTo;
+@synthesize cap;
 @synthesize created;
 @synthesize task;
 @synthesize buttons;
 
-+ (instancetype)findWithClientId:(NSString *)clientId credentialId:(NSString *)credentialId eventId:(NSString *)eventId {
++ (instancetype)receiveWithClientId:(NSString *)clientId eventId:(NSString *)eventId credentialId:(NSString *)credentialId {
     
-    NSString *path = @"/0/message";
+    NSString *path = @"/1/receive";
     NSMutableDictionary *body = [NSMutableDictionary dictionary];
     
     if (clientId) {
         [body setObject:clientId forKey:@"clientId"];
     }
+    if (eventId) {
+        [body setObject:eventId forKey:@"eventId"];
+    }
     if (credentialId) {
         [body setObject:credentialId forKey:@"credentialId"];
     }
-	if (eventId) {
-		[body setObject:eventId forKey:@"eventId"];
-	}
     
     GBHttpRequest *httpRequest = [GBHttpRequest instanceWithMethod:GBRequestMethodPost path:path query:nil body:body];
     GBHttpResponse *httpResponse = [[[GrowthMessage sharedInstance] httpClient] httpRequest:httpRequest];
     if(!httpResponse.success){
-        [[[GrowthMessage sharedInstance] logger] error:@"Failed to find message. %@", httpResponse.error?httpResponse.error:[httpResponse.body objectForKey:@"message"]];
+        [[[GrowthMessage sharedInstance] logger] error:@"Failed to receive message. %@", httpResponse.error?httpResponse.error:[httpResponse.body objectForKey:@"message"]];
         return nil;
-	} else if (! httpResponse.body) {
-		[[[GrowthMessage sharedInstance] logger] info:@"message not available"];
-		return nil;
-	} else {
-		[[[GrowthMessage sharedInstance] logger] info:@"got a message %@", httpResponse.body];
-	}
-	
+    }
+    
+    if (!httpResponse.body) {
+        [[[GrowthMessage sharedInstance] logger] info:@"No message is received."];
+        return nil;
+    }
+    
+    [[[GrowthMessage sharedInstance] logger] info:@"A message is received."];
+    
     return [GMMessage domainWithDictionary:httpResponse.body];
     
 }
@@ -88,23 +89,20 @@
         if ([dictionary objectForKey:@"version"] && [dictionary objectForKey:@"version"] != [NSNull null]) {
             self.version = [[dictionary objectForKey:@"version"] integerValue];
         }
-        if ([dictionary objectForKey:@"name"] && [dictionary objectForKey:@"name"] != [NSNull null]) {
-            self.name = [dictionary objectForKey:@"name"];
-        }
         if ([dictionary objectForKey:@"type"] && [dictionary objectForKey:@"type"] != [NSNull null]) {
             self.type = GMMessageTypeFromNSString([dictionary objectForKey:@"type"]);
         }
         if ([dictionary objectForKey:@"eventId"] && [dictionary objectForKey:@"eventId"] != [NSNull null]) {
             self.eventId = [dictionary objectForKey:@"eventId"];
         }
+        if ([dictionary objectForKey:@"frequency"] && [dictionary objectForKey:@"frequency"] != [NSNull null]) {
+            self.frequency = [[dictionary objectForKey:@"frequency"] integerValue];
+        }
         if ([dictionary objectForKey:@"segmentId"] && [dictionary objectForKey:@"segmentId"] != [NSNull null]) {
             self.segmentId = [dictionary objectForKey:@"segmentId"];
         }
-        if ([dictionary objectForKey:@"availableFrom"] && [dictionary objectForKey:@"availableFrom"] != [NSNull null]) {
-            self.availableFrom = [dictionary objectForKey:@"availableFrom"];
-        }
-        if ([dictionary objectForKey:@"availableTo"] && [dictionary objectForKey:@"availableTo"] != [NSNull null]) {
-            self.availableTo = [dictionary objectForKey:@"availableTo"];
+        if ([dictionary objectForKey:@"cap"] && [dictionary objectForKey:@"cap"] != [NSNull null]) {
+            self.cap = [[dictionary objectForKey:@"cap"] integerValue];
         }
         if ([dictionary objectForKey:@"created"] && [dictionary objectForKey:@"created"] != [NSNull null]) {
             self.created = [dictionary objectForKey:@"created"];
@@ -136,29 +134,29 @@
 		if ([aDecoder containsValueForKey:@"version"]) {
 			self.version = [aDecoder decodeIntegerForKey:@"version"];
         }
-        if ([aDecoder containsValueForKey:@"name"]) {
-            self.name = [aDecoder decodeObjectForKey:@"name"];
-        }
         if ([aDecoder containsValueForKey:@"type"]) {
             self.type = [aDecoder decodeIntegerForKey:@"type"];
         }
         if ([aDecoder containsValueForKey:@"eventId"]) {
             self.eventId = [aDecoder decodeObjectForKey:@"eventId"];
         }
+        if ([aDecoder containsValueForKey:@"frequency"]) {
+            self.frequency = [aDecoder decodeIntegerForKey:@"frequency"];
+        }
         if ([aDecoder containsValueForKey:@"segmentId"]) {
             self.segmentId = [aDecoder decodeObjectForKey:@"segmentId"];
         }
-        if ([aDecoder containsValueForKey:@"availableFrom"]) {
-            self.availableFrom = [aDecoder decodeObjectForKey:@"availableFrom"];
-        }
-        if ([aDecoder containsValueForKey:@"availableTo"]) {
-            self.availableTo = [aDecoder decodeObjectForKey:@"availableTo"];
+        if ([aDecoder containsValueForKey:@"cap"]) {
+            self.cap = [aDecoder decodeIntegerForKey:@"cap"];
         }
         if ([aDecoder containsValueForKey:@"created"]) {
             self.created = [aDecoder decodeObjectForKey:@"created"];
         }
         if ([aDecoder containsValueForKey:@"task"]) {
-            self.task = [GMTask domainWithDictionary:[aDecoder decodeObjectForKey:@"task"]];
+            self.task = [aDecoder decodeObjectForKey:@"task"];
+        }
+        if ([aDecoder containsValueForKey:@"buttons"]) {
+            self.buttons = [aDecoder decodeObjectForKey:@"buttons"];
         }
     }
     return self;
@@ -167,14 +165,14 @@
 - (void) encodeWithCoder:(NSCoder *)aCoder {
 	[aCoder encodeObject:id forKey:@"id"];
 	[aCoder encodeInteger:version forKey:@"version"];
-	[aCoder encodeObject:name forKey:@"name"];
     [aCoder encodeInteger:type forKey:@"type"];
     [aCoder encodeObject:eventId forKey:@"eventId"];
+    [aCoder encodeInteger:frequency forKey:@"frequency"];
     [aCoder encodeObject:segmentId forKey:@"segmentId"];
-    [aCoder encodeObject:availableFrom forKey:@"availableFrom"];
-    [aCoder encodeObject:availableTo forKey:@"availableTo"];
+    [aCoder encodeInteger:cap forKey:@"cap"];
     [aCoder encodeObject:created forKey:@"created"];
     [aCoder encodeObject:task forKey:@"task"];
+    [aCoder encodeObject:buttons forKey:@"buttons"];
 }
 
 

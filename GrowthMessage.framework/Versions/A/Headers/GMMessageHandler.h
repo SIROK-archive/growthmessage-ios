@@ -11,6 +11,6 @@
 
 @protocol GMMessageHandler <NSObject>
 
-- (BOOL)handleMessage:(GMMessage*)message manager:(GrowthMessage*)manager;
+- (BOOL)handleMessage:(GMMessage *)message;
 
 @end

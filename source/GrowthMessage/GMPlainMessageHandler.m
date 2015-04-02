@@ -20,7 +20,7 @@
 
 @implementation GMPlainMessageHandler
 
-- (BOOL)handleMessage:(GMMessage *)message manager:(GrowthMessage*)manager {
+- (BOOL)handleMessage:(GMMessage *)message {
     
     if (message.type != GMMessageTypePlain)
         return NO;
@@ -34,7 +34,6 @@
         //TODO: UIAlertController support
         UIAlertView *alertView = [[UIAlertView alloc] init];
         objc_setAssociatedObject(alertView, "gm_message", message, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-        objc_setAssociatedObject(alertView, "gm_manager", manager, OBJC_ASSOCIATION_ASSIGN);
         
         alertView.delegate = self;
         alertView.title = plainMessage.caption;
@@ -52,11 +51,9 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     __strong GMPlainMessage *plainMessage = objc_getAssociatedObject(alertView, "gm_message");
-    GrowthMessage *manager = objc_getAssociatedObject(alertView, "gm_manager");
     objc_setAssociatedObject(alertView, "gm_message", nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    objc_setAssociatedObject(alertView, "gm_manager", nil, OBJC_ASSOCIATION_ASSIGN);
     
-    [manager didSelectButton:[plainMessage.buttons objectAtIndex:buttonIndex] message:plainMessage];
+    [[GrowthMessage sharedInstance] didSelectButton:[plainMessage.buttons objectAtIndex:buttonIndex] message:plainMessage];
 }
 
 @end

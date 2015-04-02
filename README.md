@@ -20,31 +20,20 @@
 	[[GrowthMessage sharedInstance] initializeWithApplicationId:@"APPLICATION_ID" credentialId:@"CREDENTIAL_ID"];
 	```
 
-1. Write following code in AppDelegate's applicationDidBecomeActive:
+1. Write following code in the place to display a message.
 
 	```objc
-    [[GrowthAnalytics sharedInstance] open];
+    [[GrowthAnalytics sharedInstance] track:@"EVENT_ID"];
 	```
 
-1. Write following code in AppDelegate's applicationWillResignActive:
+1. (Optional) You can use GrowthMessageDelegate to prevent message from being shown in game screen.
 
-	```objc
-	[[GrowthAnalytics sharedInstance] close];
-	```
-
-1. Import the ViewController header.
-	```objc
-	#import <GrowthMessage/GrowthMessage.h>
-	```
-
-1. Write following code in viewDidAppear
 	```objc
 	[[GrowthMessage sharedInstance] setDelegate:self];
 	```
 
-1. Add following method code in ViewController.m
 	```objc
-	- (BOOL)shouldShowMessage:(GMMessage *)message manager:(GrowthMessage *)manager {
+	- (BOOL)shouldShowMessage:(GMMessage *)message {
 		return YES;
 	}
 	```

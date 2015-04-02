@@ -27,7 +27,7 @@
 #pragma mark --
 #pragma mark GrowthMessageDelegate
 
-- (BOOL)shouldShowMessage:(GMMessage *)message manager:(GrowthMessage *)manager {
+- (BOOL)shouldShowMessage:(GMMessage *)message {
 	return YES;
 }
 

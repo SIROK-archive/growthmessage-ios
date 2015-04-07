@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "GrowthbeatCore.h"
-#import "GrowthMessageDelegate.h"
 #import "GMMessageHandler.h"
 #import "GMButton.h"
 
@@ -20,7 +19,6 @@
 
 + (instancetype)sharedInstance;
 
-@property (nonatomic, assign) id<GrowthMessageDelegate> delegate;
 @property (nonatomic, strong) NSArray *messageHandlers;
 
 - (void)initializeWithApplicationId:(NSString *)applicationId credentialId:(NSString *)credentialId;

@@ -46,7 +46,6 @@
 		EBB971181AA593C3008ABE6C /* GMButton.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = EBB971101AA588D0008ABE6C /* GMButton.h */; };
 		EBB971191AA593C3008ABE6C /* GMMessage.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B2C148301AA45D8100006EC3 /* GMMessage.h */; };
 		EBB9711A1AA593C3008ABE6C /* GMMessageHandler.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = EBB971131AA58B9F008ABE6C /* GMMessageHandler.h */; };
-		EBB9711B1AA593C3008ABE6C /* GrowthMessageDelegate.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = EBB971141AA58D2C008ABE6C /* GrowthMessageDelegate.h */; };
 		EBB9711C1AA593C3008ABE6C /* GMPlainMessageHandler.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = EBB971151AA5910C008ABE6C /* GMPlainMessageHandler.h */; };
 /* End PBXBuildFile section */
 
@@ -77,7 +76,6 @@
 				EBB971181AA593C3008ABE6C /* GMButton.h in CopyFiles */,
 				EBB971191AA593C3008ABE6C /* GMMessage.h in CopyFiles */,
 				EBB9711A1AA593C3008ABE6C /* GMMessageHandler.h in CopyFiles */,
-				EBB9711B1AA593C3008ABE6C /* GrowthMessageDelegate.h in CopyFiles */,
 				EBB9711C1AA593C3008ABE6C /* GMPlainMessageHandler.h in CopyFiles */,
 				B2C1480D1AA456F300006EC3 /* GrowthMessage.h in CopyFiles */,
 			);
@@ -110,7 +108,6 @@
 		EBB971101AA588D0008ABE6C /* GMButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMButton.h; sourceTree = "<group>"; };
 		EBB971111AA588D0008ABE6C /* GMButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMButton.m; sourceTree = "<group>"; };
 		EBB971131AA58B9F008ABE6C /* GMMessageHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GMMessageHandler.h; sourceTree = "<group>"; };
-		EBB971141AA58D2C008ABE6C /* GrowthMessageDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GrowthMessageDelegate.h; sourceTree = "<group>"; };
 		EBB971151AA5910C008ABE6C /* GMPlainMessageHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMPlainMessageHandler.h; sourceTree = "<group>"; };
 		EBB971161AA5910C008ABE6C /* GMPlainMessageHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMPlainMessageHandler.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -169,7 +166,6 @@
 				EBB971151AA5910C008ABE6C /* GMPlainMessageHandler.h */,
 				B2AC252A1AB594AF008ED20B /* GMTask.h */,
 				B2C1480C1AA456F300006EC3 /* GrowthMessage.h */,
-				EBB971141AA58D2C008ABE6C /* GrowthMessageDelegate.h */,
 			);
 			name = Headers;
 			sourceTree = "<group>";

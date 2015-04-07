@@ -40,8 +40,6 @@ static NSString *const kGBPreferenceDefaultFileName = @"growthmessage-preference
 @end
 
 @implementation GrowthMessage
-
-@synthesize delegate;
 @synthesize messageHandlers;
 
 @synthesize logger;
@@ -113,10 +111,6 @@ static NSString *const kGBPreferenceDefaultFileName = @"growthmessage-preference
 }
 
 - (void) openMessage:(GMMessage *)message {
-
-    if (delegate && ![delegate shouldShowMessage:message]) {
-        return;
-    }
 
     for (id<GMMessageHandler> handler in messageHandlers) {
 

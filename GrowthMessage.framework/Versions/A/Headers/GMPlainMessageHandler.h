@@ -9,6 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "GMMessageHandler.h"
 
-@interface GMPlainMessageHandler : NSObject <GMMessageHandler>
+@interface GMPlainMessageHandler : NSObject <GMMessageHandler, UIAlertViewDelegate>
 
 @end

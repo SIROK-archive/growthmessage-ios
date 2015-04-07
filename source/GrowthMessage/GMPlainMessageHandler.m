@@ -9,26 +9,25 @@
 #import "GMPlainMessageHandler.h"
 #import "GMPlainMessage.h"
 #import "GMPlainButton.h"
-#import "GMPlainMessageHandlerCallbackHandler.h"
 
 @interface GMPlainMessageHandler () {
  
-    GMPlainMessageHandlerCallbackHandler *callbackHandler;
+    NSMutableDictionary *plainMessages;
     
 }
 
-@property (nonatomic, strong) GMPlainMessageHandlerCallbackHandler *callbackHandler;
+@property (nonatomic, strong) NSMutableDictionary *plainMessages;
 
 @end
 
 @implementation GMPlainMessageHandler
 
-@synthesize callbackHandler;
+@synthesize plainMessages;
 
 - (instancetype)init {
     self = [super init];
     if (self) {
-        self.callbackHandler = [[GMPlainMessageHandlerCallbackHandler alloc] init];
+        self.plainMessages = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
@@ -44,9 +43,9 @@
     GMPlainMessage *plainMessage = (GMPlainMessage *)message;
     
     UIAlertView *alertView = [[UIAlertView alloc] init];
+    [plainMessages setObject:plainMessage forKey:[NSValue valueWithNonretainedObject:alertView]];
     
-    callbackHandler.plainMessage = plainMessage;
-    alertView.delegate = callbackHandler;
+    alertView.delegate = self;
     alertView.title = plainMessage.caption;
     alertView.message = plainMessage.text;
     
@@ -58,6 +57,20 @@
     [alertView show];
     
     return YES;
+    
+}
+
+#pragma mark --
+#pragma mark UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    GMPlainMessage *plainMessage = [plainMessages objectForKey:[NSValue valueWithNonretainedObject:alertView]];
+    GMButton *button = [plainMessage.buttons objectAtIndex:buttonIndex];
+    
+    [[GrowthMessage sharedInstance] didSelectButton:button message:plainMessage];
+    
+    [plainMessages removeObjectForKey:[NSValue valueWithNonretainedObject:alertView]];
     
 }
 

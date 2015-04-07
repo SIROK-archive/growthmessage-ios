@@ -97,8 +97,8 @@ static NSString *const kGBPreferenceDefaultFileName = @"growthmessage-preference
         
         GMMessage *message = [GMMessage receiveWithClientId:[[[GrowthbeatCore sharedInstance] waitClient] id] eventId:eventId credentialId:credentialId];
 		if(message) {
-			[logger info:@"Message is found. (id: %@)", message.id];
-			dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [logger info:@"Message is found. (id: %@)", message.id];
+            dispatch_async(dispatch_get_main_queue(), ^{
 				[self openMessage: message];
 			});
         } else {

@@ -14,7 +14,7 @@
 @synthesize text;
 
 - (instancetype) initWithDictionary:(NSDictionary *)dictionary {
-    
+
     self = [super initWithDictionary:dictionary];
     if (self) {
         if ([dictionary objectForKey:@"caption"] && [dictionary objectForKey:@"caption"] != [NSNull null]) {
@@ -25,7 +25,7 @@
         }
     }
     return self;
-    
+
 }
 
 #pragma mark --

@@ -9,9 +9,9 @@
 #import "GMMessage.h"
 
 @interface GMImageMessage : GMMessage {
-    
+
     NSString *url;
-    
+
 }
 
 @property (nonatomic, strong) NSString *url;

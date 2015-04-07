@@ -9,10 +9,10 @@
 #import "GMMessage.h"
 
 @interface GMPlainMessage : GMMessage {
-    
+
     NSString *caption;
     NSString *text;
-    
+
 }
 
 @property (nonatomic, strong) NSString *caption;

@@ -11,9 +11,9 @@
 #import "GMPlainButton.h"
 
 @interface GMPlainMessageHandler () {
- 
+
     NSMutableDictionary *plainMessages;
-    
+
 }
 
 @property (nonatomic, strong) NSMutableDictionary *plainMessages;
@@ -24,7 +24,7 @@
 
 @synthesize plainMessages;
 
-- (instancetype)init {
+- (instancetype) init {
     self = [super init];
     if (self) {
         self.plainMessages = [[NSMutableDictionary alloc] init];
@@ -32,46 +32,48 @@
     return self;
 }
 
-- (BOOL)handleMessage:(GMMessage *)message {
-    
-    if (message.type != GMMessageTypePlain)
+- (BOOL) handleMessage:(GMMessage *)message {
+
+    if (message.type != GMMessageTypePlain) {
         return NO;
-    
-    if (![message isKindOfClass:[GMPlainMessage class]])
+    }
+
+    if (![message isKindOfClass:[GMPlainMessage class]]) {
         return NO;
-    
+    }
+
     GMPlainMessage *plainMessage = (GMPlainMessage *)message;
-    
+
     UIAlertView *alertView = [[UIAlertView alloc] init];
     [plainMessages setObject:plainMessage forKey:[NSValue valueWithNonretainedObject:alertView]];
-    
+
     alertView.delegate = self;
     alertView.title = plainMessage.caption;
     alertView.message = plainMessage.text;
-    
+
     for (GMButton *button in plainMessage.buttons) {
         GMPlainButton *plainButton = (GMPlainButton *)button;
         [alertView addButtonWithTitle:plainButton.label];
     }
-    
+
     [alertView show];
-    
+
     return YES;
-    
+
 }
 
 #pragma mark --
 #pragma mark UIAlertViewDelegate
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    
+- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+
     GMPlainMessage *plainMessage = [plainMessages objectForKey:[NSValue valueWithNonretainedObject:alertView]];
     GMButton *button = [plainMessage.buttons objectAtIndex:buttonIndex];
-    
-    [[GrowthMessage sharedInstance] didSelectButton:button message:plainMessage];
-    
+
+    [[GrowthMessage sharedInstance] selectButton:button message:plainMessage];
+
     [plainMessages removeObjectForKey:[NSValue valueWithNonretainedObject:alertView]];
-    
+
 }
 
 @end

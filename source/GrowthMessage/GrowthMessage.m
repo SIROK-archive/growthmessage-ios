@@ -25,6 +25,8 @@ static NSString *const kGBPreferenceDefaultFileName = @"growthmessage-preference
 
     NSString *applicationId;
     NSString *credentialId;
+    
+    BOOL initialized;
 
 }
 
@@ -35,11 +37,14 @@ static NSString *const kGBPreferenceDefaultFileName = @"growthmessage-preference
 @property (nonatomic, strong) NSString *applicationId;
 @property (nonatomic, strong) NSString *credentialId;
 
+@property (nonatomic, assign) BOOL initialized;
+
 - (void) openMessage:(GMMessage *)message;
 
 @end
 
 @implementation GrowthMessage
+
 @synthesize messageHandlers;
 
 @synthesize logger;
@@ -48,6 +53,8 @@ static NSString *const kGBPreferenceDefaultFileName = @"growthmessage-preference
 
 @synthesize applicationId;
 @synthesize credentialId;
+
+@synthesize initialized;
 
 + (instancetype) sharedInstance {
     @synchronized(self) {
@@ -67,25 +74,31 @@ static NSString *const kGBPreferenceDefaultFileName = @"growthmessage-preference
         self.logger = [[GBLogger alloc] initWithTag:kGBLoggerDefaultTag];
         self.httpClient = [[GBHttpClient alloc] initWithBaseUrl:[NSURL URLWithString:kGBHttpClientDefaultBaseUrl]];
         self.preference = [[GBPreference alloc] initWithFileName:kGBPreferenceDefaultFileName];
+        self.initialized = NO;
     }
     return self;
 }
 
 - (void) initializeWithApplicationId:(NSString *)newApplicationId credentialId:(NSString *)newCredentialId {
-
+    
+    if (initialized) {
+        return;
+    }
+    initialized = YES;
+    
     self.applicationId = newApplicationId;
     self.credentialId = newCredentialId;
-
+    
     [[GrowthbeatCore sharedInstance] initializeWithApplicationId:applicationId credentialId:credentialId];
-
     [[GrowthAnalytics sharedInstance] initializeWithApplicationId:applicationId credentialId:credentialId];
+    
     [[GrowthAnalytics sharedInstance] addEventHandler:[[GAEventHandler alloc] initWithCallback:^(NSString *eventId, NSDictionary *properties) {
         if ([eventId hasPrefix:[NSString stringWithFormat:@"Event:%@:GrowthMessage", applicationId]]) {
             return;
         }
         [self receiveMessageWithEventId:eventId];
     }]];
-
+    
     self.messageHandlers = [NSArray arrayWithObjects:[[GMPlainMessageHandler alloc] init], nil];
 
 }

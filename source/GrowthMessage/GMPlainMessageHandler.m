@@ -6,54 +6,59 @@
 //  Copyright (c) 2015年 SIROK, Inc. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import <objc/runtime.h>
 #import "GMPlainMessageHandler.h"
-#import "GMButton.h"
-#import "GrowthMessage.h"
 #import "GMPlainMessage.h"
 #import "GMPlainButton.h"
+#import "GMPlainMessageHandlerCallbackHandler.h"
 
-@interface GMPlainMessageHandler() <UIAlertViewDelegate>
+@interface GMPlainMessageHandler () {
+ 
+    GMPlainMessageHandlerCallbackHandler *callbackHandler;
+    
+}
+
+@property (nonatomic, strong) GMPlainMessageHandlerCallbackHandler *callbackHandler;
 
 @end
 
 @implementation GMPlainMessageHandler
 
+@synthesize callbackHandler;
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        self.callbackHandler = [[GMPlainMessageHandlerCallbackHandler alloc] init];
+    }
+    return self;
+}
+
 - (BOOL)handleMessage:(GMMessage *)message {
     
     if (message.type != GMMessageTypePlain)
         return NO;
+    
     if (![message isKindOfClass:[GMPlainMessage class]])
         return NO;
     
     GMPlainMessage *plainMessage = (GMPlainMessage *)message;
     
-    //let's show the message
-    dispatch_async(dispatch_get_main_queue(), ^{
-        //TODO: UIAlertController support
-        UIAlertView *alertView = [[UIAlertView alloc] init];
-        objc_setAssociatedObject(alertView, "gm_message", message, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-        
-        alertView.delegate = self;
-        alertView.title = plainMessage.caption;
-        alertView.message = plainMessage.text;
-        for (GMPlainButton *plainButton in plainMessage.buttons) {
-            [alertView addButtonWithTitle:plainButton.label];
-        }
-        [alertView show];
-    });
+    UIAlertView *alertView = [[UIAlertView alloc] init];
+    
+    callbackHandler.plainMessage = plainMessage;
+    alertView.delegate = callbackHandler;
+    alertView.title = plainMessage.caption;
+    alertView.message = plainMessage.text;
+    
+    for (GMButton *button in plainMessage.buttons) {
+        GMPlainButton *plainButton = (GMPlainButton *)button;
+        [alertView addButtonWithTitle:plainButton.label];
+    }
+    
+    [alertView show];
     
     return YES;
     
-    
-}
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    __strong GMPlainMessage *plainMessage = objc_getAssociatedObject(alertView, "gm_message");
-    objc_setAssociatedObject(alertView, "gm_message", nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    
-    [[GrowthMessage sharedInstance] didSelectButton:[plainMessage.buttons objectAtIndex:buttonIndex] message:plainMessage];
 }
 
 @end

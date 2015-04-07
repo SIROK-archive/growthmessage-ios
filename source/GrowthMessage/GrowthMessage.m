@@ -119,14 +119,23 @@ static NSString *const kGBPreferenceDefaultFileName = @"growthmessage-preference
     }
 
     for (id<GMMessageHandler> handler in messageHandlers) {
+
         if (![handler handleMessage:message]) {
             continue;
         }
-        [[GrowthAnalytics sharedInstance] track:[NSString stringWithFormat:@"Event:%@:GrowthMessage:ShowMessage", applicationId] properties:@{
-            @"taskId": message.task.id,
-            @"messageId": message.id
-        }];
+
+        NSMutableDictionary *properties = [NSMutableDictionary dictionary];
+        if (message.task.id) {
+            [properties setObject:message.task.id forKey:@"taskId"];
+        }
+        if (message.id) {
+            [properties setObject:message.id forKey:@"messageId"];
+        }
+
+        [[GrowthAnalytics sharedInstance] track:[NSString stringWithFormat:@"Event:%@:GrowthMessage:ShowMessage", applicationId] properties:properties];
+
         break;
+
     }
 
 }
@@ -135,11 +144,18 @@ static NSString *const kGBPreferenceDefaultFileName = @"growthmessage-preference
 
     [[GrowthbeatCore sharedInstance] handleIntent:button.intent];
 
-    [[GrowthAnalytics sharedInstance] track:[NSString stringWithFormat:@"Event:%@:GrowthMessage:SelectButton", applicationId] properties:@{
-        @"taskId": message.task.id,
-        @"messageId": message.id,
-        @"intentId": button.intent.id
-    }];
+    NSMutableDictionary *properties = [NSMutableDictionary dictionary];
+    if (message.task.id) {
+        [properties setObject:message.task.id forKey:@"taskId"];
+    }
+    if (message.id) {
+        [properties setObject:message.id forKey:@"messageId"];
+    }
+    if (button.intent.id) {
+        [properties setObject:button.intent.id forKey:@"intentId"];
+    }
+
+    [[GrowthAnalytics sharedInstance] track:[NSString stringWithFormat:@"Event:%@:GrowthMessage:SelectButton", applicationId] properties:properties];
 
 }
 

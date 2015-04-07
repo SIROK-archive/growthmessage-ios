@@ -9,7 +9,7 @@
 #import "GMButtonType.h"
 
 NSString *NSStringFromGMButtonType(GMButtonType buttonType) {
-    
+
     switch (buttonType) {
         case GMButtonTypeUnknown:
             return nil;
@@ -18,11 +18,11 @@ NSString *NSStringFromGMButtonType(GMButtonType buttonType) {
         case GMButtonTypeImage:
             return @"image";
     }
-    
+
 }
 
 GMButtonType GMButtonTypeFromNSString(NSString *buttonTypeString) {
-    
+
     if ([buttonTypeString isEqualToString:@"plain"]) {
         return GMButtonTypePlain;
     }
@@ -30,5 +30,5 @@ GMButtonType GMButtonTypeFromNSString(NSString *buttonTypeString) {
         return GMButtonTypeImage;
     }
     return GMButtonTypeUnknown;
-    
+
 }

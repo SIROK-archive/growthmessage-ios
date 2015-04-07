@@ -17,8 +17,8 @@
     GMButtonType type;
     NSDate *created;
     GMMessage *message;
-	GBIntent *intent;
-	
+    GBIntent *intent;
+
 }
 
 @property (nonatomic, assign) GMButtonType type;

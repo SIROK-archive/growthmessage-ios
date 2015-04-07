@@ -19,16 +19,16 @@
 
 @implementation ViewController
 
-- (void)viewDidAppear:(BOOL)animated {
+- (void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-	[[GrowthMessage sharedInstance] setDelegate:self];
+    [[GrowthMessage sharedInstance] setDelegate:self];
 }
 
 #pragma mark --
 #pragma mark GrowthMessageDelegate
 
-- (BOOL)shouldShowMessage:(GMMessage *)message {
-	return YES;
+- (BOOL) shouldShowMessage:(GMMessage *)message {
+    return YES;
 }
 
 @end

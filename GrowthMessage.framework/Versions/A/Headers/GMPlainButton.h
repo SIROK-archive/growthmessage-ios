@@ -9,9 +9,9 @@
 #import "GMButton.h"
 
 @interface GMPlainButton : GMButton <NSCoding> {
-    
+
     NSString *label;
-    
+
 }
 
 @property (nonatomic, strong) NSString *label;

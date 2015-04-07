@@ -18,14 +18,14 @@ static NSString *const kGBHttpClientDefaultBaseUrl = @"https://api.message.growt
 static NSString *const kGBPreferenceDefaultFileName = @"growthmessage-preferences";
 
 @interface GrowthMessage () {
-    
+
     GBLogger *logger;
     GBHttpClient *httpClient;
     GBPreference *preference;
-    
+
     NSString *applicationId;
     NSString *credentialId;
-    
+
 }
 
 @property (nonatomic, strong) GBLogger *logger;
@@ -35,7 +35,7 @@ static NSString *const kGBPreferenceDefaultFileName = @"growthmessage-preference
 @property (nonatomic, strong) NSString *applicationId;
 @property (nonatomic, strong) NSString *credentialId;
 
-- (void)openMessage:(GMMessage*)message;
+- (void) openMessage:(GMMessage *)message;
 
 @end
 
@@ -51,7 +51,7 @@ static NSString *const kGBPreferenceDefaultFileName = @"growthmessage-preference
 @synthesize applicationId;
 @synthesize credentialId;
 
-+ (instancetype)sharedInstance {
++ (instancetype) sharedInstance {
     @synchronized(self) {
         if ([[[UIDevice currentDevice] systemVersion] floatValue] < 5.0f) {
             return nil;
@@ -63,7 +63,7 @@ static NSString *const kGBPreferenceDefaultFileName = @"growthmessage-preference
     }
 }
 
-- (id)init {
+- (id) init {
     self = [super init];
     if (self) {
         self.logger = [[GBLogger alloc] initWithTag:kGBLoggerDefaultTag];
@@ -73,69 +73,71 @@ static NSString *const kGBPreferenceDefaultFileName = @"growthmessage-preference
     return self;
 }
 
-- (void)initializeWithApplicationId:(NSString *)newApplicationId credentialId:(NSString *)newCredentialId {
-    
+- (void) initializeWithApplicationId:(NSString *)newApplicationId credentialId:(NSString *)newCredentialId {
+
     self.applicationId = newApplicationId;
     self.credentialId = newCredentialId;
-    
+
     [[GrowthbeatCore sharedInstance] initializeWithApplicationId:applicationId credentialId:credentialId];
-    
+
     [[GrowthAnalytics sharedInstance] initializeWithApplicationId:applicationId credentialId:credentialId];
     [[GrowthAnalytics sharedInstance] addEventHandler:[[GAEventHandler alloc] initWithCallback:^(NSString *eventId, NSDictionary *properties) {
         [self receiveMessageWithEventId:eventId];
     }]];
-    
+
     self.messageHandlers = [NSArray arrayWithObjects:[[GMPlainMessageHandler alloc] init], nil];
-    
+
 }
 
-- (void)receiveMessageWithEventId:(NSString*)eventId {
-    
+- (void) receiveMessageWithEventId:(NSString *)eventId {
+
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        
+
         [logger info:@"Check message..."];
-        
+
         GMMessage *message = [GMMessage receiveWithClientId:[[[GrowthbeatCore sharedInstance] waitClient] id] eventId:eventId credentialId:credentialId];
-		if(message) {
+        if (message) {
             [logger info:@"Message is found. (id: %@)", message.id];
             dispatch_async(dispatch_get_main_queue(), ^{
-				[self openMessage: message];
-			});
+                [self openMessage:message];
+            });
         } else {
             [logger info:@"Message is not found."];
         }
-        
+
     });
 
 }
 
-- (void)openMessage:(GMMessage *)message {
-    
-	if (delegate && ![delegate shouldShowMessage:message])
+- (void) openMessage:(GMMessage *)message {
+
+    if (delegate && ![delegate shouldShowMessage:message]) {
         return;
-    
+    }
+
     for (id<GMMessageHandler> handler in messageHandlers) {
-        if (![handler handleMessage:message])
+        if (![handler handleMessage:message]) {
             continue;
+        }
         [[GrowthAnalytics sharedInstance] track:[NSString stringWithFormat:@"Event:%@:GrowthMessage:ShowMessage", applicationId] properties:@{
             @"taskId": message.task.id,
             @"messageId": message.id
         }];
         break;
     }
-    
+
 }
 
-- (void)didSelectButton:(GMButton *)button message:(GMMessage *)message {
-    
+- (void) didSelectButton:(GMButton *)button message:(GMMessage *)message {
+
     [[GrowthbeatCore sharedInstance] handleIntent:button.intent];
-    
+
     [[GrowthAnalytics sharedInstance] track:[NSString stringWithFormat:@"Event:%@:GrowthMessage:SelectButton", applicationId] properties:@{
         @"taskId": message.task.id,
         @"messageId": message.id,
         @"intentId": button.intent.id
     }];
-    
+
 }
 
 @end

@@ -11,9 +11,9 @@
 #import "GMMessageType.h"
 
 @interface GMMessage : GBDomain <NSCoding> {
-    
+
     NSString *id;
-	NSInteger version;
+    NSInteger version;
     GMMessageType type;
     NSString *eventId;
     NSInteger frequency;
@@ -22,7 +22,7 @@
     NSDate *created;
     GMTask *task;
     NSArray *buttons;
-    
+
 }
 
 @property (nonatomic, strong) NSString *id;

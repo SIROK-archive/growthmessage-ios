@@ -9,7 +9,7 @@
 #import "GMMessageType.h"
 
 NSString *NSStringFromGMMessageType(GMMessageType messageType) {
-    
+
     switch (messageType) {
         case GMMessageTypePlain:
             return @"plain";
@@ -18,11 +18,11 @@ NSString *NSStringFromGMMessageType(GMMessageType messageType) {
         case GMMessageTypeUnknown:
             return nil;
     }
-    
+
 }
 
 GMMessageType GMMessageTypeFromNSString(NSString *messageTypeString) {
-    
+
     if ([messageTypeString isEqualToString:@"plain"]) {
         return GMMessageTypePlain;
     }
@@ -30,5 +30,5 @@ GMMessageType GMMessageTypeFromNSString(NSString *messageTypeString) {
         return GMMessageTypeImage;
     }
     return GMMessageTypeUnknown;
-    
+
 }

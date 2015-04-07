@@ -9,7 +9,7 @@
 #import "GBDomain.h"
 
 @interface GMTask : GBDomain <NSCoding> {
-    
+
     NSString *id;
     NSString *applicationId;
     NSString *name;
@@ -19,7 +19,7 @@
     BOOL disabled;
     NSDate *created;
     NSDate *updated;
-    
+
 }
 
 @property (nonatomic, strong) NSString *id;

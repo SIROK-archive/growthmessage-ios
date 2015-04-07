@@ -19,28 +19,31 @@
 @synthesize message;
 @synthesize intent;
 
-+ (instancetype)domainWithDictionary:(NSDictionary *)dictionary {
-    
++ (instancetype) domainWithDictionary:(NSDictionary *)dictionary {
+
     GMButton *button = [[self alloc] initWithDictionary:dictionary];
+
     switch (button.type) {
         case GMButtonTypePlain:
-            if ([button isKindOfClass:[GMPlainButton class]])
+            if ([button isKindOfClass:[GMPlainButton class]]) {
                 return button;
-            else
+            } else {
                 return [GMPlainButton domainWithDictionary:dictionary];
+            }
         case GMButtonTypeImage:
-            if ([button isKindOfClass:[GMImageButton class]])
+            if ([button isKindOfClass:[GMImageButton class]]) {
                 return button;
-            else
+            } else {
                 return [GMImageButton domainWithDictionary:dictionary];
+            }
         default:
             return nil;
     }
-    
+
 }
 
-- (instancetype)initWithDictionary:(NSDictionary *)dictionary {
-    
+- (instancetype) initWithDictionary:(NSDictionary *)dictionary {
+
     self = [super init];
     if (self) {
         if ([dictionary objectForKey:@"type"] && [dictionary objectForKey:@"type"] != [NSNull null]) {
@@ -57,14 +60,14 @@
         }
     }
     return self;
-    
+
 }
 
 #pragma mark --
 #pragma mark NSCoding
 
 - (instancetype) initWithCoder:(NSCoder *)aDecoder {
-	self = [super init];
+    self = [super init];
     if (self) {
         if ([aDecoder containsValueForKey:@"type"]) {
             self.type = [aDecoder decodeIntegerForKey:@"type"];
@@ -78,8 +81,8 @@
         if ([aDecoder containsValueForKey:@"intent"]) {
             self.intent = [aDecoder decodeObjectForKey:@"intent"];
         }
-	}
-	return self;
+    }
+    return self;
 }
 
 - (void) encodeWithCoder:(NSCoder *)aCoder {

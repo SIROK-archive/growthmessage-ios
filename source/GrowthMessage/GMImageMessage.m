@@ -13,7 +13,7 @@
 @synthesize url;
 
 - (instancetype) initWithDictionary:(NSDictionary *)dictionary {
-    
+
     self = [super initWithDictionary:dictionary];
     if (self) {
         if ([dictionary objectForKey:@"url"] && [dictionary objectForKey:@"url"] != [NSNull null]) {
@@ -21,7 +21,7 @@
         }
     }
     return self;
-    
+
 }
 
 #pragma mark --

@@ -26,11 +26,11 @@
 @synthesize task;
 @synthesize buttons;
 
-+ (instancetype)receiveWithClientId:(NSString *)clientId eventId:(NSString *)eventId credentialId:(NSString *)credentialId {
-    
++ (instancetype) receiveWithClientId:(NSString *)clientId eventId:(NSString *)eventId credentialId:(NSString *)credentialId {
+
     NSString *path = @"/1/receive";
     NSMutableDictionary *body = [NSMutableDictionary dictionary];
-    
+
     if (clientId) {
         [body setObject:clientId forKey:@"clientId"];
     }
@@ -40,47 +40,50 @@
     if (credentialId) {
         [body setObject:credentialId forKey:@"credentialId"];
     }
-    
+
     GBHttpRequest *httpRequest = [GBHttpRequest instanceWithMethod:GBRequestMethodPost path:path query:nil body:body];
     GBHttpResponse *httpResponse = [[[GrowthMessage sharedInstance] httpClient] httpRequest:httpRequest];
-    if(!httpResponse.success){
-        [[[GrowthMessage sharedInstance] logger] error:@"Failed to receive message. %@", httpResponse.error?httpResponse.error:[httpResponse.body objectForKey:@"message"]];
+    if (!httpResponse.success) {
+        [[[GrowthMessage sharedInstance] logger] error:@"Failed to receive message. %@", httpResponse.error ? httpResponse.error : [httpResponse.body objectForKey:@"message"]];
         return nil;
     }
-    
+
     if (!httpResponse.body) {
         [[[GrowthMessage sharedInstance] logger] info:@"No message is received."];
         return nil;
     }
-    
+
     [[[GrowthMessage sharedInstance] logger] info:@"A message is received."];
-    
+
     return [GMMessage domainWithDictionary:httpResponse.body];
-    
+
 }
 
-+ (instancetype)domainWithDictionary:(NSDictionary *)dictionary {
-    
++ (instancetype) domainWithDictionary:(NSDictionary *)dictionary {
+
     GMMessage *message = [[self alloc] initWithDictionary:dictionary];
+
     switch (message.type) {
         case GMMessageTypePlain:
-            if([message isKindOfClass:[GMPlainMessage class]])
+            if ([message isKindOfClass:[GMPlainMessage class]]) {
                 return message;
-            else
+            } else {
                 return [GMPlainMessage domainWithDictionary:dictionary];
+            }
         case GMMessageTypeImage:
-            if([message isKindOfClass:[GMImageMessage class]])
+            if ([message isKindOfClass:[GMImageMessage class]]) {
                 return message;
-            else
+            } else {
                 return [GMImageMessage domainWithDictionary:dictionary];
+            }
         default:
             return nil;
     }
-    
+
 }
 
 - (instancetype) initWithDictionary:(NSDictionary *)dictionary {
-    
+
     self = [super init];
     if (self) {
         if ([dictionary objectForKey:@"id"] && [dictionary objectForKey:@"id"] != [NSNull null]) {
@@ -119,7 +122,7 @@
         }
     }
     return self;
-    
+
 }
 
 #pragma mark --
@@ -127,12 +130,12 @@
 
 - (instancetype) initWithCoder:(NSCoder *)aDecoder {
     self = [super init];
-	if (self) {
-		if ([aDecoder containsValueForKey:@"id"]) {
-			self.id = [aDecoder decodeObjectForKey:@"id"];
-		}
-		if ([aDecoder containsValueForKey:@"version"]) {
-			self.version = [aDecoder decodeIntegerForKey:@"version"];
+    if (self) {
+        if ([aDecoder containsValueForKey:@"id"]) {
+            self.id = [aDecoder decodeObjectForKey:@"id"];
+        }
+        if ([aDecoder containsValueForKey:@"version"]) {
+            self.version = [aDecoder decodeIntegerForKey:@"version"];
         }
         if ([aDecoder containsValueForKey:@"type"]) {
             self.type = [aDecoder decodeIntegerForKey:@"type"];
@@ -163,8 +166,8 @@
 }
 
 - (void) encodeWithCoder:(NSCoder *)aCoder {
-	[aCoder encodeObject:id forKey:@"id"];
-	[aCoder encodeInteger:version forKey:@"version"];
+    [aCoder encodeObject:id forKey:@"id"];
+    [aCoder encodeInteger:version forKey:@"version"];
     [aCoder encodeInteger:type forKey:@"type"];
     [aCoder encodeObject:eventId forKey:@"eventId"];
     [aCoder encodeInteger:frequency forKey:@"frequency"];

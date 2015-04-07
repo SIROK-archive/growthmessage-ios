@@ -13,7 +13,7 @@
 @synthesize label;
 
 - (instancetype) initWithDictionary:(NSDictionary *)dictionary {
-    
+
     self = [super initWithDictionary:dictionary];
     if (self) {
         if ([dictionary objectForKey:@"label"] && [dictionary objectForKey:@"label"] != [NSNull null]) {
@@ -21,7 +21,7 @@
         }
     }
     return self;
-    
+
 }
 
 #pragma mark --

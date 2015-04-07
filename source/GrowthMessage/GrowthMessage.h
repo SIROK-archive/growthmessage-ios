@@ -13,9 +13,9 @@
 #import "GMButton.h"
 
 @interface GrowthMessage : NSObject {
-    
+
     NSArray *messageHandlers;
-    
+
 }
 
 + (instancetype)sharedInstance;

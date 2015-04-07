@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import <GrowthMessage/GrowthMessage.h>
 #import <GrowthAnalytics/GrowthAnalytics.h>
 
 @interface AppDelegate ()
@@ -19,7 +20,6 @@
 - (BOOL) application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
     [[GrowthMessage sharedInstance] initializeWithApplicationId:@"P5C3vzoLOEijnlVj" credentialId:@"btFlFAitBJ1CBdL3IR3ROnhLYbeqmLlY"];
-    [[[GrowthMessage sharedInstance] httpClient] setBaseUrl:[NSURL URLWithString:@"http://api.stg.message.growthbeat.com/"]];
 
     return YES;
 

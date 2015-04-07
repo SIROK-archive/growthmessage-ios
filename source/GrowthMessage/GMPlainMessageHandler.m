@@ -70,7 +70,7 @@
     GMPlainMessage *plainMessage = [plainMessages objectForKey:[NSValue valueWithNonretainedObject:alertView]];
     GMButton *button = [plainMessage.buttons objectAtIndex:buttonIndex];
 
-    [[GrowthMessage sharedInstance] didSelectButton:button message:plainMessage];
+    [[GrowthMessage sharedInstance] selectButton:button message:plainMessage];
 
     [plainMessages removeObjectForKey:[NSValue valueWithNonretainedObject:alertView]];
 

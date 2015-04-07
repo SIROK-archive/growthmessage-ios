@@ -134,7 +134,7 @@ static NSString *const kGBPreferenceDefaultFileName = @"growthmessage-preference
 
 }
 
-- (void) didSelectButton:(GMButton *)button message:(GMMessage *)message {
+- (void) selectButton:(GMButton *)button message:(GMMessage *)message {
 
     [[GrowthbeatCore sharedInstance] handleIntent:button.intent];
 

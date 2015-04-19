@@ -10,14 +10,14 @@
 
 @implementation GMImageMessage
 
-@synthesize url;
+@synthesize picture;
 
 - (instancetype) initWithDictionary:(NSDictionary *)dictionary {
 
     self = [super initWithDictionary:dictionary];
     if (self) {
-        if ([dictionary objectForKey:@"url"] && [dictionary objectForKey:@"url"] != [NSNull null]) {
-            self.url = [dictionary objectForKey:@"url"];
+        if ([dictionary objectForKey:@"picture"] && [dictionary objectForKey:@"picture"] != [NSNull null]) {
+            self.picture = [GMPicture domainWithDictionary:[dictionary objectForKey:@"picture"]];
         }
     }
     return self;
@@ -30,8 +30,8 @@
 - (instancetype) initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        if ([aDecoder containsValueForKey:@"url"]) {
-            self.url = [aDecoder decodeObjectForKey:@"url"];
+        if ([aDecoder containsValueForKey:@"picture"]) {
+            self.picture = [aDecoder decodeObjectForKey:@"picture"];
         }
     }
     return self;
@@ -39,7 +39,7 @@
 
 - (void) encodeWithCoder:(NSCoder *)aCoder {
     [super encodeWithCoder:aCoder];
-    [aCoder encodeObject:url forKey:@"url"];
+    [aCoder encodeObject:picture forKey:@"picture"];
 }
 
 @end

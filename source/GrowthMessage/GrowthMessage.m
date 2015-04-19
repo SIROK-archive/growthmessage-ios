@@ -25,7 +25,7 @@ static NSString *const kGBPreferenceDefaultFileName = @"growthmessage-preference
 
     NSString *applicationId;
     NSString *credentialId;
-    
+
     BOOL initialized;
 
 }
@@ -80,25 +80,25 @@ static NSString *const kGBPreferenceDefaultFileName = @"growthmessage-preference
 }
 
 - (void) initializeWithApplicationId:(NSString *)newApplicationId credentialId:(NSString *)newCredentialId {
-    
+
     if (initialized) {
         return;
     }
     initialized = YES;
-    
+
     self.applicationId = newApplicationId;
     self.credentialId = newCredentialId;
-    
+
     [[GrowthbeatCore sharedInstance] initializeWithApplicationId:applicationId credentialId:credentialId];
     [[GrowthAnalytics sharedInstance] initializeWithApplicationId:applicationId credentialId:credentialId];
-    
+
     [[GrowthAnalytics sharedInstance] addEventHandler:[[GAEventHandler alloc] initWithCallback:^(NSString *eventId, NSDictionary *properties) {
         if ([eventId hasPrefix:[NSString stringWithFormat:@"Event:%@:GrowthMessage", applicationId]]) {
             return;
         }
         [self receiveMessageWithEventId:eventId];
     }]];
-    
+
     self.messageHandlers = [NSArray arrayWithObjects:[[GMPlainMessageHandler alloc] init], nil];
 
 }

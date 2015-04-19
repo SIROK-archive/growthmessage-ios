@@ -13,7 +13,7 @@
 @synthesize picture;
 
 - (instancetype) initWithDictionary:(NSDictionary *)dictionary {
-    
+
     self = [super initWithDictionary:dictionary];
     if (self) {
         if ([dictionary objectForKey:@"picture"] && [dictionary objectForKey:@"picture"] != [NSNull null]) {
@@ -21,7 +21,7 @@
         }
     }
     return self;
-    
+
 }
 
 #pragma mark --

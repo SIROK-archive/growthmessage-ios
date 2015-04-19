@@ -9,7 +9,7 @@
 #import "GMPictureExtension.h"
 
 NSString *NSStringFromGMPictureExtension(GMPictureExtension messageExtension) {
-    
+
     switch (messageExtension) {
         case GMPictureExtensionPNG:
             return @"png";
@@ -18,11 +18,11 @@ NSString *NSStringFromGMPictureExtension(GMPictureExtension messageExtension) {
         case GMPictureExtensionUnknown:
             return nil;
     }
-    
+
 }
 
 GMPictureExtension GMPictureExtensionFromNSString(NSString *messageExtensionString) {
-    
+
     if ([messageExtensionString isEqualToString:@"png"]) {
         return GMPictureExtensionPNG;
     }
@@ -30,5 +30,5 @@ GMPictureExtension GMPictureExtensionFromNSString(NSString *messageExtensionStri
         return GMPictureExtensionJPG;
     }
     return GMPictureExtensionUnknown;
-    
+
 }

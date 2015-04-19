@@ -11,6 +11,6 @@
 
 @protocol GMIntentHandler <NSObject>
 
-- (BOOL)handleIntent:(GMIntent*)intent;
+- (BOOL)handleIntent:(GMIntent *)intent;
 
 @end

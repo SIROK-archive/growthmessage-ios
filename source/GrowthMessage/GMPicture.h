@@ -10,7 +10,7 @@
 #import "GMPictureExtension.h"
 
 @interface GMPicture : GBDomain <NSCoding> {
-    
+
     NSString *id;
     NSString *applicationId;
     GMPictureExtension extension;
@@ -19,7 +19,8 @@
     NSString *name;
     NSDate *created;
     NSDate *updated;
-    
+    NSString *url;
+
 }
 
 @property (nonatomic, strong) NSString *id;
@@ -30,5 +31,6 @@
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSDate *created;
 @property (nonatomic, strong) NSDate *updated;
+@property (nonatomic, strong) NSString *url;
 
 @end

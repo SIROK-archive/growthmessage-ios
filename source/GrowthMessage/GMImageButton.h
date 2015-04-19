@@ -10,9 +10,9 @@
 #import "GMPicture.h"
 
 @interface GMImageButton : GMButton {
-    
+
     GMPicture *picture;
-    
+
 }
 
 @property (nonatomic, strong) GMPicture *picture;

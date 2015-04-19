@@ -19,9 +19,10 @@
 @synthesize name;
 @synthesize created;
 @synthesize updated;
+@synthesize url;
 
 - (instancetype) initWithDictionary:(NSDictionary *)dictionary {
-    
+
     self = [super init];
     if (self) {
         if ([dictionary objectForKey:@"id"] && [dictionary objectForKey:@"id"] != [NSNull null]) {
@@ -48,9 +49,12 @@
         if ([dictionary objectForKey:@"updated"] && [dictionary objectForKey:@"updated"] != [NSNull null]) {
             self.updated = [GBDateUtils dateWithDateTimeString:[dictionary objectForKey:@"updated"]];
         }
+        if ([dictionary objectForKey:@"url"] && [dictionary objectForKey:@"url"] != [NSNull null]) {
+            self.url = [dictionary objectForKey:@"url"];
+        }
     }
     return self;
-    
+
 }
 
 #pragma mark --
@@ -83,6 +87,9 @@
         if ([aDecoder containsValueForKey:@"updated"]) {
             self.updated = [aDecoder decodeObjectForKey:@"updated"];
         }
+        if ([aDecoder containsValueForKey:@"url"]) {
+            self.url = [aDecoder decodeObjectForKey:@"url"];
+        }
     }
     return self;
 }
@@ -96,6 +103,7 @@
     [aCoder encodeObject:name forKey:@"name"];
     [aCoder encodeObject:created forKey:@"created"];
     [aCoder encodeObject:updated forKey:@"updated"];
+    [aCoder encodeObject:url forKey:@"url"];
 }
 
 @end

@@ -9,8 +9,8 @@
 #import "GBDomain.h"
 
 @interface GMIntent : GBDomain <NSCoding> {
-	NSString *action;
-	NSDictionary *data;
+    NSString *action;
+    NSDictionary *data;
 }
 @property (nonatomic, strong) NSString *action;
 @property (nonatomic, strong) NSDictionary *data;

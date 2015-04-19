@@ -24,6 +24,8 @@
 /* Begin PBXBuildFile section */
 		B20555F01AB54DE0007DCCAD /* GrowthAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B20555EF1AB54DE0007DCCAD /* GrowthAnalytics.framework */; };
 		B2A6D48F1AE4076F004B043B /* GMImageMessageHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B2A6D48E1AE4076F004B043B /* GMImageMessageHandler.m */; };
+		B2A6D4921AE4094A004B043B /* GMPicture.m in Sources */ = {isa = PBXBuildFile; fileRef = B2A6D4911AE4094A004B043B /* GMPicture.m */; };
+		B2A6D4951AE40AD6004B043B /* GMPictureExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = B2A6D4941AE40AD6004B043B /* GMPictureExtension.m */; };
 		B2AC252C1AB594AF008ED20B /* GMTask.m in Sources */ = {isa = PBXBuildFile; fileRef = B2AC252B1AB594AF008ED20B /* GMTask.m */; };
 		B2C1480D1AA456F300006EC3 /* GrowthMessage.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B2C1480C1AA456F300006EC3 /* GrowthMessage.h */; };
 		B2C1480F1AA456F300006EC3 /* GrowthMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = B2C1480E1AA456F300006EC3 /* GrowthMessage.m */; };
@@ -88,6 +90,10 @@
 		B20555EF1AB54DE0007DCCAD /* GrowthAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GrowthAnalytics.framework; path = "../submodules/growthanalytics-ios/GrowthAnalytics.framework"; sourceTree = "<group>"; };
 		B2A6D48D1AE4076F004B043B /* GMImageMessageHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMImageMessageHandler.h; sourceTree = "<group>"; };
 		B2A6D48E1AE4076F004B043B /* GMImageMessageHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMImageMessageHandler.m; sourceTree = "<group>"; };
+		B2A6D4901AE4094A004B043B /* GMPicture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMPicture.h; sourceTree = "<group>"; };
+		B2A6D4911AE4094A004B043B /* GMPicture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMPicture.m; sourceTree = "<group>"; };
+		B2A6D4931AE40AD6004B043B /* GMPictureExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMPictureExtension.h; sourceTree = "<group>"; };
+		B2A6D4941AE40AD6004B043B /* GMPictureExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMPictureExtension.m; sourceTree = "<group>"; };
 		B2AC252A1AB594AF008ED20B /* GMTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMTask.h; sourceTree = "<group>"; };
 		B2AC252B1AB594AF008ED20B /* GMTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMTask.m; sourceTree = "<group>"; };
 		B2C148091AA456F300006EC3 /* libGrowthMessage.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libGrowthMessage.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -161,15 +167,17 @@
 				B2C4A05F1AB7933700015D16 /* GMButtonType.h */,
 				B2C4A0651AB7C6B400015D16 /* GMImageButton.h */,
 				B2C4A06B1AB7C89300015D16 /* GMImageMessage.h */,
+				B2A6D48D1AE4076F004B043B /* GMImageMessageHandler.h */,
 				B2C148301AA45D8100006EC3 /* GMMessage.h */,
 				EBB971131AA58B9F008ABE6C /* GMMessageHandler.h */,
 				B2EA120D1AB62BB500445389 /* GMMessageType.h */,
+				B2A6D4901AE4094A004B043B /* GMPicture.h */,
+				B2A6D4931AE40AD6004B043B /* GMPictureExtension.h */,
 				B2C4A0621AB7C64F00015D16 /* GMPlainButton.h */,
 				B2C4A0681AB7C81500015D16 /* GMPlainMessage.h */,
 				EBB971151AA5910C008ABE6C /* GMPlainMessageHandler.h */,
 				B2AC252A1AB594AF008ED20B /* GMTask.h */,
 				B2C1480C1AA456F300006EC3 /* GrowthMessage.h */,
-				B2A6D48D1AE4076F004B043B /* GMImageMessageHandler.h */,
 			);
 			name = Headers;
 			sourceTree = "<group>";
@@ -180,10 +188,12 @@
 				EBB971111AA588D0008ABE6C /* GMButton.m */,
 				B2C4A0601AB7933700015D16 /* GMButtonType.m */,
 				B2C4A0661AB7C6B400015D16 /* GMImageButton.m */,
-				B2A6D48E1AE4076F004B043B /* GMImageMessageHandler.m */,
 				B2C4A06C1AB7C89300015D16 /* GMImageMessage.m */,
+				B2A6D48E1AE4076F004B043B /* GMImageMessageHandler.m */,
 				B2C148311AA45D8100006EC3 /* GMMessage.m */,
 				B2EA120E1AB62BB500445389 /* GMMessageType.m */,
+				B2A6D4911AE4094A004B043B /* GMPicture.m */,
+				B2A6D4941AE40AD6004B043B /* GMPictureExtension.m */,
 				B2C4A0631AB7C64F00015D16 /* GMPlainButton.m */,
 				B2C4A0691AB7C81500015D16 /* GMPlainMessage.m */,
 				EBB971161AA5910C008ABE6C /* GMPlainMessageHandler.m */,
@@ -298,9 +308,11 @@
 				B2C4A0671AB7C6B400015D16 /* GMImageButton.m in Sources */,
 				B2C4A06D1AB7C89300015D16 /* GMImageMessage.m in Sources */,
 				B2C4A06A1AB7C81500015D16 /* GMPlainMessage.m in Sources */,
+				B2A6D4921AE4094A004B043B /* GMPicture.m in Sources */,
 				B2AC252C1AB594AF008ED20B /* GMTask.m in Sources */,
 				EBB971121AA588D0008ABE6C /* GMButton.m in Sources */,
 				B2A6D48F1AE4076F004B043B /* GMImageMessageHandler.m in Sources */,
+				B2A6D4951AE40AD6004B043B /* GMPictureExtension.m in Sources */,
 				EBB971171AA5910C008ABE6C /* GMPlainMessageHandler.m in Sources */,
 				B2C4A0641AB7C64F00015D16 /* GMPlainButton.m in Sources */,
 				B2EA120F1AB62BB500445389 /* GMMessageType.m in Sources */,

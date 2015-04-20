@@ -28,9 +28,20 @@
     }
 
     GMImageMessage *imageMessage = (GMImageMessage *)message;
+    
     NSArray *screenButtons = [self extractButtonsWithType:GMButtonTypeScreen imageMessage:imageMessage];
+    GMScreenButton *screenButton = nil;
+    if ([screenButtons count] > 0) {
+        screenButton = [screenButtons objectAtIndex:0];
+    }
+    
     NSArray *imageButtons = [self extractButtonsWithType:GMButtonTypeImage imageMessage:imageMessage];
+    
     NSArray *closeButtons = [self extractButtonsWithType:GMButtonTypeClose imageMessage:imageMessage];
+    GMCloseButton *closeButton = nil;
+    if ([closeButtons count] > 0) {
+        closeButton = [closeButtons objectAtIndex:0];
+    }
 
     UIWindow *window = [[[UIApplication sharedApplication] delegate] window];
 
@@ -48,10 +59,38 @@
     CGFloat left = (window.frame.size.width - width) / 2;
     CGFloat top = (window.frame.size.height - height) / 2;
     
+    UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageMessage.picture.url]]];
+    
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(left, top, width, height)];
-    imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageMessage.picture.url]]];
+    imageView.image = image;
     imageView.contentMode = UIViewContentModeScaleAspectFit;
     [window addSubview:imageView];
+    
+    if (screenButton) {
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        [button setImage:image forState:UIControlStateNormal];
+        button.contentMode = UIViewContentModeScaleAspectFit;
+        button.frame = CGRectMake(0, 0, width, height);
+        [imageView addSubview:button];
+    }
+    
+    CGFloat imageButtonTop = height;
+    for (GMImageButton *imageButton in [imageButtons reverseObjectEnumerator]) {
+        CGFloat imageButtonWidth = imageButton.picture.width * ratio;
+        CGFloat imageButtonHeight = imageButton.picture.height * ratio;
+        imageButtonTop -= imageButtonHeight;
+        CGFloat imageButtonLeft = (width - imageButtonWidth) / 2;
+        UIImage *imageButtonImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageButton.picture.url]]];
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        [button setImage:imageButtonImage forState:UIControlStateNormal];
+        button.contentMode = UIViewContentModeScaleAspectFit;
+        button.frame = CGRectMake(imageButtonLeft, imageButtonTop, imageButtonWidth, imageButtonHeight);
+        [imageView addSubview:button];
+    }
+    
+    if (closeButton) {
+        // TODO implement close button
+    }
     
     return YES;
 

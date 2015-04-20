@@ -43,17 +43,12 @@
     
     UIWindow *window = [[[UIApplication sharedApplication] delegate] window];
     
-    CGFloat width = MIN(imageMessage.picture.width, window.frame.size.width * 0.85);
-    CGFloat height = MIN(imageMessage.picture.height, window.frame.size.height * 0.85);
+    CGFloat availableWidth = MIN(imageMessage.picture.width, window.frame.size.width * 0.85);
+    CGFloat availableHeight = MIN(imageMessage.picture.height, window.frame.size.height * 0.85);
+    CGFloat ratio = MIN(availableWidth / imageMessage.picture.width, availableHeight / imageMessage.picture.height);
     
-    if ( width / height > imageMessage.picture.width / imageMessage.picture.height ) {
-        height = imageMessage.picture.height * width / imageMessage.picture.width;
-    } else {
-        width = imageMessage.picture.width * height / imageMessage.picture.height;
-    }
-    
-    CGFloat ratio = width / imageMessage.picture.width;
-    
+    CGFloat width = imageMessage.picture.width * ratio;
+    CGFloat height = imageMessage.picture.height * ratio;
     CGFloat left = (window.frame.size.width - width) / 2;
     CGFloat top = (window.frame.size.height - height) / 2;
     

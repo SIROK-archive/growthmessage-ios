@@ -23,6 +23,7 @@
 
 /* Begin PBXBuildFile section */
 		B20555F01AB54DE0007DCCAD /* GrowthAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B20555EF1AB54DE0007DCCAD /* GrowthAnalytics.framework */; };
+		B27CB2381AE5A037001B38DB /* GMImageMessageRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = B27CB2371AE5A037001B38DB /* GMImageMessageRenderer.m */; };
 		B2A6D48F1AE4076F004B043B /* GMImageMessageHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B2A6D48E1AE4076F004B043B /* GMImageMessageHandler.m */; };
 		B2A6D4921AE4094A004B043B /* GMPicture.m in Sources */ = {isa = PBXBuildFile; fileRef = B2A6D4911AE4094A004B043B /* GMPicture.m */; };
 		B2A6D4951AE40AD6004B043B /* GMPictureExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = B2A6D4941AE40AD6004B043B /* GMPictureExtension.m */; };
@@ -90,6 +91,8 @@
 
 /* Begin PBXFileReference section */
 		B20555EF1AB54DE0007DCCAD /* GrowthAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GrowthAnalytics.framework; path = "../submodules/growthanalytics-ios/GrowthAnalytics.framework"; sourceTree = "<group>"; };
+		B27CB2361AE5A037001B38DB /* GMImageMessageRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMImageMessageRenderer.h; sourceTree = "<group>"; };
+		B27CB2371AE5A037001B38DB /* GMImageMessageRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMImageMessageRenderer.m; sourceTree = "<group>"; };
 		B2A6D48D1AE4076F004B043B /* GMImageMessageHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMImageMessageHandler.h; sourceTree = "<group>"; };
 		B2A6D48E1AE4076F004B043B /* GMImageMessageHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMImageMessageHandler.m; sourceTree = "<group>"; };
 		B2A6D4901AE4094A004B043B /* GMPicture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMPicture.h; sourceTree = "<group>"; };
@@ -175,6 +178,7 @@
 				B2C4A0651AB7C6B400015D16 /* GMImageButton.h */,
 				B2C4A06B1AB7C89300015D16 /* GMImageMessage.h */,
 				B2A6D48D1AE4076F004B043B /* GMImageMessageHandler.h */,
+				B27CB2361AE5A037001B38DB /* GMImageMessageRenderer.h */,
 				B2C148301AA45D8100006EC3 /* GMMessage.h */,
 				EBB971131AA58B9F008ABE6C /* GMMessageHandler.h */,
 				B2EA120D1AB62BB500445389 /* GMMessageType.h */,
@@ -199,6 +203,7 @@
 				B2C4A0661AB7C6B400015D16 /* GMImageButton.m */,
 				B2C4A06C1AB7C89300015D16 /* GMImageMessage.m */,
 				B2A6D48E1AE4076F004B043B /* GMImageMessageHandler.m */,
+				B27CB2371AE5A037001B38DB /* GMImageMessageRenderer.m */,
 				B2C148311AA45D8100006EC3 /* GMMessage.m */,
 				B2EA120E1AB62BB500445389 /* GMMessageType.m */,
 				B2A6D4911AE4094A004B043B /* GMPicture.m */,
@@ -317,6 +322,7 @@
 				B2C148321AA45D8100006EC3 /* GMMessage.m in Sources */,
 				B2C4A0671AB7C6B400015D16 /* GMImageButton.m in Sources */,
 				B2C4A06D1AB7C89300015D16 /* GMImageMessage.m in Sources */,
+				B27CB2381AE5A037001B38DB /* GMImageMessageRenderer.m in Sources */,
 				B2C4A06A1AB7C81500015D16 /* GMPlainMessage.m in Sources */,
 				B2A6D4921AE4094A004B043B /* GMPicture.m in Sources */,
 				B2AC252C1AB594AF008ED20B /* GMTask.m in Sources */,

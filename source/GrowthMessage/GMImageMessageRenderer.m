@@ -15,10 +15,12 @@
 @interface GMImageMessageRenderer () {
     
     NSMutableDictionary *boundButtons;
+    UIView *view;
     
 }
 
 @property (nonatomic, strong) NSMutableDictionary *boundButtons;
+@property (nonatomic, strong) UIView *view;
 
 @end
 
@@ -26,6 +28,7 @@
 
 @synthesize imageMessage;
 @synthesize boundButtons;
+@synthesize view;
 
 - (instancetype)initWithImageMessage:(GMImageMessage *)newImageMessage {
     self = [super init];
@@ -39,6 +42,10 @@
 - (void)show {
     
     UIWindow *window = [[[UIApplication sharedApplication] delegate] window];
+    
+    self.view = [[UIView alloc] initWithFrame:window.frame];
+    view.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
+    [window addSubview:view];
     
     CGFloat width = MIN(imageMessage.picture.width, window.frame.size.width * 0.85);
     CGFloat height = MIN(imageMessage.picture.height, window.frame.size.height * 0.85);
@@ -60,7 +67,7 @@
     imageView.image = image;
     imageView.contentMode = UIViewContentModeScaleAspectFit;
     imageView.userInteractionEnabled = YES;
-    [window addSubview:imageView];
+    [view addSubview:imageView];
     
     GMScreenButton *screenButton = [[self extractButtonsWithType:GMButtonTypeScreen] lastObject];
     if (screenButton) {

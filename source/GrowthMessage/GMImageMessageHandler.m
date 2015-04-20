@@ -9,7 +9,19 @@
 #import "GMImageMessageHandler.h"
 #import "GMImageMessageRenderer.h"
 
+@interface GMImageMessageHandler () {
+    
+    GMImageMessageRenderer *imageMessageRenderer;
+    
+}
+
+@property (nonatomic, strong) GMImageMessageRenderer *imageMessageRenderer;
+
+@end
+
 @implementation GMImageMessageHandler
+
+@synthesize imageMessageRenderer;
 
 #pragma mark --
 #pragma mark GMMessageHandler
@@ -26,7 +38,8 @@
 
     GMImageMessage *imageMessage = (GMImageMessage *)message;
     
-    [[[GMImageMessageRenderer alloc] initWithImageMessage:imageMessage] show];
+    self.imageMessageRenderer = [[GMImageMessageRenderer alloc] initWithImageMessage:imageMessage];
+    [imageMessageRenderer show];
     
     return YES;
 

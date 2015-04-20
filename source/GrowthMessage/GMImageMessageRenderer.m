@@ -60,32 +60,32 @@
     CGFloat top = (window.frame.size.height - height) / 2;
 
     CGRect rect = CGRectMake(left, top, width, height);
-    
+
     self.view = [[UIView alloc] initWithFrame:window.frame];
     view.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
     [window addSubview:view];
-    
+
     self.activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
     activityIndicatorView.frame = window.frame;
     [activityIndicatorView startAnimating];
     [window addSubview:activityIndicatorView];
 
     [self cacheImages:^{
-        
+
         [self showImageWithRect:rect ratio:ratio];
         [self showScreenButtonWithRect:rect ratio:ratio];
         [self showImageButtonsWithRect:rect ratio:ratio];
         [self showCloseButtonWithRect:rect ratio:ratio];
-        
+
         [self.activityIndicatorView removeFromSuperview];
         self.activityIndicatorView = nil;
-        
+
     }];
 
 }
 
 - (void) showImageWithRect:(CGRect)rect ratio:(CGFloat)ratio {
-    
+
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:rect];
 
     imageView.image = [cachedImages objectForKey:imageMessage.picture.url];
@@ -180,42 +180,56 @@
 
 - (void) cacheImages:(void (^)(void))callback {
 
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    NSMutableArray *urlStrings = [NSMutableArray array];
 
-        [self cacheImageWithUrlString:imageMessage.picture.url];
+    if (imageMessage.picture.url) {
+        [urlStrings addObject:imageMessage.picture.url];
+    }
 
-        for (GMButton *button in imageMessage.buttons) {
-            switch (button.type) {
-                case GMButtonTypeImage:
-                    [self cacheImageWithUrlString:((GMImageButton *)button).picture.url];
-                    break;
-                case GMButtonTypeClose:
-                    [self cacheImageWithUrlString:((GMCloseButton *)button).picture.url];
-                    break;
-                default:
-                    continue;
-            }
+    for (GMButton *button in imageMessage.buttons) {
+        switch (button.type) {
+            case GMButtonTypeImage:
+                if (((GMImageButton *)button).picture.url) {
+                    [urlStrings addObject:((GMImageButton *)button).picture.url];
+                }
+                break;
+            case GMButtonTypeClose:
+                if (((GMCloseButton *)button).picture.url) {
+                    [urlStrings addObject:((GMCloseButton *)button).picture.url];
+                }
+                break;
+            default:
+                continue;
         }
+    }
+    
+    for (NSString *urlString in urlStrings) {
+        [self cacheImageWithUrlString:urlString completion:^(NSString *urlString){
+            [urlStrings removeObject:urlString];
+            if([urlStrings count] == 0 && callback) {
+                callback();
+            }
+        }];
+    }
+
+}
+
+- (void) cacheImageWithUrlString:(NSString *)urlString completion:(void (^)(NSString *urlString))completion {
+
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
+        UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:urlString]]];
 
         dispatch_async(dispatch_get_main_queue(), ^{
-            if (callback) {
-                callback();
+            if (image) {
+                [cachedImages setObject:image forKey:urlString];
+            }
+            if (completion) {
+                completion(urlString);
             }
         });
 
     });
-
-}
-
-- (void) cacheImageWithUrlString:(NSString *)urlString {
-    
-    UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:urlString]]];
-
-    if (!image) {
-        return;
-    }
-
-    [cachedImages setObject:image forKey:urlString];
 
 }
 

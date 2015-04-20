@@ -11,17 +11,25 @@
 
 @interface GMImageMessageHandler () {
     
-    GMImageMessageRenderer *imageMessageRenderer;
+    NSMutableArray *imageMessageRenderers;
     
 }
 
-@property (nonatomic, strong) GMImageMessageRenderer *imageMessageRenderer;
+@property (nonatomic, strong) NSMutableArray *imageMessageRenderers;
 
 @end
 
 @implementation GMImageMessageHandler
 
-@synthesize imageMessageRenderer;
+@synthesize imageMessageRenderers;
+
+- (instancetype) init {
+    self = [super init];
+    if (self) {
+        self.imageMessageRenderers = [[NSMutableArray alloc] init];
+    }
+    return self;
+}
 
 #pragma mark --
 #pragma mark GMMessageHandler
@@ -38,8 +46,9 @@
 
     GMImageMessage *imageMessage = (GMImageMessage *)message;
     
-    self.imageMessageRenderer = [[GMImageMessageRenderer alloc] initWithImageMessage:imageMessage];
+    GMImageMessageRenderer *imageMessageRenderer = [[GMImageMessageRenderer alloc] initWithImageMessage:imageMessage];
     [imageMessageRenderer show];
+    [imageMessageRenderers addObject:imageMessageRenderer];
     
     return YES;
 

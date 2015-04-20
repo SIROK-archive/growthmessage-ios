@@ -179,7 +179,9 @@
     
     [[GrowthMessage sharedInstance] selectButton:button message:imageMessage];
     
-    // TODO Release bound buttons
+    [self.view removeFromSuperview];
+    self.view = nil;
+    self.boundButtons = nil;
     
 }
 

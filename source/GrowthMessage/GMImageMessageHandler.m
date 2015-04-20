@@ -8,14 +8,15 @@
 
 #import "GMImageMessageHandler.h"
 #import "GMImageMessageRenderer.h"
+#import "GrowthMessage.h"
 
 @interface GMImageMessageHandler () {
     
-    NSMutableArray *imageMessageRenderers;
+    NSMutableDictionary *imageMessageRenderers;
     
 }
 
-@property (nonatomic, strong) NSMutableArray *imageMessageRenderers;
+@property (nonatomic, strong) NSMutableDictionary *imageMessageRenderers;
 
 @end
 
@@ -26,7 +27,7 @@
 - (instancetype) init {
     self = [super init];
     if (self) {
-        self.imageMessageRenderers = [[NSMutableArray alloc] init];
+        self.imageMessageRenderers = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
@@ -47,11 +48,23 @@
     GMImageMessage *imageMessage = (GMImageMessage *)message;
     
     GMImageMessageRenderer *imageMessageRenderer = [[GMImageMessageRenderer alloc] initWithImageMessage:imageMessage];
+    imageMessageRenderer.delegate = self;
     [imageMessageRenderer show];
-    [imageMessageRenderers addObject:imageMessageRenderer];
+    [imageMessageRenderers setObject:imageMessageRenderer forKey:[NSValue valueWithNonretainedObject:message]];
     
     return YES;
 
+}
+
+#pragma mark --
+#pragma mark GMImageMessageRendererDelegate
+
+- (void)clickedButton:(GMButton *)button message:(GMMessage *)message {
+    
+    [[GrowthMessage sharedInstance] selectButton:button message:message];
+    
+    [imageMessageRenderers removeObjectForKey:[NSValue valueWithNonretainedObject:message]];
+    
 }
 
 @end

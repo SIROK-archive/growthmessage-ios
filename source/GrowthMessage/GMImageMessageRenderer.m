@@ -7,7 +7,6 @@
 //
 
 #import "GMImageMessageRenderer.h"
-#import "GrowthMessage.h"
 #import "GMScreenButton.h"
 #import "GMCloseButton.h"
 #import "GMImageButton.h"
@@ -27,6 +26,7 @@
 @implementation GMImageMessageRenderer
 
 @synthesize imageMessage;
+@synthesize delegate;
 @synthesize boundButtons;
 @synthesize view;
 
@@ -177,11 +177,11 @@
     
     GMButton *button = [boundButtons objectForKey:[NSValue valueWithNonretainedObject:sender]];
     
-    [[GrowthMessage sharedInstance] selectButton:button message:imageMessage];
-    
     [self.view removeFromSuperview];
     self.view = nil;
     self.boundButtons = nil;
+    
+    [delegate clickedButton:button message:imageMessage];
     
 }
 

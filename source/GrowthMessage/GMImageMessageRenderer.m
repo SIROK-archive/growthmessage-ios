@@ -14,14 +14,16 @@
 @interface GMImageMessageRenderer () {
 
     NSMutableDictionary *boundButtons;
-    UIView *view;
     NSMutableDictionary *cachedImages;
+    UIView *view;
+    UIActivityIndicatorView *activityIndicatorView;
 
 }
 
 @property (nonatomic, strong) NSMutableDictionary *boundButtons;
-@property (nonatomic, strong) UIView *view;
 @property (nonatomic, strong) NSMutableDictionary *cachedImages;
+@property (nonatomic, strong) UIView *view;
+@property (nonatomic, strong) UIActivityIndicatorView *activityIndicatorView;
 
 @end
 
@@ -30,8 +32,9 @@
 @synthesize imageMessage;
 @synthesize delegate;
 @synthesize boundButtons;
-@synthesize view;
 @synthesize cachedImages;
+@synthesize view;
+@synthesize activityIndicatorView;
 
 - (instancetype) initWithImageMessage:(GMImageMessage *)newImageMessage {
     self = [super init];
@@ -57,35 +60,35 @@
     CGFloat top = (window.frame.size.height - height) / 2;
 
     CGRect rect = CGRectMake(left, top, width, height);
-
-    [self showBackground];
+    
+    self.view = [[UIView alloc] initWithFrame:window.frame];
+    view.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
+    [window addSubview:view];
+    
+    self.activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    activityIndicatorView.frame = window.frame;
+    [activityIndicatorView startAnimating];
+    [window addSubview:activityIndicatorView];
 
     [self cacheImages:^{
+        
         [self showImageWithRect:rect ratio:ratio];
         [self showScreenButtonWithRect:rect ratio:ratio];
         [self showImageButtonsWithRect:rect ratio:ratio];
         [self showCloseButtonWithRect:rect ratio:ratio];
+        
+        [self.activityIndicatorView removeFromSuperview];
+        self.activityIndicatorView = nil;
+        
     }];
 
 }
 
-- (void) showBackground {
-
-    UIWindow *window = [[[UIApplication sharedApplication] delegate] window];
-
-    self.view = [[UIView alloc] initWithFrame:window.frame];
-    view.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
-    [window addSubview:view];
-
-}
-
 - (void) showImageWithRect:(CGRect)rect ratio:(CGFloat)ratio {
-
-    UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageMessage.picture.url]]];
-
+    
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:rect];
 
-    imageView.image = image;
+    imageView.image = [cachedImages objectForKey:imageMessage.picture.url];
     imageView.contentMode = UIViewContentModeScaleAspectFit;
     imageView.userInteractionEnabled = YES;
     [view addSubview:imageView];
@@ -100,10 +103,8 @@
         return;
     }
 
-    UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageMessage.picture.url]]];
-
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [button setImage:image forState:UIControlStateNormal];
+    [button setImage:[cachedImages objectForKey:imageMessage.picture.url] forState:UIControlStateNormal];
     button.contentMode = UIViewContentModeScaleAspectFit;
     button.frame = rect;
     [button addTarget:self action:@selector(tapButton:) forControlEvents:UIControlEventTouchUpInside];
@@ -121,14 +122,13 @@
 
     for (GMImageButton *imageButton in [imageButtons reverseObjectEnumerator]) {
 
-        UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageButton.picture.url]]];
         CGFloat width = imageButton.picture.width * ratio;
         CGFloat height = imageButton.picture.height * ratio;
         CGFloat left = rect.origin.x + (rect.size.width - width) / 2;
         top -= height;
 
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        [button setImage:image forState:UIControlStateNormal];
+        [button setImage:[cachedImages objectForKey:imageButton.picture.url] forState:UIControlStateNormal];
         button.contentMode = UIViewContentModeScaleAspectFit;
         button.frame = CGRectMake(left, top, width, height);
         [button addTarget:self action:@selector(tapButton:) forControlEvents:UIControlEventTouchUpInside];
@@ -148,14 +148,13 @@
         return;
     }
 
-    UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:closeButton.picture.url]]];
     CGFloat width = closeButton.picture.width * ratio;
     CGFloat height = closeButton.picture.height * ratio;
     CGFloat left = rect.origin.x + rect.size.width - width / 2;
     CGFloat top = rect.origin.y - height / 2;
 
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [button setImage:image forState:UIControlStateNormal];
+    [button setImage:[cachedImages objectForKey:closeButton.picture.url] forState:UIControlStateNormal];
     button.contentMode = UIViewContentModeScaleAspectFit;
     button.frame = CGRectMake(left, top, width, height);
     [button addTarget:self action:@selector(tapButton:) forControlEvents:UIControlEventTouchUpInside];
@@ -209,7 +208,7 @@
 }
 
 - (void) cacheImageWithUrlString:(NSString *)urlString {
-
+    
     UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:urlString]]];
 
     if (!image) {

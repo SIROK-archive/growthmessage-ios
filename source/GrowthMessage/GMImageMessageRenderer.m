@@ -38,20 +38,6 @@
 
 - (void)show {
     
-    NSArray *screenButtons = [self extractButtonsWithType:GMButtonTypeScreen imageMessage:imageMessage];
-    GMScreenButton *screenButton = nil;
-    if ([screenButtons count] > 0) {
-        screenButton = [screenButtons objectAtIndex:0];
-    }
-    
-    NSArray *imageButtons = [self extractButtonsWithType:GMButtonTypeImage imageMessage:imageMessage];
-    
-    NSArray *closeButtons = [self extractButtonsWithType:GMButtonTypeClose imageMessage:imageMessage];
-    GMCloseButton *closeButton = nil;
-    if ([closeButtons count] > 0) {
-        closeButton = [closeButtons objectAtIndex:0];
-    }
-    
     UIWindow *window = [[[UIApplication sharedApplication] delegate] window];
     
     CGFloat width = MIN(imageMessage.picture.width, window.frame.size.width * 0.85);
@@ -76,6 +62,7 @@
     imageView.userInteractionEnabled = YES;
     [window addSubview:imageView];
     
+    GMScreenButton *screenButton = [[self extractButtonsWithType:GMButtonTypeScreen] lastObject];
     if (screenButton) {
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
         [button setImage:image forState:UIControlStateNormal];
@@ -86,12 +73,13 @@
         [imageView addSubview:button];
     }
     
+    NSArray *imageButtons = [self extractButtonsWithType:GMButtonTypeImage];
     CGFloat imageButtonTop = height;
     for (GMImageButton *imageButton in [imageButtons reverseObjectEnumerator]) {
         CGFloat imageButtonWidth = imageButton.picture.width * ratio;
         CGFloat imageButtonHeight = imageButton.picture.height * ratio;
-        imageButtonTop -= imageButtonHeight;
         CGFloat imageButtonLeft = (width - imageButtonWidth) / 2;
+        imageButtonTop -= imageButtonHeight;
         UIImage *imageButtonImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageButton.picture.url]]];
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
         [button setImage:imageButtonImage forState:UIControlStateNormal];
@@ -102,13 +90,25 @@
         [imageView addSubview:button];
     }
     
+    GMCloseButton *closeButton = [[self extractButtonsWithType:GMButtonTypeClose] lastObject];
     if (closeButton) {
-        // TODO implement close button
+        CGFloat closeButtonWidth = closeButton.picture.width * ratio;
+        CGFloat closeButtonHeight = closeButton.picture.height * ratio;
+        CGFloat closeButtonLeft = width - closeButtonWidth / 2;
+        CGFloat closeButtonTop = - closeButtonHeight / 2;
+        UIImage *closeButtonImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:closeButton.picture.url]]];
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        [button setImage:closeButtonImage forState:UIControlStateNormal];
+        button.contentMode = UIViewContentModeScaleAspectFit;
+        button.frame = CGRectMake(closeButtonLeft, closeButtonTop, closeButtonWidth, closeButtonHeight);
+        [boundButtons setObject:closeButton forKey:[NSValue valueWithNonretainedObject:button]];
+        [button addTarget:self action:@selector(tapButton:) forControlEvents:UIControlEventTouchUpInside];
+        [imageView addSubview:button];
     }
     
 }
 
-- (NSArray *) extractButtonsWithType:(GMButtonType)type imageMessage:(GMImageMessage *)imageMessage {
+- (NSArray *) extractButtonsWithType:(GMButtonType)type {
     
     NSMutableArray *buttons = [NSMutableArray array];
     

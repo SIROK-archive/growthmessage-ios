@@ -11,10 +11,10 @@
 #import "GMImageMessageRendererDelegate.h"
 
 @interface GMImageMessageRenderer : NSObject {
-    
+
     GMImageMessage *imageMessage;
     __weak id <GMImageMessageRendererDelegate> delegate;
-    
+
 }
 
 @property (nonatomic, strong) GMImageMessage *imageMessage;

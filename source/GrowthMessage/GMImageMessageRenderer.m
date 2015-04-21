@@ -110,7 +110,7 @@
     [button addTarget:self action:@selector(tapButton:) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:button];
 
-    [boundButtons setObject:button forKey:[NSValue valueWithNonretainedObject:button]];
+    [boundButtons setObject:screenButton forKey:[NSValue valueWithNonretainedObject:button]];
 
 }
 

@@ -6,7 +6,11 @@
 
 1. Install [Growthbeat Core SDK](https://github.com/SIROK/growthbeat-core-ios).
 
+1. Install [Growth Analytics SDK](https://github.com/SIROK/growthanalytics-ios).
+
 1. Add GrowthMessage.framework into your project. 
+
+1. Link SystemConfiguration.framework and AdSupport.framework
 
 1. Import the framework header.
 
@@ -24,18 +28,6 @@
 
 	```objc
     [[GrowthAnalytics sharedInstance] track:@"EVENT_ID"];
-	```
-
-1. (Optional) You can use GrowthMessageDelegate to prevent message from being shown in game screen.
-
-	```objc
-	[[GrowthMessage sharedInstance] setDelegate:self];
-	```
-
-	```objc
-	- (BOOL)shouldShowMessage:(GMMessage *)message {
-		return YES;
-	}
 	```
 
 ## Growthbeat Full SDK

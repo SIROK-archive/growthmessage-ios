@@ -23,6 +23,13 @@
 
 /* Begin PBXBuildFile section */
 		B20555F01AB54DE0007DCCAD /* GrowthAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B20555EF1AB54DE0007DCCAD /* GrowthAnalytics.framework */; };
+		B24FF04B1AEDA768004FEE7B /* GMCloseButton.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B2A6D4991AE40F89004B043B /* GMCloseButton.h */; };
+		B24FF04C1AEDA768004FEE7B /* GMImageMessageHandler.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B2A6D48D1AE4076F004B043B /* GMImageMessageHandler.h */; };
+		B24FF04D1AEDA768004FEE7B /* GMImageMessageRenderer.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B27CB2361AE5A037001B38DB /* GMImageMessageRenderer.h */; };
+		B24FF04E1AEDA768004FEE7B /* GMImageMessageRendererDelegate.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B27CB2391AE5AD9A001B38DB /* GMImageMessageRendererDelegate.h */; };
+		B24FF04F1AEDA768004FEE7B /* GMPicture.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B2A6D4901AE4094A004B043B /* GMPicture.h */; };
+		B24FF0501AEDA768004FEE7B /* GMPictureExtension.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B2A6D4931AE40AD6004B043B /* GMPictureExtension.h */; };
+		B24FF0511AEDA768004FEE7B /* GMScreenButton.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B2A6D49C1AE45B80004B043B /* GMScreenButton.h */; };
 		B27CB2381AE5A037001B38DB /* GMImageMessageRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = B27CB2371AE5A037001B38DB /* GMImageMessageRenderer.m */; };
 		B2A6D48F1AE4076F004B043B /* GMImageMessageHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B2A6D48E1AE4076F004B043B /* GMImageMessageHandler.m */; };
 		B2A6D4921AE4094A004B043B /* GMPicture.m in Sources */ = {isa = PBXBuildFile; fileRef = B2A6D4911AE4094A004B043B /* GMPicture.m */; };
@@ -72,6 +79,13 @@
 			dstPath = Headers;
 			dstSubfolderSpec = 16;
 			files = (
+				B24FF04B1AEDA768004FEE7B /* GMCloseButton.h in CopyFiles */,
+				B24FF04C1AEDA768004FEE7B /* GMImageMessageHandler.h in CopyFiles */,
+				B24FF04D1AEDA768004FEE7B /* GMImageMessageRenderer.h in CopyFiles */,
+				B24FF04E1AEDA768004FEE7B /* GMImageMessageRendererDelegate.h in CopyFiles */,
+				B24FF04F1AEDA768004FEE7B /* GMPicture.h in CopyFiles */,
+				B24FF0501AEDA768004FEE7B /* GMPictureExtension.h in CopyFiles */,
+				B24FF0511AEDA768004FEE7B /* GMScreenButton.h in CopyFiles */,
 				B2C4A06E1AB7CB4400015D16 /* GMButtonType.h in CopyFiles */,
 				B2C4A06F1AB7CB4400015D16 /* GMImageButton.h in CopyFiles */,
 				B2C4A0701AB7CB4400015D16 /* GMImageMessage.h in CopyFiles */,
@@ -369,7 +383,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_VERSION = 0.1.0;
+				FRAMEWORK_VERSION = 0.1.1;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -412,7 +426,7 @@
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_VERSION = 0.1.0;
+				FRAMEWORK_VERSION = 0.1.1;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;

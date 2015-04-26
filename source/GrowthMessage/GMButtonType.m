@@ -17,6 +17,10 @@ NSString *NSStringFromGMButtonType(GMButtonType buttonType) {
             return @"plain";
         case GMButtonTypeImage:
             return @"image";
+        case GMButtonTypeClose:
+            return @"close";
+        case GMButtonTypeScreen:
+            return @"screen";
     }
 
 }
@@ -28,6 +32,12 @@ GMButtonType GMButtonTypeFromNSString(NSString *buttonTypeString) {
     }
     if ([buttonTypeString isEqualToString:@"image"]) {
         return GMButtonTypeImage;
+    }
+    if ([buttonTypeString isEqualToString:@"close"]) {
+        return GMButtonTypeClose;
+    }
+    if ([buttonTypeString isEqualToString:@"screen"]) {
+        return GMButtonTypeScreen;
     }
     return GMButtonTypeUnknown;
 

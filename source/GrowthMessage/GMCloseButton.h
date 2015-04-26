@@ -1,15 +1,15 @@
 //
-//  GMImageMessage.h
+//  GMCloseButton.h
 //  GrowthMessage
 //
-//  Created by Naoyuki Kataoka on 2015/03/17.
+//  Created by Naoyuki Kataoka on 2015/04/20.
 //  Copyright (c) 2015年 SIROK, Inc. All rights reserved.
 //
 
-#import "GMMessage.h"
+#import "GMButton.h"
 #import "GMPicture.h"
 
-@interface GMImageMessage : GMMessage {
+@interface GMCloseButton : GMButton {
 
     GMPicture *picture;
 

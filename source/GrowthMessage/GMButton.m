@@ -11,6 +11,8 @@
 #import "GMMessage.h"
 #import "GMPlainButton.h"
 #import "GMImageButton.h"
+#import "GMCloseButton.h"
+#import "GMScreenButton.h"
 
 @implementation GMButton
 
@@ -35,6 +37,18 @@
                 return button;
             } else {
                 return [GMImageButton domainWithDictionary:dictionary];
+            }
+        case GMButtonTypeClose:
+            if ([button isKindOfClass:[GMCloseButton class]]) {
+                return button;
+            } else {
+                return [GMCloseButton domainWithDictionary:dictionary];
+            }
+        case GMButtonTypeScreen:
+            if ([button isKindOfClass:[GMScreenButton class]]) {
+                return button;
+            } else {
+                return [GMScreenButton domainWithDictionary:dictionary];
             }
         default:
             return nil;

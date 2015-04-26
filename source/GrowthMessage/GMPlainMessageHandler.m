@@ -32,6 +32,9 @@
     return self;
 }
 
+#pragma mark --
+#pragma mark GMMessageHandler
+
 - (BOOL) handleMessage:(GMMessage *)message {
 
     if (message.type != GMMessageTypePlain) {

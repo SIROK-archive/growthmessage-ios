@@ -43,30 +43,18 @@
         self.boundButtons = [NSMutableDictionary dictionary];
         self.cachedImages = [NSMutableDictionary dictionary];
     }
-
-    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(show) name:UIDeviceOrientationDidChangeNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(show) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(show) name:UIApplicationDidChangeStatusBarFrameNotification object:nil];
 
     return self;
 }
 
 - (void) show {
-
-    UIWindow *window = [[[UIApplication sharedApplication] delegate] window];
-
-    CGFloat availableWidth = MIN(imageMessage.picture.width, window.frame.size.width * 0.85);
-    CGFloat availableHeight = MIN(imageMessage.picture.height, window.frame.size.height * 0.85);
-    CGFloat ratio = MIN(availableWidth / imageMessage.picture.width, availableHeight / imageMessage.picture.height);
-
-    CGFloat width = imageMessage.picture.width * ratio;
-    CGFloat height = imageMessage.picture.height * ratio;
-    CGFloat left = (window.frame.size.width - width) / 2;
-    CGFloat top = (window.frame.size.height - height) / 2;
-
-    CGRect rect = CGRectMake(left, top, width, height);
-
+    
     [view removeFromSuperview];
-
+    
+    UIWindow *window = [[[UIApplication sharedApplication] delegate] window];
     self.view = [[UIView alloc] initWithFrame:window.frame];
     view.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
     [window addSubview:view];
@@ -75,19 +63,30 @@
     activityIndicatorView.frame = window.frame;
     [activityIndicatorView startAnimating];
     [window addSubview:activityIndicatorView];
+    
+    CGFloat availableWidth = MIN(imageMessage.picture.width, window.frame.size.width * 0.85);
+    CGFloat availableHeight = MIN(imageMessage.picture.height, window.frame.size.height * 0.85);
+    CGFloat ratio = MIN(availableWidth / imageMessage.picture.width, availableHeight / imageMessage.picture.height);
+    
+    CGFloat width = imageMessage.picture.width * ratio;
+    CGFloat height = imageMessage.picture.height * ratio;
+    CGFloat left = (window.frame.size.width - width) / 2;
+    CGFloat top = (window.frame.size.height - height) / 2;
+    
+    CGRect rect = CGRectMake(left, top, width, height);
 
     [self cacheImages:^{
-
+        
         [self showImageWithRect:rect ratio:ratio];
         [self showScreenButtonWithRect:rect ratio:ratio];
         [self showImageButtonsWithRect:rect ratio:ratio];
         [self showCloseButtonWithRect:rect ratio:ratio];
-
+        
         [self.activityIndicatorView removeFromSuperview];
         self.activityIndicatorView = nil;
-
+        
     }];
-
+    
 }
 
 - (void) showImageWithRect:(CGRect)rect ratio:(CGFloat)ratio {
@@ -209,7 +208,7 @@
         }
     }
 
-    for (NSString *urlString in urlStrings) {
+    for (NSString *urlString in [urlStrings reverseObjectEnumerator]) {
         [self cacheImageWithUrlString:urlString completion:^(NSString *urlString){
             [urlStrings removeObject:urlString];
             if ([urlStrings count] == 0 && callback) {
@@ -222,17 +221,15 @@
 
 - (void) cacheImageWithUrlString:(NSString *)urlString completion:(void (^)(NSString *urlString))completion {
     
+    if([cachedImages objectForKey:urlString]) {
+        if (completion) {
+            completion(urlString);
+        }
+        return;
+    }
+
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
-        if([cachedImages objectForKey:urlString]) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if (completion) {
-                    completion(urlString);
-                }
-            });
-            return;
-        }
-
         UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:urlString]]];
 
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -257,6 +254,8 @@
     self.boundButtons = nil;
 
     [delegate clickedButton:button message:imageMessage];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 
 }
 

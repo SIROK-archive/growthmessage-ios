@@ -16,7 +16,6 @@
     NSMutableDictionary *boundButtons;
     NSMutableDictionary *cachedImages;
     UIView *backgroundView;
-    UIView *baseView;
     UIActivityIndicatorView *activityIndicatorView;
 
 }
@@ -24,7 +23,6 @@
 @property (nonatomic, strong) NSMutableDictionary *boundButtons;
 @property (nonatomic, strong) NSMutableDictionary *cachedImages;
 @property (nonatomic, strong) UIView *backgroundView;
-@property (nonatomic, strong) UIView *baseView;
 @property (nonatomic, strong) UIActivityIndicatorView *activityIndicatorView;
 
 @end
@@ -36,7 +34,6 @@
 @synthesize boundButtons;
 @synthesize cachedImages;
 @synthesize backgroundView;
-@synthesize baseView;
 @synthesize activityIndicatorView;
 
 - (instancetype) initWithImageMessage:(GMImageMessage *)newImageMessage {
@@ -46,7 +43,7 @@
         self.boundButtons = [NSMutableDictionary dictionary];
         self.cachedImages = [NSMutableDictionary dictionary];
     }
-    
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(show) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(show) name:UIApplicationDidChangeStatusBarFrameNotification object:nil];
 
@@ -54,63 +51,65 @@
 }
 
 - (void) show {
-    
+
     UIWindow *window = [[[UIApplication sharedApplication] delegate] window];
-    
-    if(!self.backgroundView) {
+
+    if (!self.backgroundView) {
         self.backgroundView = [[UIView alloc] initWithFrame:window.frame];
         backgroundView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
-        backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+        backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         [window addSubview:backgroundView];
     }
-    
-    if(baseView){
-        [baseView removeFromSuperview];
+
+    for (UIView *subview in backgroundView.subviews) {
+        [subview removeFromSuperview];
     }
-    self.baseView = [[UIView alloc] initWithFrame:backgroundView.frame];
+    UIView *baseView = [[UIView alloc] initWithFrame:backgroundView.frame];
+    baseView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [backgroundView addSubview:baseView];
 
     self.activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
     activityIndicatorView.frame = baseView.frame;
+    activityIndicatorView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin;
     [activityIndicatorView startAnimating];
     [baseView addSubview:activityIndicatorView];
-    
+
     CGFloat availableWidth = MIN(imageMessage.picture.width, window.frame.size.width * 0.85);
     CGFloat availableHeight = MIN(imageMessage.picture.height, window.frame.size.height * 0.85);
     CGFloat ratio = MIN(availableWidth / imageMessage.picture.width, availableHeight / imageMessage.picture.height);
-    
+
     CGFloat width = imageMessage.picture.width * ratio;
     CGFloat height = imageMessage.picture.height * ratio;
     CGFloat left = (window.frame.size.width - width) / 2;
     CGFloat top = (window.frame.size.height - height) / 2;
-    
+
     CGRect rect = CGRectMake(left, top, width, height);
 
     [self cacheImages:^{
-        
-        [self showImageWithRect:rect ratio:ratio];
-        [self showScreenButtonWithRect:rect ratio:ratio];
-        [self showImageButtonsWithRect:rect ratio:ratio];
-        [self showCloseButtonWithRect:rect ratio:ratio];
-        
+
+        [self showImageWithView:baseView rect:rect ratio:ratio];
+        [self showScreenButtonWithView:baseView rect:rect ratio:ratio];
+        [self showImageButtonsWithView:baseView rect:rect ratio:ratio];
+        [self showCloseButtonWithView:baseView rect:rect ratio:ratio];
+
         self.activityIndicatorView.hidden = YES;
-        
+
     }];
-    
+
 }
 
-- (void) showImageWithRect:(CGRect)rect ratio:(CGFloat)ratio {
+- (void) showImageWithView:view rect:(CGRect)rect ratio:(CGFloat)ratio {
 
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:rect];
 
     imageView.image = [cachedImages objectForKey:imageMessage.picture.url];
     imageView.contentMode = UIViewContentModeScaleAspectFit;
     imageView.userInteractionEnabled = YES;
-    [baseView addSubview:imageView];
+    [view addSubview:imageView];
 
 }
 
-- (void) showScreenButtonWithRect:(CGRect)rect ratio:(CGFloat)ratio {
+- (void) showScreenButtonWithView:(UIView *)view rect:(CGRect)rect ratio:(CGFloat)ratio {
 
     GMScreenButton *screenButton = [[self extractButtonsWithType:GMButtonTypeScreen] lastObject];
 
@@ -123,13 +122,13 @@
     button.contentMode = UIViewContentModeScaleAspectFit;
     button.frame = rect;
     [button addTarget:self action:@selector(tapButton:) forControlEvents:UIControlEventTouchUpInside];
-    [baseView addSubview:button];
+    [view addSubview:button];
 
     [boundButtons setObject:screenButton forKey:[NSValue valueWithNonretainedObject:button]];
 
 }
 
-- (void) showImageButtonsWithRect:(CGRect)rect ratio:(CGFloat)ratio {
+- (void) showImageButtonsWithView:(UIView *)view rect:(CGRect)rect ratio:(CGFloat)ratio {
 
     NSArray *imageButtons = [self extractButtonsWithType:GMButtonTypeImage];
 
@@ -147,7 +146,7 @@
         button.contentMode = UIViewContentModeScaleAspectFit;
         button.frame = CGRectMake(left, top, width, height);
         [button addTarget:self action:@selector(tapButton:) forControlEvents:UIControlEventTouchUpInside];
-        [baseView addSubview:button];
+        [view addSubview:button];
 
         [boundButtons setObject:imageButton forKey:[NSValue valueWithNonretainedObject:button]];
 
@@ -155,7 +154,7 @@
 
 }
 
-- (void) showCloseButtonWithRect:(CGRect)rect ratio:(CGFloat)ratio {
+- (void) showCloseButtonWithView:(UIView *)view rect:(CGRect)rect ratio:(CGFloat)ratio {
 
     GMCloseButton *closeButton = [[self extractButtonsWithType:GMButtonTypeClose] lastObject];
 
@@ -173,7 +172,7 @@
     button.contentMode = UIViewContentModeScaleAspectFit;
     button.frame = CGRectMake(left, top, width, height);
     [button addTarget:self action:@selector(tapButton:) forControlEvents:UIControlEventTouchUpInside];
-    [baseView addSubview:button];
+    [view addSubview:button];
 
     [boundButtons setObject:closeButton forKey:[NSValue valueWithNonretainedObject:button]];
 
@@ -232,14 +231,14 @@
 - (void) cacheImageWithUrlString:(NSString *)urlString completion:(void (^)(NSString *urlString))completion {
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        
-        if(![cachedImages objectForKey:urlString]) {
+
+        if (![cachedImages objectForKey:urlString]) {
             UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:urlString]]];
             if (image) {
                 [cachedImages setObject:image forKey:urlString];
             }
         }
-        
+
         dispatch_async(dispatch_get_main_queue(), ^{
             if (completion) {
                 completion(urlString);
@@ -256,11 +255,10 @@
 
     [self.backgroundView removeFromSuperview];
     self.backgroundView = nil;
-    self.baseView = nil;
     self.boundButtons = nil;
 
     [delegate clickedButton:button message:imageMessage];
-    
+
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 
 }

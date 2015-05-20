@@ -15,14 +15,16 @@
 
     NSMutableDictionary *boundButtons;
     NSMutableDictionary *cachedImages;
-    UIView *view;
+    UIView *backgroundView;
+    UIView *baseView;
     UIActivityIndicatorView *activityIndicatorView;
 
 }
 
 @property (nonatomic, strong) NSMutableDictionary *boundButtons;
 @property (nonatomic, strong) NSMutableDictionary *cachedImages;
-@property (nonatomic, strong) UIView *view;
+@property (nonatomic, strong) UIView *backgroundView;
+@property (nonatomic, strong) UIView *baseView;
 @property (nonatomic, strong) UIActivityIndicatorView *activityIndicatorView;
 
 @end
@@ -33,7 +35,8 @@
 @synthesize delegate;
 @synthesize boundButtons;
 @synthesize cachedImages;
-@synthesize view;
+@synthesize backgroundView;
+@synthesize baseView;
 @synthesize activityIndicatorView;
 
 - (instancetype) initWithImageMessage:(GMImageMessage *)newImageMessage {
@@ -52,17 +55,25 @@
 
 - (void) show {
     
-    [view removeFromSuperview];
-    
     UIWindow *window = [[[UIApplication sharedApplication] delegate] window];
-    self.view = [[UIView alloc] initWithFrame:window.frame];
-    view.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
-    [window addSubview:view];
+    
+    if(!self.backgroundView) {
+        self.backgroundView = [[UIView alloc] initWithFrame:window.frame];
+        backgroundView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
+        backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+        [window addSubview:backgroundView];
+    }
+    
+    if(baseView){
+        [baseView removeFromSuperview];
+    }
+    self.baseView = [[UIView alloc] initWithFrame:backgroundView.frame];
+    [backgroundView addSubview:baseView];
 
     self.activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-    activityIndicatorView.frame = window.frame;
+    activityIndicatorView.frame = baseView.frame;
     [activityIndicatorView startAnimating];
-    [window addSubview:activityIndicatorView];
+    [baseView addSubview:activityIndicatorView];
     
     CGFloat availableWidth = MIN(imageMessage.picture.width, window.frame.size.width * 0.85);
     CGFloat availableHeight = MIN(imageMessage.picture.height, window.frame.size.height * 0.85);
@@ -96,7 +107,7 @@
     imageView.image = [cachedImages objectForKey:imageMessage.picture.url];
     imageView.contentMode = UIViewContentModeScaleAspectFit;
     imageView.userInteractionEnabled = YES;
-    [view addSubview:imageView];
+    [baseView addSubview:imageView];
 
 }
 
@@ -113,7 +124,7 @@
     button.contentMode = UIViewContentModeScaleAspectFit;
     button.frame = rect;
     [button addTarget:self action:@selector(tapButton:) forControlEvents:UIControlEventTouchUpInside];
-    [view addSubview:button];
+    [baseView addSubview:button];
 
     [boundButtons setObject:screenButton forKey:[NSValue valueWithNonretainedObject:button]];
 
@@ -137,7 +148,7 @@
         button.contentMode = UIViewContentModeScaleAspectFit;
         button.frame = CGRectMake(left, top, width, height);
         [button addTarget:self action:@selector(tapButton:) forControlEvents:UIControlEventTouchUpInside];
-        [view addSubview:button];
+        [baseView addSubview:button];
 
         [boundButtons setObject:imageButton forKey:[NSValue valueWithNonretainedObject:button]];
 
@@ -163,7 +174,7 @@
     button.contentMode = UIViewContentModeScaleAspectFit;
     button.frame = CGRectMake(left, top, width, height);
     [button addTarget:self action:@selector(tapButton:) forControlEvents:UIControlEventTouchUpInside];
-    [view addSubview:button];
+    [baseView addSubview:button];
 
     [boundButtons setObject:closeButton forKey:[NSValue valueWithNonretainedObject:button]];
 
@@ -249,8 +260,9 @@
 
     GMButton *button = [boundButtons objectForKey:[NSValue valueWithNonretainedObject:sender]];
 
-    [self.view removeFromSuperview];
-    self.view = nil;
+    [self.backgroundView removeFromSuperview];
+    self.backgroundView = nil;
+    self.baseView = nil;
     self.boundButtons = nil;
 
     [delegate clickedButton:button message:imageMessage];

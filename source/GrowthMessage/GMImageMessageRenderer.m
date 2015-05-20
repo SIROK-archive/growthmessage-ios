@@ -218,15 +218,29 @@
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
-        UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:urlString]]];
 
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]
+                                                               cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
+                                                           timeoutInterval:10.0];
         dispatch_async(dispatch_get_main_queue(), ^{
-            if (image) {
-                [cachedImages setObject:image forKey:urlString];
-            }
-            if (completion) {
-                completion(urlString);
-            }
+        [NSURLConnection sendAsynchronousRequest:request
+                                           queue:[NSOperationQueue currentQueue]
+                               completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+                                   
+                                   if (data != nil && error == nil) {
+                                       UIImage *image = [UIImage imageWithData:data];
+                                       if (image) {
+                                           [cachedImages setObject:image forKey:urlString];
+                                       }
+                                       if (completion) {
+                                           completion(urlString);
+                                       }
+                                   } else {
+                                       completion(urlString);
+                                       [self.view removeFromSuperview];
+                                       self.view = nil;
+                                   }
+                               }];
         });
 
     });

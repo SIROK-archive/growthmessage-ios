@@ -93,8 +93,7 @@
         [self showImageButtonsWithRect:rect ratio:ratio];
         [self showCloseButtonWithRect:rect ratio:ratio];
         
-        [self.activityIndicatorView removeFromSuperview];
-        self.activityIndicatorView = nil;
+        self.activityIndicatorView.hidden = YES;
         
     }];
     
@@ -231,22 +230,17 @@
 }
 
 - (void) cacheImageWithUrlString:(NSString *)urlString completion:(void (^)(NSString *urlString))completion {
-    
-    if([cachedImages objectForKey:urlString]) {
-        if (completion) {
-            completion(urlString);
-        }
-        return;
-    }
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
-        UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:urlString]]];
-
-        dispatch_async(dispatch_get_main_queue(), ^{
+        if(![cachedImages objectForKey:urlString]) {
+            UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:urlString]]];
             if (image) {
                 [cachedImages setObject:image forKey:urlString];
             }
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
             if (completion) {
                 completion(urlString);
             }

@@ -19,14 +19,14 @@ static NSTimeInterval const kGMImageMessageRendererImageDownloadTimeout = 10;
 
     NSMutableDictionary *boundButtons;
     NSMutableDictionary *cachedImages;
-    UIView *view;
+    UIView *backgroundView;
     UIActivityIndicatorView *activityIndicatorView;
 
 }
 
 @property (nonatomic, strong) NSMutableDictionary *boundButtons;
 @property (nonatomic, strong) NSMutableDictionary *cachedImages;
-@property (nonatomic, strong) UIView *view;
+@property (nonatomic, strong) UIView *backgroundView;
 @property (nonatomic, strong) UIActivityIndicatorView *activityIndicatorView;
 
 @end
@@ -37,7 +37,7 @@ static NSTimeInterval const kGMImageMessageRendererImageDownloadTimeout = 10;
 @synthesize delegate;
 @synthesize boundButtons;
 @synthesize cachedImages;
-@synthesize view;
+@synthesize backgroundView;
 @synthesize activityIndicatorView;
 
 - (instancetype) initWithImageMessage:(GMImageMessage *)newImageMessage {
@@ -47,12 +47,36 @@ static NSTimeInterval const kGMImageMessageRendererImageDownloadTimeout = 10;
         self.boundButtons = [NSMutableDictionary dictionary];
         self.cachedImages = [NSMutableDictionary dictionary];
     }
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(show) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(show) name:UIApplicationDidChangeStatusBarFrameNotification object:nil];
+
     return self;
 }
 
 - (void) show {
 
     UIWindow *window = [[[UIApplication sharedApplication] delegate] window];
+
+    if (!self.backgroundView) {
+        self.backgroundView = [[UIView alloc] initWithFrame:window.frame];
+        backgroundView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
+        backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        [window addSubview:backgroundView];
+    }
+
+    for (UIView *subview in backgroundView.subviews) {
+        [subview removeFromSuperview];
+    }
+    UIView *baseView = [[UIView alloc] initWithFrame:backgroundView.frame];
+    baseView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    [backgroundView addSubview:baseView];
+
+    self.activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    activityIndicatorView.frame = baseView.frame;
+    activityIndicatorView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin;
+    [activityIndicatorView startAnimating];
+    [baseView addSubview:activityIndicatorView];
 
     CGFloat availableWidth = MIN(imageMessage.picture.width, window.frame.size.width * 0.85);
     CGFloat availableHeight = MIN(imageMessage.picture.height, window.frame.size.height * 0.85);
@@ -65,30 +89,20 @@ static NSTimeInterval const kGMImageMessageRendererImageDownloadTimeout = 10;
 
     CGRect rect = CGRectMake(left, top, width, height);
 
-    self.view = [[UIView alloc] initWithFrame:window.frame];
-    view.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
-    [window addSubview:view];
-
-    self.activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-    activityIndicatorView.frame = window.frame;
-    [activityIndicatorView startAnimating];
-    [window addSubview:activityIndicatorView];
-
     [self cacheImages:^{
 
-        [self showImageWithRect:rect ratio:ratio];
-        [self showScreenButtonWithRect:rect ratio:ratio];
-        [self showImageButtonsWithRect:rect ratio:ratio];
-        [self showCloseButtonWithRect:rect ratio:ratio];
+        [self showImageWithView:baseView rect:rect ratio:ratio];
+        [self showScreenButtonWithView:baseView rect:rect ratio:ratio];
+        [self showImageButtonsWithView:baseView rect:rect ratio:ratio];
+        [self showCloseButtonWithView:baseView rect:rect ratio:ratio];
 
-        [self.activityIndicatorView removeFromSuperview];
-        self.activityIndicatorView = nil;
+        self.activityIndicatorView.hidden = YES;
 
     }];
 
 }
 
-- (void) showImageWithRect:(CGRect)rect ratio:(CGFloat)ratio {
+- (void) showImageWithView:view rect:(CGRect)rect ratio:(CGFloat)ratio {
 
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:rect];
 
@@ -99,7 +113,7 @@ static NSTimeInterval const kGMImageMessageRendererImageDownloadTimeout = 10;
 
 }
 
-- (void) showScreenButtonWithRect:(CGRect)rect ratio:(CGFloat)ratio {
+- (void) showScreenButtonWithView:(UIView *)view rect:(CGRect)rect ratio:(CGFloat)ratio {
 
     GMScreenButton *screenButton = [[self extractButtonsWithType:GMButtonTypeScreen] lastObject];
 
@@ -118,7 +132,7 @@ static NSTimeInterval const kGMImageMessageRendererImageDownloadTimeout = 10;
 
 }
 
-- (void) showImageButtonsWithRect:(CGRect)rect ratio:(CGFloat)ratio {
+- (void) showImageButtonsWithView:(UIView *)view rect:(CGRect)rect ratio:(CGFloat)ratio {
 
     NSArray *imageButtons = [self extractButtonsWithType:GMButtonTypeImage];
 
@@ -144,7 +158,7 @@ static NSTimeInterval const kGMImageMessageRendererImageDownloadTimeout = 10;
 
 }
 
-- (void) showCloseButtonWithRect:(CGRect)rect ratio:(CGFloat)ratio {
+- (void) showCloseButtonWithView:(UIView *)view rect:(CGRect)rect ratio:(CGFloat)ratio {
 
     GMCloseButton *closeButton = [[self extractButtonsWithType:GMButtonTypeClose] lastObject];
 
@@ -206,14 +220,14 @@ static NSTimeInterval const kGMImageMessageRendererImageDownloadTimeout = 10;
                 continue;
         }
     }
-    
-    for (NSString *urlString in urlStrings) {
+
+    for (NSString *urlString in [urlStrings reverseObjectEnumerator]) {
         [self cacheImageWithUrlString:urlString completion:^(NSString *urlString){
             
             [urlStrings removeObject:urlString];
             if(![cachedImages objectForKey:urlString]) {
-                [self.view removeFromSuperview];
-                self.view = nil;
+                [self.backgroundView removeFromSuperview];
+                self.backgroundView = nil;
             }
             
             if([urlStrings count] == 0 && callback) {
@@ -226,7 +240,15 @@ static NSTimeInterval const kGMImageMessageRendererImageDownloadTimeout = 10;
 }
 
 - (void) cacheImageWithUrlString:(NSString *)urlString completion:(void (^)(NSString *urlString))completion {
-        
+    
+    if ([cachedImages objectForKey:urlString]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if(completion) {
+                completion(urlString);
+            }
+        });
+        return;
+    }
     
     NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:kGMImageMessageRendererImageDownloadTimeout];
     [NSURLConnection sendAsynchronousRequest:urlRequest queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
@@ -254,11 +276,13 @@ static NSTimeInterval const kGMImageMessageRendererImageDownloadTimeout = 10;
 
     GMButton *button = [boundButtons objectForKey:[NSValue valueWithNonretainedObject:sender]];
 
-    [self.view removeFromSuperview];
-    self.view = nil;
+    [self.backgroundView removeFromSuperview];
+    self.backgroundView = nil;
     self.boundButtons = nil;
 
     [delegate clickedButton:button message:imageMessage];
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 
 }
 

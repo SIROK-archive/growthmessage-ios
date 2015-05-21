@@ -10,8 +10,6 @@
 #import "GMScreenButton.h"
 #import "GMCloseButton.h"
 #import "GMImageButton.h"
-#import "GBHttpRequest.h"
-#import "GrowthMessage.h"
 
 static NSTimeInterval const kGMImageMessageRendererImageDownloadTimeout = 10;
 
@@ -221,7 +219,7 @@ static NSTimeInterval const kGMImageMessageRendererImageDownloadTimeout = 10;
         }
     }
 
-    for (NSString *urlString in [urlStrings reverseObjectEnumerator]) {
+    for (NSString *urlString in [urlStrings objectEnumerator]) {
         [self cacheImageWithUrlString:urlString completion:^(NSString *urlString){
             
             [urlStrings removeObject:urlString];
@@ -250,8 +248,8 @@ static NSTimeInterval const kGMImageMessageRendererImageDownloadTimeout = 10;
         return;
     }
     
-    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:kGMImageMessageRendererImageDownloadTimeout];
-    [NSURLConnection sendAsynchronousRequest:urlRequest queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:kGMImageMessageRendererImageDownloadTimeout];
+    [NSURLConnection sendAsynchronousRequest:urlRequest queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
         
         if(!data || error) {
             if(completion) {

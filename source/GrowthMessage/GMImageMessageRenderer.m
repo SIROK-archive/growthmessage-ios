@@ -10,6 +10,10 @@
 #import "GMScreenButton.h"
 #import "GMCloseButton.h"
 #import "GMImageButton.h"
+#import "GBHttpRequest.h"
+#import "GrowthMessage.h"
+
+static NSTimeInterval const kGMImageMessageRendererImageDownloadTimeout = 10;
 
 @interface GMImageMessageRenderer () {
 
@@ -219,34 +223,53 @@
 
     for (NSString *urlString in [urlStrings reverseObjectEnumerator]) {
         [self cacheImageWithUrlString:urlString completion:^(NSString *urlString){
+            
             [urlStrings removeObject:urlString];
-            if ([urlStrings count] == 0 && callback) {
+            if(![cachedImages objectForKey:urlString]) {
+                [self.backgroundView removeFromSuperview];
+                self.backgroundView = nil;
+            }
+            
+            if([urlStrings count] == 0 && callback) {
                 callback();
             }
+            
         }];
     }
 
 }
 
 - (void) cacheImageWithUrlString:(NSString *)urlString completion:(void (^)(NSString *urlString))completion {
-
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-
-        if (![cachedImages objectForKey:urlString]) {
-            UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:urlString]]];
-            if (image) {
-                [cachedImages setObject:image forKey:urlString];
-            }
-        }
-
+    
+    if ([cachedImages objectForKey:urlString]) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            if (completion) {
+            if(completion) {
                 completion(urlString);
             }
         });
-
-    });
-
+        return;
+    }
+    
+    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:kGMImageMessageRendererImageDownloadTimeout];
+    [NSURLConnection sendAsynchronousRequest:urlRequest queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+        
+        if(!data || error) {
+            if(completion) {
+                completion(urlString);
+            }
+            return;
+        }
+        
+        UIImage *image = [UIImage imageWithData:data];
+        if (image) {
+            [cachedImages setObject:image forKey:urlString];
+        }
+        if (completion) {
+            completion(urlString);
+        }
+        
+    }];
+    
 }
 
 - (void) tapButton:(id)sender {

@@ -16,6 +16,7 @@
 static GrowthMessage *sharedInstance = nil;
 static NSString *const kGBLoggerDefaultTag = @"GrowthMessage";
 static NSString *const kGBHttpClientDefaultBaseUrl = @"https://api.message.growthbeat.com/";
+static NSTimeInterval const kGBHttpClientDefaultTimeout = 10;
 static NSString *const kGBPreferenceDefaultFileName = @"growthmessage-preferences";
 
 @interface GrowthMessage () {
@@ -73,7 +74,7 @@ static NSString *const kGBPreferenceDefaultFileName = @"growthmessage-preference
     self = [super init];
     if (self) {
         self.logger = [[GBLogger alloc] initWithTag:kGBLoggerDefaultTag];
-        self.httpClient = [[GBHttpClient alloc] initWithBaseUrl:[NSURL URLWithString:kGBHttpClientDefaultBaseUrl]];
+        self.httpClient = [[GBHttpClient alloc] initWithBaseUrl:[NSURL URLWithString:kGBHttpClientDefaultBaseUrl] timeout:kGBHttpClientDefaultTimeout];
         self.preference = [[GBPreference alloc] initWithFileName:kGBPreferenceDefaultFileName];
         self.initialized = NO;
     }

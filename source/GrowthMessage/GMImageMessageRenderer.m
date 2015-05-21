@@ -10,6 +10,10 @@
 #import "GMScreenButton.h"
 #import "GMCloseButton.h"
 #import "GMImageButton.h"
+#import "GBHttpRequest.h"
+#import "GrowthMessage.h"
+
+static NSTimeInterval const kGMImageMessageRendererImageDownloadTimeout = 10;
 
 @interface GMImageMessageRenderer () {
 
@@ -205,32 +209,45 @@
     
     for (NSString *urlString in urlStrings) {
         [self cacheImageWithUrlString:urlString completion:^(NSString *urlString){
+            
             [urlStrings removeObject:urlString];
+            if(![cachedImages objectForKey:urlString]) {
+                [self.view removeFromSuperview];
+                self.view = nil;
+            }
+            
             if([urlStrings count] == 0 && callback) {
                 callback();
             }
+            
         }];
     }
 
 }
 
 - (void) cacheImageWithUrlString:(NSString *)urlString completion:(void (^)(NSString *urlString))completion {
-
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
-        UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:urlString]]];
-
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (image) {
-                [cachedImages setObject:image forKey:urlString];
-            }
-            if (completion) {
+    
+    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:kGMImageMessageRendererImageDownloadTimeout];
+    [NSURLConnection sendAsynchronousRequest:urlRequest queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+        
+        if(!data || error) {
+            if(completion) {
                 completion(urlString);
             }
-        });
-
-    });
-
+            return;
+        }
+        
+        UIImage *image = [UIImage imageWithData:data];
+        if (image) {
+            [cachedImages setObject:image forKey:urlString];
+        }
+        if (completion) {
+            completion(urlString);
+        }
+        
+    }];
+    
 }
 
 - (void) tapButton:(id)sender {

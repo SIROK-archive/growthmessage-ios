@@ -13,6 +13,8 @@
 #import "GBHttpRequest.h"
 #import "GrowthMessage.h"
 
+static NSTimeInterval const kGMImageMessageRendererImageDownloadTimeout = 10;
+
 @interface GMImageMessageRenderer () {
 
     NSMutableDictionary *boundButtons;
@@ -207,34 +209,43 @@
     
     for (NSString *urlString in urlStrings) {
         [self cacheImageWithUrlString:urlString completion:^(NSString *urlString){
+            
             [urlStrings removeObject:urlString];
+            if(![cachedImages objectForKey:urlString]) {
+                [self.view removeFromSuperview];
+                self.view = nil;
+            }
+            
             if([urlStrings count] == 0 && callback) {
                 callback();
             }
+            
         }];
     }
 
 }
 
 - (void) cacheImageWithUrlString:(NSString *)urlString completion:(void (^)(NSString *urlString))completion {
-
-    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
+        
+    
+    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:kGMImageMessageRendererImageDownloadTimeout];
     [NSURLConnection sendAsynchronousRequest:urlRequest queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
         
-        if (data != nil && error == nil) {
-            UIImage *image = [UIImage imageWithData:data];
-            if (image) {
-                [cachedImages setObject:image forKey:urlString];
-            }
-            if (completion) {
+        if(!data || error) {
+            if(completion) {
                 completion(urlString);
             }
-        } else {
-            completion(urlString);
-            [self.view removeFromSuperview];
-            self.view = nil;
+            return;
         }
-
+        
+        UIImage *image = [UIImage imageWithData:data];
+        if (image) {
+            [cachedImages setObject:image forKey:urlString];
+        }
+        if (completion) {
+            completion(urlString);
+        }
+        
     }];
     
 }

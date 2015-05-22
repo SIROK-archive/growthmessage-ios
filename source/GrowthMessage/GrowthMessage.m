@@ -16,6 +16,7 @@
 static GrowthMessage *sharedInstance = nil;
 static NSString *const kGBLoggerDefaultTag = @"GrowthMessage";
 static NSString *const kGBHttpClientDefaultBaseUrl = @"https://api.message.growthbeat.com/";
+static NSTimeInterval const kGBHttpClientDefaultTimeout = 10;
 static NSString *const kGBPreferenceDefaultFileName = @"growthmessage-preferences";
 
 @interface GrowthMessage () {
@@ -73,7 +74,7 @@ static NSString *const kGBPreferenceDefaultFileName = @"growthmessage-preference
     self = [super init];
     if (self) {
         self.logger = [[GBLogger alloc] initWithTag:kGBLoggerDefaultTag];
-        self.httpClient = [[GBHttpClient alloc] initWithBaseUrl:[NSURL URLWithString:kGBHttpClientDefaultBaseUrl]];
+        self.httpClient = [[GBHttpClient alloc] initWithBaseUrl:[NSURL URLWithString:kGBHttpClientDefaultBaseUrl] timeout:kGBHttpClientDefaultTimeout];
         self.preference = [[GBPreference alloc] initWithFileName:kGBPreferenceDefaultFileName];
         self.initialized = NO;
     }
@@ -91,6 +92,10 @@ static NSString *const kGBPreferenceDefaultFileName = @"growthmessage-preference
     self.credentialId = newCredentialId;
 
     [[GrowthbeatCore sharedInstance] initializeWithApplicationId:applicationId credentialId:credentialId];
+    if (![[GrowthbeatCore sharedInstance] client] || ![[[[[GrowthbeatCore sharedInstance] client] application] id] isEqualToString:applicationId]) {
+        [preference removeAll];
+    }
+    
     [[GrowthAnalytics sharedInstance] initializeWithApplicationId:applicationId credentialId:credentialId];
 
     [[GrowthAnalytics sharedInstance] addEventHandler:[[GAEventHandler alloc] initWithCallback:^(NSString *eventId, NSDictionary *properties) {
@@ -140,7 +145,7 @@ static NSString *const kGBPreferenceDefaultFileName = @"growthmessage-preference
             [properties setObject:message.id forKey:@"messageId"];
         }
 
-        [[GrowthAnalytics sharedInstance] track:[NSString stringWithFormat:@"Event:%@:GrowthMessage:ShowMessage", applicationId] properties:properties];
+        [[GrowthAnalytics sharedInstance] track:@"GrowthMessage" name:@"ShowMessage" properties:properties option:GATrackOptionDefault completion:nil];
 
         break;
 
@@ -163,7 +168,7 @@ static NSString *const kGBPreferenceDefaultFileName = @"growthmessage-preference
         [properties setObject:button.intent.id forKey:@"intentId"];
     }
 
-    [[GrowthAnalytics sharedInstance] track:[NSString stringWithFormat:@"Event:%@:GrowthMessage:SelectButton", applicationId] properties:properties];
+    [[GrowthAnalytics sharedInstance] track:@"GrowthMessage" name:@"SelectButton" properties:properties option:GATrackOptionDefault completion:nil];
 
 }
 

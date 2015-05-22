@@ -24,10 +24,10 @@
 	[[GrowthMessage sharedInstance] initializeWithApplicationId:@"APPLICATION_ID" credentialId:@"CREDENTIAL_ID"];
 	```
 
-1. Write following code in the place to display a message.
+1. Write following code in the place to display a message. You can choose the event to make a message on the Growth Message dashboard.
 
 	```objc
-    [[GrowthAnalytics sharedInstance] track:@"EVENT_ID"];
+	[[GrowthAnalytics sharedInstance] track:@"EVENT_NAME"];
 	```
 
 ## Growthbeat Full SDK

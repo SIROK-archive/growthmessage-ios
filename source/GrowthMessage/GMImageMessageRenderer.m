@@ -56,6 +56,15 @@ static NSTimeInterval const kGMImageMessageRendererImageDownloadTimeout = 10;
 
     UIWindow *window = [[[UIApplication sharedApplication] delegate] window];
 
+    CGFloat screenWidth = window.frame.size.width;
+    CGFloat screenHeight = window.frame.size.height;
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 8.0f &&
+        ([UIApplication sharedApplication].statusBarOrientation == UIDeviceOrientationLandscapeLeft ||
+        [UIApplication sharedApplication].statusBarOrientation == UIDeviceOrientationLandscapeRight)) {
+        screenWidth = window.frame.size.height;
+        screenHeight = window.frame.size.width;
+    }
+    
     if (!self.backgroundView) {
         self.backgroundView = [[UIView alloc] initWithFrame:window.frame];
         backgroundView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
@@ -76,14 +85,14 @@ static NSTimeInterval const kGMImageMessageRendererImageDownloadTimeout = 10;
     [activityIndicatorView startAnimating];
     [baseView addSubview:activityIndicatorView];
 
-    CGFloat availableWidth = MIN(imageMessage.picture.width, window.frame.size.width * 0.85);
-    CGFloat availableHeight = MIN(imageMessage.picture.height, window.frame.size.height * 0.85);
+    CGFloat availableWidth = MIN(imageMessage.picture.width, screenWidth * 0.85);
+    CGFloat availableHeight = MIN(imageMessage.picture.height, screenHeight * 0.85);
     CGFloat ratio = MIN(availableWidth / imageMessage.picture.width, availableHeight / imageMessage.picture.height);
 
     CGFloat width = imageMessage.picture.width * ratio;
     CGFloat height = imageMessage.picture.height * ratio;
-    CGFloat left = (window.frame.size.width - width) / 2;
-    CGFloat top = (window.frame.size.height - height) / 2;
+    CGFloat left = (screenWidth - width) / 2;
+    CGFloat top = (screenHeight - height) / 2;
 
     CGRect rect = CGRectMake(left, top, width, height);
 

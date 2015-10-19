@@ -1,5 +1,12 @@
 # Growth Message SDK for iOS
 
+:rotating_light: **This SDK is no longer maintained** :rotating_light:  
+You can use Growthbeat sdk insead:
+* [Growthbeat SDK for iOS](https://github.com/SIROK/growthbeat-ios/)
+* [Growthbeat SDK for Android](https://github.com/SIROK/growthbeat-android/)
+
+---
+
 [Growth Message](https://message.growthbeat.com/) in-app message service for mobile apps.
 
 ## Usage 
